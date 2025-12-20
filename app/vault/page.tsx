@@ -54,31 +54,31 @@ export default function VaultPage() {
         CONTRACTS.GoldVault
     );
 
-    const needsApproval = allowance !== undefined && parsedDepositAmount > BigInt(0) && allowance < parsedDepositAmount;
+    const needsApproval = allowance !== undefined && allowance !== null && parsedDepositAmount > BigInt(0) && (allowance as bigint) < parsedDepositAmount;
 
     // Approval hook
     const approval = useTokenApproval(TOKENS.XAUT.address);
 
     // Calculate share price
-    const sharePrice = totalAssets && totalSupply && totalSupply > BigInt(0)
-        ? Number(totalAssets) / Number(totalSupply)
+    const sharePrice = totalAssets && totalSupply && (totalSupply as bigint) > BigInt(0)
+        ? Number(totalAssets as bigint) / Number(totalSupply as bigint)
         : 1.0;
 
     // Calculate user's XAUT value
-    const userXautValue = gxautBalance && totalAssets && totalSupply && totalSupply > BigInt(0)
-        ? (gxautBalance * totalAssets) / totalSupply
+    const userXautValue = gxautBalance && totalAssets && totalSupply && (totalSupply as bigint) > BigInt(0)
+        ? ((gxautBalance as bigint) * (totalAssets as bigint)) / (totalSupply as bigint)
         : BigInt(0);
 
     // Handle max buttons
     const handleMaxDeposit = () => {
         if (xautBalance) {
-            setDepositAmount(formatTokenAmount(xautBalance, TOKENS.XAUT.decimals, 6));
+            setDepositAmount(formatTokenAmount(xautBalance as bigint, TOKENS.XAUT.decimals, 6));
         }
     };
 
     const handleMaxWithdraw = () => {
         if (gxautBalance) {
-            setWithdrawAmount(formatTokenAmount(gxautBalance, TOKENS.gXAUT.decimals, 6));
+            setWithdrawAmount(formatTokenAmount(gxautBalance as bigint, TOKENS.gXAUT.decimals, 6));
         }
     };
 
@@ -103,39 +103,41 @@ export default function VaultPage() {
         <div className="container mx-auto px-4 py-12">
             <div className="max-w-2xl mx-auto space-y-6">
                 {/* Vault Stats */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Gold Vault Stats</CardTitle>
-                        <CardDescription>
-                            Stake XAUT to earn yield from LP provision
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="grid grid-cols-3 gap-4">
-                            <div>
-                                <div className="text-sm text-muted-foreground">Total Value Locked</div>
-                                <div className="text-2xl font-bold">
-                                    ${totalAssets ? formatCompactNumber(formatTokenAmount(totalAssets, 6, 2)) : '0'}
+                {totalAssets !== undefined && (
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Gold Vault Stats</CardTitle>
+                            <CardDescription>
+                                Stake XAUT to earn yield from LP provision
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid grid-cols-3 gap-4">
+                                <div>
+                                    <div className="text-sm text-muted-foreground">Total Value Locked</div>
+                                    <div className="text-2xl font-bold">
+                                        ${totalAssets ? formatCompactNumber(Number(formatTokenAmount(totalAssets as bigint, 6, 2))) : '0'}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="text-sm text-muted-foreground">Share Price</div>
+                                    <div className="text-2xl font-bold">
+                                        {sharePrice.toFixed(4)}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="text-sm text-muted-foreground">APY</div>
+                                    <div className="text-2xl font-bold text-green-600">
+                                        ~5.2%
+                                    </div>
                                 </div>
                             </div>
-                            <div>
-                                <div className="text-sm text-muted-foreground">Share Price</div>
-                                <div className="text-2xl font-bold">
-                                    {sharePrice.toFixed(4)}
-                                </div>
-                            </div>
-                            <div>
-                                <div className="text-sm text-muted-foreground">APY</div>
-                                <div className="text-2xl font-bold text-green-600">
-                                    ~5.2%
-                                </div>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
+                )}
 
                 {/* User Position */}
-                {isConnected && gxautBalance && gxautBalance > BigInt(0) && (
+                {isConnected && gxautBalance && (gxautBalance as bigint) > BigInt(0) && (
                     <Card>
                         <CardHeader>
                             <CardTitle>Your Position</CardTitle>
@@ -145,7 +147,7 @@ export default function VaultPage() {
                                 <div>
                                     <div className="text-sm text-muted-foreground">gXAUT Balance</div>
                                     <div className="text-xl font-semibold">
-                                        {formatTokenAmount(gxautBalance, TOKENS.gXAUT.decimals, 4)}
+                                        {formatTokenAmount(gxautBalance as bigint, TOKENS.gXAUT.decimals, 4)}
                                     </div>
                                 </div>
                                 <div>
@@ -176,7 +178,7 @@ export default function VaultPage() {
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-sm">
                                         <span className="text-muted-foreground">XAUT Balance</span>
-                                        <span>{xautBalance ? formatTokenAmount(xautBalance, TOKENS.XAUT.decimals, 4) : '0.0000'}</span>
+                                        <span>{xautBalance ? formatTokenAmount(xautBalance as bigint, TOKENS.XAUT.decimals, 4) : '0.0000'}</span>
                                     </div>
                                     <div className="flex gap-2">
                                         <Input
@@ -192,16 +194,16 @@ export default function VaultPage() {
                                     </div>
                                 </div>
 
-                                {previewDepositShares && previewDepositShares > BigInt(0) && (
+                                {previewDepositShares && (previewDepositShares as bigint) > BigInt(0) ? (
                                     <div className="p-3 bg-muted rounded-lg text-sm">
                                         <div className="flex justify-between">
                                             <span className="text-muted-foreground">You will receive</span>
                                             <span className="font-medium">
-                                                {formatTokenAmount(previewDepositShares, TOKENS.gXAUT.decimals, 4)} gXAUT
+                                                {formatTokenAmount(previewDepositShares as bigint, TOKENS.gXAUT.decimals, 4)} gXAUT
                                             </span>
                                         </div>
                                     </div>
-                                )}
+                                ) : null}
 
                                 <Button
                                     className="w-full"
@@ -211,11 +213,11 @@ export default function VaultPage() {
                                         !isVerified ||
                                         !depositAmount ||
                                         !isValidAmount(depositAmount) ||
-                                        (xautBalance && parsedDepositAmount > xautBalance) ||
-                                        approval.isPending ||
-                                        approval.isConfirming ||
-                                        vault.isPending ||
-                                        vault.isConfirming
+                                        Boolean(xautBalance && parsedDepositAmount > (xautBalance as bigint)) ||
+                                        Boolean(approval.isPending) ||
+                                        Boolean(approval.isConfirming) ||
+                                        Boolean(vault.isPending) ||
+                                        Boolean(vault.isConfirming)
                                     }
                                 >
                                     {!isConnected
@@ -224,7 +226,7 @@ export default function VaultPage() {
                                             ? 'Not Verified'
                                             : !depositAmount || !isValidAmount(depositAmount)
                                                 ? 'Enter Amount'
-                                                : xautBalance && parsedDepositAmount > xautBalance
+                                                : xautBalance && parsedDepositAmount > (xautBalance as bigint)
                                                     ? 'Insufficient Balance'
                                                     : needsApproval
                                                         ? approval.isPending || approval.isConfirming
@@ -272,7 +274,7 @@ export default function VaultPage() {
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-sm">
                                         <span className="text-muted-foreground">gXAUT Balance</span>
-                                        <span>{gxautBalance ? formatTokenAmount(gxautBalance, TOKENS.gXAUT.decimals, 4) : '0.0000'}</span>
+                                        <span>{gxautBalance ? formatTokenAmount(gxautBalance as bigint, TOKENS.gXAUT.decimals, 4) : '0.0000'}</span>
                                     </div>
                                     <div className="flex gap-2">
                                         <Input
@@ -288,16 +290,16 @@ export default function VaultPage() {
                                     </div>
                                 </div>
 
-                                {previewRedeemAssets && previewRedeemAssets > BigInt(0) && (
+                                {previewRedeemAssets && (previewRedeemAssets as bigint) > BigInt(0) ? (
                                     <div className="p-3 bg-muted rounded-lg text-sm">
                                         <div className="flex justify-between">
                                             <span className="text-muted-foreground">You will receive</span>
                                             <span className="font-medium">
-                                                {formatTokenAmount(previewRedeemAssets, TOKENS.XAUT.decimals, 4)} XAUT
+                                                {formatTokenAmount(previewRedeemAssets as bigint, TOKENS.XAUT.decimals, 4)} XAUT
                                             </span>
                                         </div>
                                     </div>
-                                )}
+                                ) : null}
 
                                 <Button
                                     className="w-full"
@@ -307,9 +309,9 @@ export default function VaultPage() {
                                         !isVerified ||
                                         !withdrawAmount ||
                                         !isValidAmount(withdrawAmount) ||
-                                        (gxautBalance && parsedWithdrawAmount > gxautBalance) ||
-                                        vault.isPending ||
-                                        vault.isConfirming
+                                        Boolean(gxautBalance && parsedWithdrawAmount > (gxautBalance as bigint)) ||
+                                        Boolean(vault.isPending) ||
+                                        Boolean(vault.isConfirming)
                                     }
                                 >
                                     {!isConnected
@@ -318,7 +320,7 @@ export default function VaultPage() {
                                             ? 'Not Verified'
                                             : !withdrawAmount || !isValidAmount(withdrawAmount)
                                                 ? 'Enter Amount'
-                                                : gxautBalance && parsedWithdrawAmount > gxautBalance
+                                                : gxautBalance && parsedWithdrawAmount > (gxautBalance as bigint)
                                                     ? 'Insufficient Balance'
                                                     : vault.isPending || vault.isConfirming
                                                         ? 'Withdrawing...'
