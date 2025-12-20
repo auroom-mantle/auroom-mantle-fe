@@ -55,7 +55,7 @@ export default function SwapPage() {
         CONTRACTS.SwapRouter
     );
 
-    const needsApproval = allowance !== undefined && parsedAmount > BigInt(0) && allowance < parsedAmount;
+    const needsApproval = typeof allowance === 'bigint' && parsedAmount > BigInt(0) && allowance < parsedAmount;
 
     // Approval hook
     const approval = useTokenApproval(
