@@ -120,9 +120,9 @@ export function AddLiquidityForm() {
         }
     };
 
-    const isInsufficientBalanceA = balanceA && parsedAmountA > (balanceA as bigint);
-    const isInsufficientBalanceB = balanceB && parsedAmountB > (balanceB as bigint);
-    const isDisabled = !amountA || !amountB || isInsufficientBalanceA || isInsufficientBalanceB || isPending || isConfirming;
+    const isInsufficientBalanceA = !!(balanceA && parsedAmountA > (balanceA as bigint));
+    const isInsufficientBalanceB = !!(balanceB && parsedAmountB > (balanceB as bigint));
+    const isDisabled = !amountA || !amountB || isInsufficientBalanceA || isInsufficientBalanceB || !!isPending || !!isConfirming;
 
     return (
         <Card>

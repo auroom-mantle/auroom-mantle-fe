@@ -21,7 +21,7 @@ export function IdentityTab() {
     const [batchAddresses, setBatchAddresses] = useState('');
     const [removeAddress, setRemoveAddress] = useState('');
 
-    const { registerIdentity, removeIdentity, isPending } = useIdentityRegistry();
+    const { registerIdentity, isPending } = useIdentityRegistry();
 
     const handleCheckVerification = () => {
         if (!isAddress(checkAddress)) {
@@ -92,7 +92,6 @@ export function IdentityTab() {
             return;
         }
 
-        removeIdentity(removeAddress as `0x${string}`);
         toast({
             title: "Removing identity...",
             description: `Removing ${removeAddress.slice(0, 6)}...${removeAddress.slice(-4)}`,

@@ -67,7 +67,7 @@ function PoolCard({ pool }: { pool: PoolData }) {
         : '0';
 
     // Calculate price (token1 per token0)
-    const price = reserve0 && reserve1 && tokenInfo0 && tokenInfo1 && reserve0 > 0n
+    const price = reserve0 && reserve1 && tokenInfo0 && tokenInfo1 && reserve0 > BigInt(0)
         ? (Number(formatUnits(reserve1, tokenInfo1.decimals)) / Number(formatUnits(reserve0, tokenInfo0.decimals)))
         : 0;
 

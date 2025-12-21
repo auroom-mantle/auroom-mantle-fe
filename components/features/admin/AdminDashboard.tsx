@@ -16,8 +16,8 @@ export function AdminDashboard() {
     const { balances } = useAllBalances();
     const { data: nativeBalance } = useBalance({ address });
     const { useTotalAssets, useTotalSupply } = useGoldVault();
-    const { data: totalAssets } = useTotalAssets();
-    const { data: totalSupply } = useTotalSupply();
+    const { data: totalAssets } = useTotalAssets() as { data: bigint };
+    const { data: totalSupply } = useTotalSupply() as { data: bigint };
     const { useIsVerified } = useIdentityRegistry();
     const { data: isVerified } = useIsVerified(address);
 

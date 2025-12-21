@@ -59,7 +59,7 @@ export function RemoveLiquidityForm() {
     const parsedLpAmount = lpAmount ? parseUnits(lpAmount, 18) : BigInt(0);
 
     // Check if approval needed
-    const needsApproval = lpAllowance !== undefined && parsedLpAmount > BigInt(0) && (lpAllowance as bigint) < parsedLpAmount;
+    const needsApproval = !!(lpAllowance !== undefined && parsedLpAmount > BigInt(0) && (lpAllowance as bigint) < parsedLpAmount);
 
     const handleApproveLp = () => {
         lpApproval.approve(CONTRACTS.UniswapV2Router);
@@ -219,7 +219,7 @@ export function RemoveLiquidityForm() {
                 {/* Remove Liquidity Button */}
                 <Button
                     onClick={handleRemoveLiquidity}
-                    disabled={isDisabled || needsApproval}
+                    disabled={!!(isDisabled || needsApproval)}
                     className="w-full"
                 >
                     {isPending || isConfirming ? (

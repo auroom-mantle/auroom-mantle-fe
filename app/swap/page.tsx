@@ -33,7 +33,7 @@ export default function SwapPage() {
     const { data: fromBalance } = useTokenBalance(
         fromToken === 'IDRX' ? TOKENS.IDRX.address : TOKENS.XAUT.address,
         address
-    );
+    ) as { data: bigint | undefined };
 
     // Parse input amount
     const parsedAmount = inputAmount && isValidAmount(inputAmount)
@@ -46,7 +46,7 @@ export default function SwapPage() {
         ? swapRouter.useQuoteIDRXtoXAUT(parsedAmount)
         : swapRouter.useQuoteXAUTtoIDRX(parsedAmount);
 
-    const outputAmount = quoteHook.data || BigInt(0);
+    const outputAmount = (quoteHook.data as bigint) || BigInt(0);
 
     // Check allowance
     const { data: allowance } = useTokenAllowance(
@@ -55,7 +55,7 @@ export default function SwapPage() {
         CONTRACTS.SwapRouter
     );
 
-    const needsApproval = allowance !== undefined && parsedAmount > BigInt(0) && allowance < parsedAmount;
+    const needsApproval = allowance !== undefined && allowance !== null && typeof allowance === 'bigint' && parsedAmount > BigInt(0) && allowance < parsedAmount;
 
     // Approval hook
     const approval = useTokenApproval(
