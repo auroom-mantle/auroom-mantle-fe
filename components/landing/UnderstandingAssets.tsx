@@ -39,7 +39,7 @@ export function UnderstandingAssets() {
                             'Backed 1:1 by physical gold',
                             'Stored in Swiss vaults (Tether custody)',
                             'Redeemable for physical gold',
-                            'Current price: ~$2,700 per XAUT',
+                            'Current price: ~$4000 per XAUT',
                             'Trade 24/7, no storage fees'
                         ]}
                         learnMoreUrl="https://gold.tether.to"
