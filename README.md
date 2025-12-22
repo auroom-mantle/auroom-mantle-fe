@@ -379,7 +379,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **SynauLearn - Base Batches 002** - Hackathon
 - **Mantle Network** - L2 Infrastructure
 - **RainbowKit** - Beautiful wallet connection
 - **wagmi** - Excellent React hooks for Ethereum
@@ -400,7 +399,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Built with ❤️ for SynauLearn - Base Batches 002**
+**Built with ❤️ for Mantle Global Hackathon 2025**
 
 [⬆ Back to Top](#-auroom-protocol---frontend)
 
