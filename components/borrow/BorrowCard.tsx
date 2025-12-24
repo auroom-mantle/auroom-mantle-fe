@@ -38,10 +38,10 @@ export function BorrowCard({ maxBorrow, currentDebt, onSuccess }: BorrowCardProp
     const repay = useRepay();
     const repayFull = useRepayFull();
 
-    // Preview borrow
+    // Preview borrow - returns [amountAfterFee, fee, newLTV]
     const { data: borrowPreview } = usePreviewBorrow(parsedAmount);
 
-    const needsApproval = mode === 'repay' && allowance !== undefined && parsedAmount > 0n && allowance < parsedAmount;
+    const needsApproval = mode === 'repay' && allowance !== undefined && allowance !== null && parsedAmount > 0n && (allowance as bigint) < parsedAmount;
 
     // Handle success
     useEffect(() => {
@@ -131,7 +131,7 @@ export function BorrowCard({ maxBorrow, currentDebt, onSuccess }: BorrowCardProp
 
         if (mode === 'borrow') {
             if (maxBorrow && parsedAmount > maxBorrow) return 'Exceeds Max Borrow';
-            if (borrowPreview && borrowPreview[2] > 7500n) return 'Would Exceed Max LTV';
+            if (borrowPreview && (borrowPreview as [bigint, bigint, bigint])[2] > 7500n) return 'Would Exceed Max LTV';
             if (borrow.isPending || borrow.isConfirming) return 'Borrowing...';
             return 'Borrow IDRX';
         } else {
@@ -149,7 +149,7 @@ export function BorrowCard({ maxBorrow, currentDebt, onSuccess }: BorrowCardProp
     const isButtonDisabled = () => {
         if (!address || !amount || parsedAmount === 0n) return true;
         if (mode === 'borrow' && maxBorrow && parsedAmount > maxBorrow) return true;
-        if (mode === 'borrow' && borrowPreview && borrowPreview[2] > 7500n) return true;
+        if (mode === 'borrow' && borrowPreview && (borrowPreview as [bigint, bigint, bigint])[2] > 7500n) return true;
         if (mode === 'repay' && currentDebt && parsedAmount > currentDebt) return true;
         if (mode === 'repay' && idrxBalance && parsedAmount > idrxBalance) return true;
         if (approval.isPending || approval.isConfirming) return true;
@@ -241,25 +241,25 @@ export function BorrowCard({ maxBorrow, currentDebt, onSuccess }: BorrowCardProp
                             <div className="flex justify-between">
                                 <span className="text-white/60">Borrow Fee (0.5%)</span>
                                 <span className="text-white">
-                                    {formatIDR(borrowPreview[1], 6)}
+                                    {formatIDR((borrowPreview as [bigint, bigint, bigint])[1], 6)}
                                 </span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-white/60">You Receive</span>
                                 <span className="text-yellow-400 font-medium">
-                                    {formatIDR(borrowPreview[0], 6)}
+                                    {formatIDR((borrowPreview as [bigint, bigint, bigint])[0], 6)}
                                 </span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-white/60">New LTV</span>
-                                <span className={`font-medium ${Number(borrowPreview[2]) > 8000 ? 'text-red-500' :
-                                        Number(borrowPreview[2]) > 7500 ? 'text-orange-500' :
-                                            'text-green-500'
+                                <span className={`font-medium ${Number((borrowPreview as [bigint, bigint, bigint])[2]) > 8000 ? 'text-red-500' :
+                                    Number((borrowPreview as [bigint, bigint, bigint])[2]) > 7500 ? 'text-orange-500' :
+                                        'text-green-500'
                                     }`}>
-                                    {formatLTV(borrowPreview[2])}
+                                    {formatLTV((borrowPreview as [bigint, bigint, bigint])[2])}
                                 </span>
                             </div>
-                            {Number(borrowPreview[2]) > 7500 && (
+                            {Number((borrowPreview as [bigint, bigint, bigint])[2]) > 7500 && (
                                 <div className="p-2 bg-orange-500/10 border border-orange-500/30 rounded text-xs text-orange-400">
                                     ⚠️ Warning: New LTV will be above 75%
                                 </div>

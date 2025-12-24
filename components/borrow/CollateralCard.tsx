@@ -39,7 +39,7 @@ export function CollateralCard({ currentCollateral, onSuccess }: CollateralCardP
     // Preview withdraw
     const { data: withdrawPreview } = usePreviewWithdraw(parsedAmount);
 
-    const needsApproval = mode === 'deposit' && allowance !== undefined && parsedAmount > 0n && allowance < parsedAmount;
+    const needsApproval = mode === 'deposit' && allowance !== undefined && allowance !== null && parsedAmount > 0n && (allowance as bigint) < parsedAmount;
 
     // Handle success
     useEffect(() => {
@@ -118,7 +118,7 @@ export function CollateralCard({ currentCollateral, onSuccess }: CollateralCardP
             return 'Deposit Collateral';
         } else {
             if (currentCollateral && parsedAmount > currentCollateral) return 'Insufficient Collateral';
-            if (withdrawPreview && !withdrawPreview[0]) return 'Would Exceed Max LTV';
+            if (withdrawPreview && !(withdrawPreview as [boolean, bigint])[0]) return 'Would Exceed Max LTV';
             if (withdraw.isPending || withdraw.isConfirming) return 'Withdrawing...';
             return 'Withdraw Collateral';
         }
@@ -128,7 +128,7 @@ export function CollateralCard({ currentCollateral, onSuccess }: CollateralCardP
         if (!address || !amount || parsedAmount === 0n) return true;
         if (mode === 'deposit' && xautBalance && parsedAmount > xautBalance) return true;
         if (mode === 'withdraw' && currentCollateral && parsedAmount > currentCollateral) return true;
-        if (mode === 'withdraw' && withdrawPreview && !withdrawPreview[0]) return true;
+        if (mode === 'withdraw' && withdrawPreview && !(withdrawPreview as [boolean, bigint])[0]) return true;
         if (approval.isPending || approval.isConfirming) return true;
         if (deposit.isPending || deposit.isConfirming) return true;
         if (withdraw.isPending || withdraw.isConfirming) return true;
@@ -232,7 +232,7 @@ export function CollateralCard({ currentCollateral, onSuccess }: CollateralCardP
                                 <div className="flex justify-between">
                                     <span className="text-white/60">New LTV</span>
                                     <span className="text-white">
-                                        {formatLTV(withdrawPreview[1])}
+                                        {formatLTV((withdrawPreview as [boolean, bigint])[1])}
                                     </span>
                                 </div>
                             )}

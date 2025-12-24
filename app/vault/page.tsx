@@ -111,52 +111,56 @@ export default function VaultPage() {
                     </div>
 
                     {/* Vault Stats */}
-                    {totalAssets !== undefined && (
-                        <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30">
-                            <h2 className="text-xl font-bold text-white mb-4">Vault Statistics</h2>
-                            <div className="grid grid-cols-3 gap-4">
-                                <div>
-                                    <div className="text-sm text-white/60">Total Value Locked</div>
-                                    <div className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">
-                                        ${totalAssets ? formatCompactNumber(Number(formatTokenAmount(totalAssets as bigint, 6, 2))) : '0'}
+                    <>
+                        {totalAssets !== undefined && (
+                            <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30">
+                                <h2 className="text-xl font-bold text-white mb-4">Vault Statistics</h2>
+                                <div className="grid grid-cols-3 gap-4">
+                                    <div>
+                                        <div className="text-sm text-white/60">Total Value Locked</div>
+                                        <div className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">
+                                            ${totalAssets ? formatCompactNumber(Number(formatTokenAmount(totalAssets as bigint, 6, 2))) : '0'}
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <div className="text-sm text-white/60">Share Price</div>
-                                    <div className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">
-                                        {sharePrice.toFixed(4)}
+                                    <div>
+                                        <div className="text-sm text-white/60">Share Price</div>
+                                        <div className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">
+                                            {sharePrice.toFixed(4)}
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <div className="text-sm text-white/60">APY</div>
-                                    <div className="text-2xl font-bold text-green-400">
-                                        ~5.2%
+                                    <div>
+                                        <div className="text-sm text-white/60">APY</div>
+                                        <div className="text-2xl font-bold text-green-400">
+                                            ~5.2%
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </>
 
                     {/* User Position */}
-                    {isConnected && gxautBalance && (gxautBalance as bigint) > BigInt(0) && (
-                        <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30">
-                            <h2 className="text-xl font-bold text-white mb-4">Your Position</h2>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <div className="text-sm text-white/60">gXAUT Balance</div>
-                                    <div className="text-xl font-semibold text-white">
-                                        {formatTokenAmount(gxautBalance as bigint, TOKENS.gXAUT.decimals, 4)}
+                    <>
+                        {isConnected && gxautBalance && (gxautBalance as bigint) > BigInt(0) && (
+                            <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30">
+                                <h2 className="text-xl font-bold text-white mb-4">Your Position</h2>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <div className="text-sm text-white/60">gXAUT Balance</div>
+                                        <div className="text-xl font-semibold text-white">
+                                            {formatTokenAmount(gxautBalance as bigint, TOKENS.gXAUT.decimals, 4)}
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <div className="text-sm text-white/60">XAUT Value</div>
-                                    <div className="text-xl font-semibold text-white">
-                                        {formatTokenAmount(userXautValue, TOKENS.XAUT.decimals, 4)}
+                                    <div>
+                                        <div className="text-sm text-white/60">XAUT Value</div>
+                                        <div className="text-xl font-semibold text-white">
+                                            {formatTokenAmount(userXautValue, TOKENS.XAUT.decimals, 4)}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </>
 
                     {/* Deposit/Withdraw */}
                     <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30">
@@ -202,16 +206,18 @@ export default function VaultPage() {
                                     </div>
                                 </div>
 
-                                {previewDepositShares && (previewDepositShares as bigint) > BigInt(0) && (
-                                    <div className="p-3 bg-black/50 border border-white/10 rounded-lg text-sm">
-                                        <div className="flex justify-between">
-                                            <span className="text-white/60">You will receive</span>
-                                            <span className="font-medium text-white">
-                                                {formatTokenAmount(previewDepositShares as bigint, TOKENS.gXAUT.decimals, 4)} gXAUT
-                                            </span>
+                                <>
+                                    {previewDepositShares && (previewDepositShares as bigint) > BigInt(0) && (
+                                        <div className="p-3 bg-black/50 border border-white/10 rounded-lg text-sm">
+                                            <div className="flex justify-between">
+                                                <span className="text-white/60">You will receive</span>
+                                                <span className="font-medium text-white">
+                                                    {formatTokenAmount(previewDepositShares as bigint, TOKENS.gXAUT.decimals, 4)} gXAUT
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
+                                </>
 
                                 <Button
                                     className="w-full bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-black font-semibold"
@@ -294,16 +300,18 @@ export default function VaultPage() {
                                     </div>
                                 </div>
 
-                                {previewRedeemAssets && (previewRedeemAssets as bigint) > BigInt(0) && (
-                                    <div className="p-3 bg-black/50 border border-white/10 rounded-lg text-sm">
-                                        <div className="flex justify-between">
-                                            <span className="text-white/60">You will receive</span>
-                                            <span className="font-medium text-white">
-                                                {formatTokenAmount(previewRedeemAssets as bigint, TOKENS.XAUT.decimals, 4)} XAUT
-                                            </span>
+                                <>
+                                    {previewRedeemAssets && (previewRedeemAssets as bigint) > BigInt(0) && (
+                                        <div className="p-3 bg-black/50 border border-white/10 rounded-lg text-sm">
+                                            <div className="flex justify-between">
+                                                <span className="text-white/60">You will receive</span>
+                                                <span className="font-medium text-white">
+                                                    {formatTokenAmount(previewRedeemAssets as bigint, TOKENS.XAUT.decimals, 4)} XAUT
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
+                                </>
 
                                 <Button
                                     className="w-full bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-black font-semibold"
