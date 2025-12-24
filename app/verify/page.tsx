@@ -1,7 +1,6 @@
 'use client';
 
 import { useAccount } from 'wagmi';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -25,42 +24,46 @@ export default function VerifyPage() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-12">
-            <div className="max-w-2xl mx-auto space-y-6">
-                {/* Verification Status */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <Shield className="h-5 w-5" />
-                            Verification Status
-                        </CardTitle>
-                        <CardDescription>
-                            KYC verification is required to use the protocol
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
+        <div className="min-h-screen bg-black py-12">
+            <div className="container mx-auto px-4">
+                <div className="max-w-2xl mx-auto space-y-6">
+                    {/* Page Title */}
+                    <div className="text-center mb-8">
+                        <h1 className="text-3xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 bg-clip-text text-transparent mb-2 flex items-center justify-center gap-2">
+                            <Shield className="h-8 w-8 text-yellow-500" />
+                            Verification
+                        </h1>
+                        <p className="text-white/60">KYC verification is required to use the protocol</p>
+                    </div>
+
+                    {/* Verification Status */}
+                    <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30">
+                        <h2 className="text-xl font-bold text-white mb-4">Verification Status</h2>
                         {!isConnected ? (
                             <div className="text-center py-8">
-                                <p className="text-muted-foreground">
+                                <p className="text-white/60">
                                     Please connect your wallet to check verification status
                                 </p>
                             </div>
                         ) : isLoading ? (
                             <div className="text-center py-8">
-                                <p className="text-muted-foreground">Checking verification status...</p>
+                                <p className="text-white/60">Checking verification status...</p>
                             </div>
                         ) : (
                             <div className="space-y-4">
-                                <div className="flex items-center justify-between p-4 border rounded-lg">
+                                <div className="flex items-center justify-between p-4 border border-white/10 rounded-lg bg-black/30">
                                     <div>
-                                        <div className="font-medium">Your Address</div>
-                                        <div className="text-sm text-muted-foreground font-mono">
+                                        <div className="font-medium text-white">Your Address</div>
+                                        <div className="text-sm text-white/60 font-mono">
                                             {address}
                                         </div>
                                     </div>
                                     <Badge
                                         variant={isVerified ? 'default' : 'destructive'}
-                                        className="flex items-center gap-1"
+                                        className={`flex items-center gap-1 ${isVerified
+                                                ? 'bg-green-500/20 text-green-400 border-green-500/30'
+                                                : 'bg-red-500/20 text-red-400 border-red-500/30'
+                                            }`}
                                     >
                                         {isVerified ? (
                                             <>
@@ -77,77 +80,74 @@ export default function VerifyPage() {
                                 </div>
 
                                 {!isVerified && (
-                                    <div className="p-4 bg-yellow-50 dark:bg-yellow-950 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-                                        <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                                    <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+                                        <p className="text-sm text-yellow-400">
                                             Your address is not verified. Please contact the protocol admin to complete KYC verification.
                                         </p>
                                     </div>
                                 )}
 
                                 {isVerified && (
-                                    <div className="p-4 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg">
-                                        <p className="text-sm text-green-800 dark:text-green-200">
+                                    <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
+                                        <p className="text-sm text-green-400">
                                             Your address is verified! You can now use all protocol features.
                                         </p>
                                     </div>
                                 )}
                             </div>
                         )}
-                    </CardContent>
-                </Card>
+                    </div>
 
-                {/* Admin Panel - Only show if user might be admin */}
-                {isConnected && (
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Admin Panel</CardTitle>
-                            <CardDescription>
-                                Register new addresses (admin only)
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Address to Register</label>
-                                <Input
-                                    type="text"
-                                    placeholder="0x..."
-                                    value={addressToRegister}
-                                    onChange={(e) => setAddressToRegister(e.target.value)}
-                                />
-                            </div>
-
-                            <Button
-                                className="w-full"
-                                onClick={handleRegister}
-                                disabled={
-                                    !addressToRegister ||
-                                    !isValidAddress(addressToRegister) ||
-                                    isPending ||
-                                    isConfirming
-                                }
-                            >
-                                {isPending || isConfirming ? 'Registering...' : 'Register Address'}
-                            </Button>
-
-                            {isSuccess && (
-                                <div className="p-3 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg text-sm text-green-800 dark:text-green-200">
-                                    Address registered successfully!
+                    {/* Admin Panel */}
+                    {isConnected && (
+                        <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30">
+                            <h2 className="text-xl font-bold text-white mb-2">Admin Panel</h2>
+                            <p className="text-sm text-white/60 mb-4">Register new addresses (admin only)</p>
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium text-white">Address to Register</label>
+                                    <Input
+                                        type="text"
+                                        placeholder="0x..."
+                                        value={addressToRegister}
+                                        onChange={(e) => setAddressToRegister(e.target.value)}
+                                        className="bg-black border-white/20 text-white placeholder:text-white/40"
+                                    />
                                 </div>
-                            )}
 
-                            {error && (
-                                <div className="p-3 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-800 dark:text-red-200">
-                                    Error: {error.message}
+                                <Button
+                                    className="w-full bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-black font-semibold"
+                                    onClick={handleRegister}
+                                    disabled={
+                                        !addressToRegister ||
+                                        !isValidAddress(addressToRegister) ||
+                                        isPending ||
+                                        isConfirming
+                                    }
+                                >
+                                    {isPending || isConfirming ? 'Registering...' : 'Register Address'}
+                                </Button>
+
+                                {isSuccess && (
+                                    <div className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg text-sm text-green-400">
+                                        Address registered successfully!
+                                    </div>
+                                )}
+
+                                {error && (
+                                    <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400">
+                                        Error: {error.message}
+                                    </div>
+                                )}
+
+                                <div className="p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg text-sm text-blue-400">
+                                    <p className="font-medium mb-1">Note:</p>
+                                    <p>Only the contract deployer can register new addresses. If you're not the admin, this function will fail.</p>
                                 </div>
-                            )}
-
-                            <div className="p-3 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg text-sm text-blue-800 dark:text-blue-200">
-                                <p className="font-medium mb-1">Note:</p>
-                                <p>Only the contract deployer can register new addresses. If you're not the admin, this function will fail.</p>
                             </div>
-                        </CardContent>
-                    </Card>
-                )}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
