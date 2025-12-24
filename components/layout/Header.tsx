@@ -25,6 +25,12 @@ export function Header() {
                             Swap
                         </Link>
                         <Link
+                            href="/borrow"
+                            className="text-sm font-medium text-white/80 hover:text-yellow-400 transition-colors"
+                        >
+                            Borrow
+                        </Link>
+                        <Link
                             href="/vault"
                             className="text-sm font-medium text-white/80 hover:text-yellow-400 transition-colors"
                         >

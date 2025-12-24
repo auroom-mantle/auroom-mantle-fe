@@ -131,146 +131,154 @@ export default function SwapPage() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-12">
-            <div className="max-w-md mx-auto">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Swap</CardTitle>
-                        <CardDescription>
-                            Exchange IDRX for XAUT and vice versa
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        {/* From Token */}
-                        <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                                <span className="text-muted-foreground">From</span>
-                                <span className="text-muted-foreground">
-                                    Balance: {fromBalance ? formatTokenAmount(fromBalance, TOKENS[fromToken].decimals, 4) : '0.0000'}
-                                </span>
-                            </div>
-                            <div className="flex gap-2">
-                                <Input
-                                    type="text"
-                                    placeholder="0.0"
-                                    value={inputAmount}
-                                    onChange={(e) => setInputAmount(e.target.value)}
-                                    className="flex-1"
-                                />
-                                <Button variant="outline" onClick={handleMax}>
-                                    MAX
-                                </Button>
-                                <div className="flex items-center gap-2 px-3 py-2 border rounded-md bg-muted">
-                                    <span className="font-medium">{fromToken}</span>
-                                </div>
-                            </div>
-                        </div>
+        <div className="min-h-screen bg-black py-12">
+            <div className="container mx-auto px-4">
+                <div className="max-w-md mx-auto">
+                    {/* Page Title */}
+                    <div className="text-center mb-8">
+                        <h1 className="text-3xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 bg-clip-text text-transparent mb-2">
+                            Swap Tokens
+                        </h1>
+                        <p className="text-white/60">Exchange IDRX for XAUT and vice versa</p>
+                    </div>
 
-                        {/* Switch Button */}
-                        <div className="flex justify-center">
-                            <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={handleSwitch}
-                                className="rounded-full"
-                            >
-                                <ArrowDownUp className="h-4 w-4" />
-                            </Button>
-                        </div>
-
-                        {/* To Token */}
-                        <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                                <span className="text-muted-foreground">To</span>
-                                <span className="text-muted-foreground">
-                                    {toToken}
-                                </span>
-                            </div>
-                            <div className="flex gap-2">
-                                <Input
-                                    type="text"
-                                    placeholder="0.0"
-                                    value={outputAmount ? formatTokenAmount(outputAmount, TOKENS[toToken].decimals, 4) : ''}
-                                    disabled
-                                    className="flex-1"
-                                />
-                                <div className="flex items-center gap-2 px-3 py-2 border rounded-md bg-muted">
-                                    <span className="font-medium">{toToken}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Quote Details */}
-                        {outputAmount > BigInt(0) && (
-                            <div className="space-y-2 p-3 bg-muted rounded-lg text-sm">
-                                <div className="flex justify-between">
-                                    <span className="text-muted-foreground flex items-center gap-1">
-                                        Rate
-                                        <span className="text-xs" title="Rate is fetched from SwapRouter smart contract based on Uniswap V2 pool reserves">ⓘ</span>
-                                    </span>
-                                    <span>
-                                        {outputAmount && parsedAmount ? (() => {
-                                            const rate = Number(outputAmount) / Number(parsedAmount);
-                                            // If rate is very small (< 0.0001), show inverted rate
-                                            if (rate < 0.0001) {
-                                                const invertedRate = Number(parsedAmount) / Number(outputAmount);
-                                                return `1 ${toToken} = ${invertedRate.toFixed(2)} ${fromToken}`;
-                                            }
-                                            return `1 ${fromToken} = ${rate.toFixed(6)} ${toToken}`;
-                                        })() : '0'}
+                    {/* Main Swap Card */}
+                    <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30 backdrop-blur-xl">
+                        <div className="space-y-4">
+                            {/* From Token */}
+                            <div className="space-y-2">
+                                <div className="flex justify-between text-sm">
+                                    <span className="text-white/60">From</span>
+                                    <span className="text-white/60">
+                                        Balance: {fromBalance ? formatTokenAmount(fromBalance, TOKENS[fromToken].decimals, 4) : '0.0000'}
                                     </span>
                                 </div>
-                                <div className="flex justify-between">
-                                    <span className="text-muted-foreground">Slippage Tolerance</span>
-                                    <span>{(slippageBps / 100).toFixed(2)}%</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-muted-foreground">Minimum Received</span>
-                                    <span>
-                                        {formatTokenAmount(
-                                            calculateMinimumReceived(outputAmount, slippageBps),
-                                            TOKENS[toToken].decimals,
-                                            4
-                                        )} {toToken}
-                                    </span>
+                                <div className="flex gap-2">
+                                    <Input
+                                        type="text"
+                                        placeholder="0.0"
+                                        value={inputAmount}
+                                        onChange={(e) => setInputAmount(e.target.value)}
+                                        className="flex-1 bg-black border-white/20 text-white placeholder:text-white/40"
+                                    />
+                                    <Button
+                                        variant="outline"
+                                        onClick={handleMax}
+                                        className="border-yellow-500/30 bg-yellow-500/10 text-yellow-400 hover:bg-yellow-500/20 hover:text-yellow-300"
+                                    >
+                                        MAX
+                                    </Button>
+                                    <div className="flex items-center gap-2 px-3 py-2 border-2 border-yellow-500/30 rounded-md bg-yellow-500/10">
+                                        <span className="font-medium text-yellow-400">{fromToken}</span>
+                                    </div>
                                 </div>
                             </div>
-                        )}
 
-                        {/* Swap Button */}
-                        <Button
-                            className="w-full"
-                            onClick={handleButtonClick}
-                            disabled={isButtonDisabled()}
-                        >
-                            {getButtonContent()}
-                        </Button>
-
-                        {/* Transaction Status */}
-                        {swapRouter.isSuccess && swapRouter.hash && (
-                            <div className="p-3 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg text-sm text-green-800 dark:text-green-200">
-                                <p className="font-medium mb-1">Swap successful!</p>
-                                <a
-                                    href={getExplorerTxUrl(swapRouter.hash)}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-green-600 dark:text-green-400 hover:underline flex items-center gap-1"
+                            {/* Switch Button */}
+                            <div className="flex justify-center">
+                                <Button
+                                    variant="outline"
+                                    size="icon"
+                                    onClick={handleSwitch}
+                                    className="rounded-full border-yellow-500/30 bg-yellow-500/10 text-yellow-400 hover:bg-yellow-500/20 hover:text-yellow-300"
                                 >
-                                    View transaction: {swapRouter.hash.slice(0, 10)}...{swapRouter.hash.slice(-8)}
-                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                    </svg>
-                                </a>
+                                    <ArrowDownUp className="h-4 w-4" />
+                                </Button>
                             </div>
-                        )}
 
-                        {swapRouter.error && (
-                            <div className="p-3 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-800 dark:text-red-200">
-                                Error: {swapRouter.error.message}
+                            {/* To Token */}
+                            <div className="space-y-2">
+                                <div className="flex justify-between text-sm">
+                                    <span className="text-white/60">To</span>
+                                    <span className="text-white/60">
+                                        {toToken}
+                                    </span>
+                                </div>
+                                <div className="flex gap-2">
+                                    <Input
+                                        type="text"
+                                        placeholder="0.0"
+                                        value={outputAmount ? formatTokenAmount(outputAmount, TOKENS[toToken].decimals, 4) : ''}
+                                        disabled
+                                        className="flex-1 bg-black border-white/20 text-white placeholder:text-white/40"
+                                    />
+                                    <div className="flex items-center gap-2 px-3 py-2 border-2 border-yellow-500/30 rounded-md bg-yellow-500/10">
+                                        <span className="font-medium text-yellow-400">{toToken}</span>
+                                    </div>
+                                </div>
                             </div>
-                        )}
-                    </CardContent>
-                </Card>
+
+                            {/* Quote Details */}
+                            {outputAmount > BigInt(0) && (
+                                <div className="space-y-2 p-3 bg-black/50 border border-white/10 rounded-lg text-sm">
+                                    <div className="flex justify-between">
+                                        <span className="text-white/60 flex items-center gap-1">
+                                            Rate
+                                            <span className="text-xs" title="Rate is fetched from SwapRouter smart contract based on Uniswap V2 pool reserves">ⓘ</span>
+                                        </span>
+                                        <span className="text-white">
+                                            {outputAmount && parsedAmount ? (() => {
+                                                const rate = Number(outputAmount) / Number(parsedAmount);
+                                                if (rate < 0.0001) {
+                                                    const invertedRate = Number(parsedAmount) / Number(outputAmount);
+                                                    return `1 ${toToken} = ${invertedRate.toFixed(2)} ${fromToken}`;
+                                                }
+                                                return `1 ${fromToken} = ${rate.toFixed(6)} ${toToken}`;
+                                            })() : '0'}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-white/60">Slippage Tolerance</span>
+                                        <span className="text-white">{(slippageBps / 100).toFixed(2)}%</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-white/60">Minimum Received</span>
+                                        <span className="text-white">
+                                            {formatTokenAmount(
+                                                calculateMinimumReceived(outputAmount, slippageBps),
+                                                TOKENS[toToken].decimals,
+                                                4
+                                            )} {toToken}
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Swap Button */}
+                            <Button
+                                className="w-full bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-black font-semibold"
+                                onClick={handleButtonClick}
+                                disabled={isButtonDisabled()}
+                            >
+                                {getButtonContent()}
+                            </Button>
+
+                            {/* Transaction Status */}
+                            {swapRouter.isSuccess && swapRouter.hash && (
+                                <div className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg text-sm">
+                                    <p className="font-medium mb-1 text-green-400">Swap successful!</p>
+                                    <a
+                                        href={getExplorerTxUrl(swapRouter.hash)}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-green-400 hover:text-green-300 hover:underline flex items-center gap-1"
+                                    >
+                                        View transaction: {swapRouter.hash.slice(0, 10)}...{swapRouter.hash.slice(-8)}
+                                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            )}
+
+                            {swapRouter.error && (
+                                <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400">
+                                    Error: {swapRouter.error.message}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -8,6 +8,7 @@ import IdentityRegistryABI from '@/abi/IdentityRegistry.json';
 import SwapRouterABI from '@/abi/SwapRouter.json';
 import GoldVaultABI from '@/abi/GoldVault.json';
 import UniswapV2Router02ABI from '@/abi/UniswapV2Router02.json';
+import BorrowingProtocolABI from '@/abi/BorrowingProtocol.json';
 
 export {
     MockIDRXABI as ERC20ABI,
@@ -15,5 +16,6 @@ export {
     SwapRouterABI,
     GoldVaultABI,
     UniswapV2Router02ABI as UniswapV2RouterABI,
-    XAUTABI
+    XAUTABI,
+    BorrowingProtocolABI
 };

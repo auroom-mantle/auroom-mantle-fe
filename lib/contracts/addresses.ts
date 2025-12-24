@@ -18,6 +18,7 @@ export const CONTRACTS = {
   // ===== CORE PROTOCOL =====
   SwapRouter: "0xF948Dd812E7fA072367848ec3D198cc61488b1b9" as const,
   GoldVault: "0xd92cE2F13509840B1203D35218227559E64fbED0" as const,
+  BorrowingProtocol: "0x6efa29db6e0b323649abdf9fbd45cada8bed782c" as const,
 } as const;
 
 export type ContractName = keyof typeof CONTRACTS;
