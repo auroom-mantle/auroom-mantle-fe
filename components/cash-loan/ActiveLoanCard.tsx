@@ -36,21 +36,21 @@ export function ActiveLoanCard({
 
     return (
         <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30">
-            <h3 className="text-lg font-semibold text-white mb-4">📊 PINJAMAN AKTIF</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">📊 ACTIVE LOAN</h3>
 
             <div className="space-y-4">
                 {/* Stats Grid */}
                 <div className="grid grid-cols-3 gap-4">
-                    {/* Emas Dijaminkan */}
+                    {/* Gold Collateral */}
                     <div className="p-4 rounded-xl bg-black/40 border border-yellow-500/20">
-                        <p className="text-white/60 text-xs mb-1">Emas Dijaminkan</p>
+                        <p className="text-white/60 text-xs mb-1">Gold Collateral</p>
                         <p className="text-yellow-500 font-bold text-lg">{formatXAUT(collateral)} XAUT</p>
                         <p className="text-white/50 text-xs mt-1">~{formatRupiah(collateralValue)}</p>
                     </div>
 
-                    {/* Hutang */}
+                    {/* Debt */}
                     <div className="p-4 rounded-xl bg-black/40 border border-yellow-500/20">
-                        <p className="text-white/60 text-xs mb-1">Hutang</p>
+                        <p className="text-white/60 text-xs mb-1">Debt</p>
                         <p className="text-white font-bold text-lg">{formatRupiah(debt)}</p>
                     </div>
 
@@ -58,10 +58,9 @@ export function ActiveLoanCard({
                     <div className="p-4 rounded-xl bg-black/40 border border-yellow-500/20">
                         <p className="text-white/60 text-xs mb-1">Status</p>
                         <p className={`${status.color} font-bold text-lg`}>
-                            {status.text === 'AMAN' && '✅ '}
-                            {status.text === 'PERHATIAN' && '⚠️ '}
-                            {status.text === 'BAHAYA' && '🚨 '}
-                            {status.text}
+                            {status.text === 'AMAN' && '✅ SAFE'}
+                            {status.text === 'PERHATIAN' && '⚠️ WARNING'}
+                            {status.text === 'BAHAYA' && '🚨 DANGER'}
                         </p>
                     </div>
                 </div>
@@ -69,9 +68,9 @@ export function ActiveLoanCard({
                 {/* Capacity Bar */}
                 <div>
                     <div className="flex items-center justify-between mb-2">
-                        <span className="text-white/70 text-sm">Kapasitas Pinjaman</span>
+                        <span className="text-white/70 text-sm">Loan Capacity</span>
                         <span className="text-white/90 text-sm font-semibold">
-                            {ltvPercentage.toFixed(0)}% terpakai
+                            {ltvPercentage.toFixed(0)}% used
                         </span>
                     </div>
                     <div className="h-3 bg-black/40 rounded-full overflow-hidden">
@@ -92,12 +91,12 @@ export function ActiveLoanCard({
                     onClick={onRepayClick}
                     className="w-full h-12 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold"
                 >
-                    💳 LUNASI PINJAMAN
+                    💳 REPAY LOAN
                 </Button>
 
                 {/* Info */}
                 <p className="text-white/50 text-xs text-center">
-                    ⓘ Lunasi hutang untuk menarik kembali emas kamu
+                    ⓘ Repay your debt to withdraw your gold
                 </p>
             </div>
         </div>

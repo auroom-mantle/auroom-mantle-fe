@@ -3,14 +3,16 @@
 import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { Button } from '@/components/ui/button';
-import { GoldBalanceCard } from '@/components/pinjam-tunai/GoldBalanceCard';
-import { LoanAmountInput } from '@/components/pinjam-tunai/LoanAmountInput';
-import { BankSelector } from '@/components/pinjam-tunai/BankSelector';
-import { LoanSummary } from '@/components/pinjam-tunai/LoanSummary';
-import { ActiveLoanCard } from '@/components/pinjam-tunai/ActiveLoanCard';
-import { RepayModal } from '@/components/pinjam-tunai/RepayModal';
-import { ProcessingOverlay } from '@/components/pinjam-tunai/ProcessingOverlay';
-import { SuccessModal } from '@/components/pinjam-tunai/SuccessModal';
+import { GoldBalanceCard } from '@/components/cash-loan/GoldBalanceCard';
+import { LoanAmountInput } from '@/components/cash-loan/LoanAmountInput';
+import { BankSelector } from '@/components/cash-loan/BankSelector';
+import { LoanSummary } from '@/components/cash-loan/LoanSummary';
+import { ActiveLoanCard } from '@/components/cash-loan/ActiveLoanCard';
+import { RepayModal } from '@/components/cash-loan/RepayModal';
+import { ProcessingOverlay } from '@/components/cash-loan/ProcessingOverlay';
+import { SuccessModal } from '@/components/cash-loan/SuccessModal';
+import { LTVSelector } from '@/components/cash-loan/LTVSelector';
+import { ProgressSteps } from '@/components/cash-loan/ProgressSteps';
 import {
     useGoldBalance,
     useGoldPrice,
@@ -26,7 +28,7 @@ import { parseRupiahInput, formatRupiah } from '@/lib/utils/format';
 import { type LoanFlowState, generateReferenceNumber } from '@/lib/utils/loanFlow';
 import { Loader2 } from 'lucide-react';
 
-export default function PinjamTunaiPage() {
+export default function CashLoanPage() {
     const { address, isConnected } = useAccount();
 
     // State
@@ -34,6 +36,7 @@ export default function PinjamTunaiPage() {
     const [selectedBank, setSelectedBank] = useState('bca');
     const [accountNumber, setAccountNumber] = useState('');
     const [accountName, setAccountName] = useState('');
+    const [selectedLTV, setSelectedLTV] = useState(30); // Default 30%
     const [showRepayModal, setShowRepayModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [successData, setSuccessData] = useState<any>({});
@@ -47,7 +50,8 @@ export default function PinjamTunaiPage() {
 
     // Parse loan amount
     const loanAmount = loanInput ? parseRupiahInput(loanInput) : 0n;
-    const calculation = useLoanCalculation(loanAmount);
+    const ltvBps = selectedLTV * 100; // Convert percentage to basis points
+    const calculation = useLoanCalculation(loanAmount, ltvBps);
 
     // Calculate gold value
     const goldValue = (goldBalance * goldPrice) / BigInt(1e8);
@@ -70,6 +74,16 @@ export default function PinjamTunaiPage() {
 
     const needsApproval = xautApproval.allowance < calculation.collateralRequired;
 
+    // Calculate current step for progress indicator
+    const getCurrentStep = () => {
+        if (!loanInput || loanAmount === 0n) return 1; // Need to enter amount
+        if (selectedBank === '' || accountNumber === '' || accountName === '') return 3; // Need bank details
+        if (!calculation.isValid) return 4; // Ready to review
+        return 4; // All filled, ready to submit
+    };
+
+    const currentStep = getCurrentStep();
+
     // Handle approve
     const handleApprove = () => {
         xautApproval.approve(BigInt('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'));
@@ -77,13 +91,13 @@ export default function PinjamTunaiPage() {
 
     // Handle borrow
     const handleBorrow = () => {
-        setFlowState({ step: 'borrowing', message: 'Menjaminkan emas...' });
+        setFlowState({ step: 'borrowing', message: 'Securing gold collateral...' });
         borrow.execute(calculation.collateralRequired, loanAmount);
     };
 
     // Handle repay
     const handleRepay = (amount: bigint, isFullRepay: boolean) => {
-        setFlowState({ step: 'borrowing', message: 'Melunasi pinjaman...' });
+        setFlowState({ step: 'borrowing', message: 'Repaying loan...' });
         repay.execute();
     };
 
@@ -109,7 +123,7 @@ export default function PinjamTunaiPage() {
                 referenceNumber,
                 txHash: borrow.hash,
             });
-            setFlowState({ step: 'success', message: 'Pinjaman berhasil!' });
+            setFlowState({ step: 'success', message: 'Loan successful!' });
             setShowSuccessModal(true);
             setLoanInput('');
             setAccountNumber('');
@@ -126,7 +140,7 @@ export default function PinjamTunaiPage() {
                 loanAmount: activeLoan.debt,
                 collateral: activeLoan.collateral,
             });
-            setFlowState({ step: 'success', message: 'Pelunasan berhasil!' });
+            setFlowState({ step: 'success', message: 'Repayment successful!' });
             setShowSuccessModal(true);
             setShowRepayModal(false);
             repay.reset();
@@ -138,12 +152,12 @@ export default function PinjamTunaiPage() {
         return (
             <div className="min-h-screen bg-black py-12 px-4">
                 <div className="max-w-4xl mx-auto text-center">
-                    <h1 className="text-4xl font-bold text-white mb-4">💰 PINJAM TUNAI</h1>
+                    <h1 className="text-4xl font-bold text-white mb-4">💰 INSTANT CASH LOAN</h1>
                     <p className="text-white/70 text-lg mb-8">
-                        Jaminkan emas digital, terima uang ke rekening
+                        Secure your gold, receive cash to your bank account
                     </p>
                     <p className="text-white/60">
-                        Silakan connect wallet untuk melanjutkan
+                        Please connect your wallet to continue
                     </p>
                 </div>
             </div>
@@ -157,15 +171,18 @@ export default function PinjamTunaiPage() {
                 <div className="text-center space-y-2">
                     <h1 className="text-4xl font-bold text-white flex items-center justify-center gap-3">
                         <span className="text-5xl">💰</span>
-                        PINJAM TUNAI
+                        INSTANT CASH LOAN
                     </h1>
                     <p className="text-white/70 text-lg">
-                        Jaminkan emas digital, terima uang ke rekening
+                        Secure your digital gold, receive cash to your bank account
                     </p>
                     <p className="text-white/50 text-sm">
-                        ✨ Seperti pegadaian, tapi digital dan lebih cepat
+                        ✨ Like a pawn shop, but digital and faster
                     </p>
                 </div>
+
+                {/* Progress Steps */}
+                <ProgressSteps currentStep={currentStep} />
 
                 {/* Active Loan Card */}
                 {activeLoan.hasActiveLoan && (
@@ -193,6 +210,13 @@ export default function PinjamTunaiPage() {
                     value={loanInput}
                     onChange={setLoanInput}
                     maxLoan={calculation.maxLoan}
+                    disabled={borrow.isPending || borrow.isConfirming}
+                />
+
+                {/* LTV Selector */}
+                <LTVSelector
+                    selectedLTV={selectedLTV}
+                    onLTVChange={setSelectedLTV}
                     disabled={borrow.isPending || borrow.isConfirming}
                 />
 
@@ -238,7 +262,7 @@ export default function PinjamTunaiPage() {
                                     {xautApproval.isPending ? 'Approving...' : 'Confirming...'}
                                 </>
                             ) : (
-                                'Izinkan Akses Emas'
+                                'Approve Gold Access'
                             )}
                         </Button>
                     ) : (
@@ -250,16 +274,16 @@ export default function PinjamTunaiPage() {
                             {borrow.isPending || borrow.isConfirming ? (
                                 <>
                                     <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                                    {borrow.isPending ? 'Memproses...' : 'Confirming...'}
+                                    {borrow.isPending ? 'Processing...' : 'Confirming...'}
                                 </>
                             ) : (
-                                <>💸 CAIRKAN {formatRupiah(calculation.amountReceived)}</>
+                                <>💸 GET CASH {formatRupiah(calculation.amountReceived)}</>
                             )}
                         </Button>
                     )}
 
                     <p className="text-center text-sm text-white/60">
-                        ⓘ Emas kamu akan dijaminkan otomatis. Lunasi pinjaman kapan saja untuk menarik kembali emas kamu.
+                        ⓘ Your gold will be secured automatically. Repay anytime to withdraw your gold.
                     </p>
                 </div>
 

@@ -87,7 +87,7 @@ export function useIDRXBalance() {
 /**
  * Get loan calculation based on input amount
  */
-export function useLoanCalculation(loanAmount: bigint) {
+export function useLoanCalculation(loanAmount: bigint, ltvBps: number = 3000) {
     const { balance: xautBalance } = useGoldBalance();
     const { price: xautPrice } = useGoldPrice();
     const { data: feeBps } = useBorrowFeeV2();
@@ -96,10 +96,11 @@ export function useLoanCalculation(loanAmount: bigint) {
         loanAmount,
         xautPrice,
         xautBalance,
+        ltvBps,
         Number((feeBps as bigint) || 50n)
     );
 
-    const maxLoan = calculateMaxLoan(xautBalance, xautPrice);
+    const maxLoan = calculateMaxLoan(xautBalance, xautPrice, ltvBps);
 
     return {
         ...calculation,

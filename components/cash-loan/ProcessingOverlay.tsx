@@ -11,10 +11,10 @@ export function ProcessingOverlay({ state }: ProcessingOverlayProps) {
     if (state.step === 'idle') return null;
 
     const steps = [
-        { id: 'checking-approval', label: 'Memeriksa izin akses' },
-        { id: 'approving', label: 'Mengizinkan akses emas' },
-        { id: 'borrowing', label: 'Menjaminkan emas' },
-        { id: 'transferring', label: 'Mentransfer ke rekening' },
+        { id: 'checking-approval', label: 'Checking access permission' },
+        { id: 'approving', label: 'Approving gold access' },
+        { id: 'borrowing', label: 'Securing gold collateral' },
+        { id: 'transferring', label: 'Transferring to account' },
     ];
 
     const getStepStatus = (stepId: string) => {
@@ -78,7 +78,7 @@ export function ProcessingOverlay({ state }: ProcessingOverlayProps) {
 
                         {/* Warning */}
                         <p className="text-white/50 text-xs text-center">
-                            ⓘ Jangan tutup halaman ini
+                            ⓘ Please don't close this page
                         </p>
                     </div>
                 )}

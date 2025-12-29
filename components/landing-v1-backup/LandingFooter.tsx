@@ -1,19 +1,17 @@
-'use client';
-
 import Link from 'next/link';
 import { Github, Twitter, Send } from 'lucide-react';
 
-export function Footer() {
+export function LandingFooter() {
     const footerLinks = {
         product: [
-            { name: 'Cash Loans', href: '/pinjam-tunai' },
-            { name: 'Buy Gold', href: '/swap' },
+            { name: 'Swap', href: '/swap' },
             { name: 'Vault', href: '/vault' },
+            { name: 'Admin', href: '/admin' },
         ],
         resources: [
-            { name: 'FAQ', href: '#faq' },
-            { name: 'How It Works', href: '#how-it-works' },
-            { name: 'Contact Us', href: '#' },
+            { name: 'Docs', href: '#' },
+            { name: 'FAQ', href: '#' },
+            { name: 'GitHub', href: 'https://github.com' },
         ],
         legal: [
             { name: 'Terms', href: '#' },
@@ -39,7 +37,7 @@ export function Footer() {
                                 AuRoom
                             </h3>
                             <p className="text-sm text-white/60 mt-2">
-                                Digital Pawnshop for the Modern Era
+                                From Rupiah to Yield-Bearing Gold
                             </p>
                         </div>
                     </div>
@@ -63,13 +61,15 @@ export function Footer() {
 
                     {/* Resources */}
                     <div>
-                        <h4 className="font-bold mb-4 text-white">Help</h4>
+                        <h4 className="font-bold mb-4 text-white">Resources</h4>
                         <ul className="space-y-2">
                             {footerLinks.resources.map((link) => (
                                 <li key={link.name}>
                                     <Link
                                         href={link.href}
                                         className="text-sm text-white/60 hover:text-yellow-500 transition-colors"
+                                        target={link.href.startsWith('http') ? '_blank' : undefined}
+                                        rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                                     >
                                         {link.name}
                                     </Link>
@@ -80,11 +80,18 @@ export function Footer() {
 
                     {/* Legal */}
                     <div>
-                        <h4 className="font-bold mb-4 text-white">Technology</h4>
+                        <h4 className="font-bold mb-4 text-white">Legal</h4>
                         <ul className="space-y-2">
-                            <li className="text-sm text-white/60">Mantle Network</li>
-                            <li className="text-sm text-white/60">Smart Contract</li>
-                            <li className="text-sm text-white/60">Documentation</li>
+                            {footerLinks.legal.map((link) => (
+                                <li key={link.name}>
+                                    <Link
+                                        href={link.href}
+                                        className="text-sm text-white/60 hover:text-yellow-500 transition-colors"
+                                    >
+                                        {link.name}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>
@@ -110,15 +117,13 @@ export function Footer() {
                     {/* Copyright & Disclaimer */}
                     <div className="text-center space-y-2">
                         <p className="text-sm text-white/60">
-                            © 2025 AuRoom Protocol. Built for Mantle SEA Hackathon.
+                            Built for Mantle Global Hackathon 2025
+                        </p>
+                        <p className="text-sm text-white/60">
+                            © 2024 AuRoom Protocol. All rights reserved.
                         </p>
                         <p className="text-sm text-yellow-500 font-medium">
-                            ⚠️ DISCLAIMER
-                        </p>
-                        <p className="text-xs text-white/60 max-w-2xl mx-auto">
-                            AuRoom is a testnet platform for technology demonstration.
-                            All transactions use testnet tokens with no real value.
-                            Not financial or investment advice.
+                            ⚠️ This is a testnet demo. Do not use real funds.
                         </p>
                     </div>
                 </div>

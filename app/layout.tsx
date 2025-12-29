@@ -17,8 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AuRoom Protocol - From Rupiah to Yield-Bearing Gold",
-  description: "Swap IDRX to tokenized gold and earn yield on Mantle Network",
+  title: "AuRoom - Borrow Cash with Digital Gold Collateral",
+  description: "Digital pawnshop that's simple, fast, and transparent. Collateralize digital gold, receive cash to your account in minutes. Low fees, 24/7 process.",
+  keywords: "cash loan, gold collateral, digital pawnshop, XAUT, gold-backed loan, crypto loan, DeFi lending",
 };
 
 export default function RootLayout({

@@ -29,6 +29,7 @@ export function calculateLoan(
     loanAmount: bigint,
     xautPrice: bigint,
     xautBalance: bigint,
+    ltvBps: number = LOAN_CONFIG.FIXED_LTV_BPS,
     feeBps: number = LOAN_CONFIG.FEE_BPS
 ): LoanCalculation {
     // Guard: zero input
@@ -40,13 +41,13 @@ export function calculateLoan(
             fee: 0n,
             amountReceived: 0n,
             isValid: false,
-            errorMessage: 'Masukkan nominal pinjaman',
+            errorMessage: 'Enter loan amount',
         };
     }
 
-    // Calculate collateral value needed (at fixed 30% LTV)
-    // collateralValue = loanAmount * 10000 / 3000
-    const collateralValue = (loanAmount * 10000n) / BigInt(LOAN_CONFIG.FIXED_LTV_BPS);
+    // Calculate collateral value needed (at specified LTV)
+    // collateralValue = loanAmount * 10000 / ltvBps
+    const collateralValue = (loanAmount * 10000n) / BigInt(ltvBps);
 
     // Calculate XAUT needed
     // collateralRequired = (collateralValue * 1e8) / xautPrice
@@ -63,7 +64,7 @@ export function calculateLoan(
     const isValid = xautBalance >= collateralRequired;
     const errorMessage = isValid
         ? undefined
-        : `Emas tidak cukup. Butuh ${formatXAUT(collateralRequired)} XAUT, kamu punya ${formatXAUT(xautBalance)} XAUT`;
+        : `Insufficient gold. Need ${formatXAUT(collateralRequired)} XAUT, you have ${formatXAUT(xautBalance)} XAUT`;
 
     return {
         loanAmount,
@@ -78,11 +79,12 @@ export function calculateLoan(
 
 /**
  * Calculate maximum loan amount based on XAUT balance
- * Uses fixed 30% LTV
+ * Uses specified LTV (default 30%)
  */
 export function calculateMaxLoan(
     xautBalance: bigint,
-    xautPrice: bigint
+    xautPrice: bigint,
+    ltvBps: number = LOAN_CONFIG.FIXED_LTV_BPS
 ): bigint {
     if (xautBalance === 0n) return 0n;
 
@@ -90,8 +92,7 @@ export function calculateMaxLoan(
     const maxCollateralValue = (xautBalance * xautPrice) / BigInt(1e8);
 
     // maxLoan = (maxCollateralValue * LTV) / 10000
-    // At 30% LTV
-    const maxLoan = (maxCollateralValue * BigInt(LOAN_CONFIG.FIXED_LTV_BPS)) / 10000n;
+    const maxLoan = (maxCollateralValue * BigInt(ltvBps)) / 10000n;
 
     return maxLoan;
 }
@@ -104,13 +105,13 @@ export function isLoanAmountValid(
     maxLoan: bigint
 ): { isValid: boolean; errorMessage?: string } {
     if (loanAmount === 0n) {
-        return { isValid: false, errorMessage: 'Masukkan nominal pinjaman' };
+        return { isValid: false, errorMessage: 'Enter loan amount' };
     }
 
     if (loanAmount > maxLoan) {
         return {
             isValid: false,
-            errorMessage: `Maksimal pinjaman: ${formatRupiah(maxLoan)}`
+            errorMessage: `Maximum loan: ${formatRupiah(maxLoan)}`
         };
     }
 

@@ -42,13 +42,13 @@ export function BankSelector({
     return (
         <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30">
             <h3 className="text-lg font-semibold text-white mb-4">
-                🏦 TRANSFER KE
+                🏦 TRANSFER TO
             </h3>
 
             <div className="space-y-4">
                 {/* Bank Selection */}
                 <div>
-                    <label className="text-white/70 text-sm mb-2 block">Pilih Bank</label>
+                    <label className="text-white/70 text-sm mb-2 block">Select Bank</label>
                     <div className="grid grid-cols-4 gap-3">
                         {mainBanks.map((bank) => (
                             <button
@@ -76,7 +76,7 @@ export function BankSelector({
 
                 {/* Account Number */}
                 <div>
-                    <label className="text-white/70 text-sm mb-2 block">No. Rekening</label>
+                    <label className="text-white/70 text-sm mb-2 block">Account Number</label>
                     <Input
                         type="text"
                         placeholder="1234567890"
@@ -90,7 +90,7 @@ export function BankSelector({
 
                 {/* Account Name */}
                 <div>
-                    <label className="text-white/70 text-sm mb-2 block">Nama Pemilik Rekening</label>
+                    <label className="text-white/70 text-sm mb-2 block">Account Holder Name</label>
                     <Input
                         type="text"
                         placeholder="JOHN DOE"

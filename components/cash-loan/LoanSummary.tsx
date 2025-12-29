@@ -34,7 +34,7 @@ export function LoanSummary({
         return (
             <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30 text-center">
                 <p className="text-white/60">
-                    Masukkan nominal pinjaman untuk melihat ringkasan
+                    Enter loan amount to see summary
                 </p>
             </div>
         );
@@ -42,44 +42,44 @@ export function LoanSummary({
 
     return (
         <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30">
-            <h3 className="text-lg font-semibold text-white mb-4">📋 RINGKASAN PINJAMAN</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">📋 LOAN SUMMARY</h3>
 
             <div className="h-px bg-yellow-500/20 mb-4" />
 
             <div className="space-y-3">
-                {/* Nominal Pinjaman */}
+                {/* Loan Amount */}
                 <div className="flex items-center justify-between">
-                    <span className="text-white/70">Nominal pinjaman</span>
+                    <span className="text-white/70">Loan amount</span>
                     <span className="text-white font-semibold">{formatRupiah(calculation.loanAmount)}</span>
                 </div>
 
-                {/* Emas Dijaminkan */}
+                {/* Gold Collateral */}
                 <div className="flex items-center justify-between">
-                    <span className="text-white/70">Emas dijaminkan</span>
+                    <span className="text-white/70">Gold collateral</span>
                     <div className="text-right">
                         <p className="text-yellow-500 font-bold">{formatXAUT(calculation.collateralRequired)} XAUT</p>
                         <p className="text-white/60 text-sm">(~{formatRupiah(calculation.collateralValue)})</p>
                     </div>
                 </div>
 
-                {/* Biaya Layanan */}
+                {/* Service Fee */}
                 <div className="flex items-center justify-between">
-                    <span className="text-white/70">Biaya layanan (0.5%)</span>
+                    <span className="text-white/70">Service fee (0.5%)</span>
                     <span className="text-white/90">{formatRupiah(calculation.fee)}</span>
                 </div>
 
                 <div className="h-px bg-yellow-500/20" />
 
-                {/* Yang Diterima */}
+                {/* Amount Received */}
                 <div className="flex items-center justify-between">
-                    <span className="text-white font-semibold">✨ Yang kamu terima</span>
+                    <span className="text-white font-semibold">✨ You will receive</span>
                     <span className="text-green-500 font-bold text-lg">{formatRupiah(calculation.amountReceived)}</span>
                 </div>
 
-                {/* Transfer Ke */}
+                {/* Transfer To */}
                 {bank && accountNumber && (
                     <div className="flex items-center justify-between">
-                        <span className="text-white/70">Transfer ke</span>
+                        <span className="text-white/70">Transfer to</span>
                         <span className="text-white/90 font-semibold">{bank.shortName} - {accountNumber}</span>
                     </div>
                 )}

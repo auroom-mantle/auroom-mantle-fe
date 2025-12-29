@@ -34,7 +34,7 @@ export function SuccessModal({ isOpen, onClose, type, data }: SuccessModalProps)
                     <div className="text-center">
                         <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
                         <h2 className="text-2xl font-bold">
-                            {type === 'borrow' ? 'PINJAMAN BERHASIL!' : 'PELUNASAN BERHASIL!'}
+                            {type === 'borrow' ? 'LOAN SUCCESSFUL!' : 'REPAYMENT SUCCESSFUL!'}
                         </h2>
                     </div>
 
@@ -45,22 +45,22 @@ export function SuccessModal({ isOpen, onClose, type, data }: SuccessModalProps)
                         {type === 'borrow' ? (
                             <>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-white/70">Nominal pinjaman</span>
+                                    <span className="text-white/70">Loan amount</span>
                                     <span className="text-white font-semibold">{formatRupiah(data.loanAmount || 0n)}</span>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-white/70">Emas dijaminkan</span>
+                                    <span className="text-white/70">Gold collateral</span>
                                     <span className="text-yellow-500 font-semibold">{formatXAUT(data.collateral || 0n)} XAUT</span>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-white/70">Biaya layanan</span>
+                                    <span className="text-white/70">Service fee</span>
                                     <span className="text-white/90">{formatRupiah(data.fee || 0n)}</span>
                                 </div>
 
                                 <div className="h-px bg-yellow-500/20" />
 
                                 <div className="flex items-center justify-between">
-                                    <span className="text-white font-semibold">Transfer ke rekening</span>
+                                    <span className="text-white font-semibold">Transfer to account</span>
                                     <span className="text-green-500 font-bold">{formatRupiah(data.amountReceived || 0n)}</span>
                                 </div>
                                 {bank && (
@@ -70,7 +70,7 @@ export function SuccessModal({ isOpen, onClose, type, data }: SuccessModalProps)
                                             <span className="text-white/90">{bank.shortName} - {data.accountNumber}</span>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                            <span className="text-white/70">Nama</span>
+                                            <span className="text-white/70">Name</span>
                                             <span className="text-white/90">{data.accountName}</span>
                                         </div>
                                     </>
@@ -80,7 +80,7 @@ export function SuccessModal({ isOpen, onClose, type, data }: SuccessModalProps)
 
                                 {data.referenceNumber && (
                                     <div className="flex items-center justify-between">
-                                        <span className="text-white/70">No. Referensi</span>
+                                        <span className="text-white/70">Reference No.</span>
                                         <span className="text-white/90 font-mono text-sm">{data.referenceNumber}</span>
                                     </div>
                                 )}
@@ -88,18 +88,18 @@ export function SuccessModal({ isOpen, onClose, type, data }: SuccessModalProps)
                         ) : (
                             <>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-white/70">Hutang dilunasi</span>
+                                    <span className="text-white/70">Debt repaid</span>
                                     <span className="text-white font-semibold">{formatRupiah(data.loanAmount || 0n)}</span>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-white/70">Emas dikembalikan</span>
+                                    <span className="text-white/70">Gold returned</span>
                                     <span className="text-yellow-500 font-bold">{formatXAUT(data.collateral || 0n)} XAUT</span>
                                 </div>
 
                                 <div className="h-px bg-yellow-500/20" />
 
                                 <p className="text-green-400 text-center font-semibold">
-                                    Emas sudah kembali ke wallet kamu! 🥇
+                                    Your gold has been returned to your wallet! 🥇
                                 </p>
                             </>
                         )}
@@ -108,7 +108,7 @@ export function SuccessModal({ isOpen, onClose, type, data }: SuccessModalProps)
                     {type === 'borrow' && (
                         <div className="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30">
                             <p className="text-white/70 text-sm text-center">
-                                ⓘ Ini adalah simulasi. Di production, dana akan masuk ke rekening dalam 1-2 hari kerja.
+                                ⓘ This is a simulation. In production, funds will be transferred to your account within 1-2 business days.
                             </p>
                         </div>
                     )}
@@ -119,7 +119,7 @@ export function SuccessModal({ isOpen, onClose, type, data }: SuccessModalProps)
                             onClick={onClose}
                             className="w-full h-12 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold"
                         >
-                            🏠 Kembali ke Beranda
+                            🏠 Back to Home
                         </Button>
                     </div>
                 </div>

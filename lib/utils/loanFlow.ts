@@ -49,30 +49,30 @@ export async function executeLoanFlow(
 
     try {
         // Step 1: Check approval
-        onStepChange({ step: 'checking-approval', message: 'Memeriksa izin akses...' });
+        onStepChange({ step: 'checking-approval', message: 'Checking access permission...' });
         const allowance = await checkAllowance();
 
         // Step 2: Approve if needed
         if (allowance < collateralAmount) {
-            onStepChange({ step: 'approving', message: 'Mengizinkan akses emas...' });
+            onStepChange({ step: 'approving', message: 'Approving gold access...' });
             await approve();
         }
 
         // Step 3: Deposit and borrow
-        onStepChange({ step: 'borrowing', message: 'Menjaminkan emas...' });
+        onStepChange({ step: 'borrowing', message: 'Securing gold collateral...' });
         const txHash = await depositAndBorrow();
 
         // Step 4: Simulate transfer (3-5 seconds)
-        onStepChange({ step: 'transferring', message: 'Mentransfer ke rekening...', txHash });
+        onStepChange({ step: 'transferring', message: 'Transferring to account...', txHash });
         await simulateTransfer();
 
         // Step 5: Success
-        onStepChange({ step: 'success', message: 'Pinjaman berhasil!', txHash });
+        onStepChange({ step: 'success', message: 'Loan successful!', txHash });
 
     } catch (error) {
         onStepChange({
             step: 'error',
-            message: 'Terjadi kesalahan',
+            message: 'An error occurred',
             error: error instanceof Error ? error.message : 'Unknown error'
         });
         throw error;
@@ -101,28 +101,28 @@ export async function executeRepayFlow(
 
     try {
         // Step 1: Check approval
-        onStepChange({ step: 'checking-approval', message: 'Memeriksa izin akses...' });
+        onStepChange({ step: 'checking-approval', message: 'Checking access permission...' });
         const allowance = await checkAllowance();
 
         // Step 2: Approve if needed
         if (allowance < repayAmount) {
-            onStepChange({ step: 'approving', message: 'Mengizinkan akses...' });
+            onStepChange({ step: 'approving', message: 'Approving access...' });
             await approve();
         }
 
         // Step 3: Execute repay
-        onStepChange({ step: 'borrowing', message: 'Melunasi pinjaman...' });
+        onStepChange({ step: 'borrowing', message: 'Repaying loan...' });
 
         // For now, always use closePosition for simplicity
         const txHash = await closePosition();
 
         // Step 4: Success
-        onStepChange({ step: 'success', message: 'Pelunasan berhasil!', txHash });
+        onStepChange({ step: 'success', message: 'Repayment successful!', txHash });
 
     } catch (error) {
         onStepChange({
             step: 'error',
-            message: 'Terjadi kesalahan',
+            message: 'An error occurred',
             error: error instanceof Error ? error.message : 'Unknown error'
         });
         throw error;

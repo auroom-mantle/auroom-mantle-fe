@@ -59,7 +59,7 @@ export function RepayModal({
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="bg-zinc-900 border-2 border-yellow-500/30 text-white max-w-md">
                 <DialogHeader>
-                    <DialogTitle className="text-xl font-bold">💳 LUNASI PINJAMAN</DialogTitle>
+                    <DialogTitle className="text-xl font-bold">💳 REPAY LOAN</DialogTitle>
                 </DialogHeader>
 
                 <div className="space-y-4">
@@ -68,11 +68,11 @@ export function RepayModal({
                     {/* Current Status */}
                     <div className="space-y-2">
                         <div className="flex items-center justify-between">
-                            <span className="text-white/70">Hutang saat ini</span>
+                            <span className="text-white/70">Current debt</span>
                             <span className="text-white font-semibold">{formatRupiah(debt)}</span>
                         </div>
                         <div className="flex items-center justify-between">
-                            <span className="text-white/70">Emas dijaminkan</span>
+                            <span className="text-white/70">Gold collateral</span>
                             <span className="text-yellow-500 font-semibold">{formatXAUT(collateral)} XAUT</span>
                         </div>
                     </div>
@@ -81,7 +81,7 @@ export function RepayModal({
 
                     {/* Input */}
                     <div>
-                        <label className="text-white/70 text-sm mb-2 block">Berapa yang ingin dilunasi?</label>
+                        <label className="text-white/70 text-sm mb-2 block">How much do you want to repay?</label>
                         <div className="relative">
                             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 text-lg font-semibold">
                                 Rp
@@ -133,7 +133,7 @@ export function RepayModal({
                             disabled={isProcessing}
                             className="border-yellow-500/30 hover:bg-yellow-500/10 font-bold"
                         >
-                            LUNAS
+                            FULL
                         </Button>
                     </div>
 
@@ -142,13 +142,13 @@ export function RepayModal({
                     {/* Preview */}
                     {repayAmount > 0n && (
                         <div className="p-4 rounded-xl bg-black/40 border border-yellow-500/20 space-y-2">
-                            <p className="text-white/70 text-sm font-semibold mb-2">Setelah pelunasan:</p>
+                            <p className="text-white/70 text-sm font-semibold mb-2">After repayment:</p>
                             <div className="flex items-center justify-between text-sm">
-                                <span className="text-white/60">• Sisa hutang:</span>
+                                <span className="text-white/60">• Remaining debt:</span>
                                 <span className="text-white font-semibold">{formatRupiah(remainingDebt)}</span>
                             </div>
                             <div className="flex items-center justify-between text-sm">
-                                <span className="text-white/60">• Emas dikembalikan:</span>
+                                <span className="text-white/60">• Gold returned:</span>
                                 <span className="text-yellow-500 font-semibold">{formatXAUT(collateralReturned)} XAUT</span>
                             </div>
                         </div>
@@ -157,9 +157,9 @@ export function RepayModal({
                     {/* Balance Check */}
                     <div className={`p-3 rounded-lg ${hasSufficientBalance ? 'bg-green-500/10 border border-green-500/30' : 'bg-red-500/10 border border-red-500/30'}`}>
                         <div className="flex items-center justify-between">
-                            <span className="text-white/70 text-sm">Saldo kamu:</span>
+                            <span className="text-white/70 text-sm">Your balance:</span>
                             <span className={`font-semibold ${hasSufficientBalance ? 'text-green-400' : 'text-red-400'}`}>
-                                {formatRupiah(idrxBalance)} {hasSufficientBalance ? '✅ Cukup' : '❌ Tidak cukup'}
+                                {formatRupiah(idrxBalance)} {hasSufficientBalance ? '✅ Sufficient' : '❌ Insufficient'}
                             </span>
                         </div>
                     </div>
@@ -173,10 +173,10 @@ export function RepayModal({
                         {isProcessing ? (
                             <>
                                 <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                                Memproses...
+                                Processing...
                             </>
                         ) : (
-                            '💳 LUNASI & TARIK EMAS'
+                            '💳 REPAY & WITHDRAW GOLD'
                         )}
                     </Button>
                 </div>

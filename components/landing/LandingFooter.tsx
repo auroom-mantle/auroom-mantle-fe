@@ -4,14 +4,14 @@ import { Github, Twitter, Send } from 'lucide-react';
 export function LandingFooter() {
     const footerLinks = {
         product: [
-            { name: 'Swap', href: '/swap' },
+            { name: 'Pinjam Tunai', href: '/pinjam-tunai' },
+            { name: 'Beli Emas', href: '/swap' },
             { name: 'Vault', href: '/vault' },
-            { name: 'Admin', href: '/admin' },
         ],
         resources: [
-            { name: 'Docs', href: '#' },
-            { name: 'FAQ', href: '#' },
-            { name: 'GitHub', href: 'https://github.com' },
+            { name: 'FAQ', href: '#faq' },
+            { name: 'Cara Kerja', href: '#how-it-works' },
+            { name: 'Hubungi Kami', href: '#' },
         ],
         legal: [
             { name: 'Terms', href: '#' },
@@ -37,7 +37,7 @@ export function LandingFooter() {
                                 AuRoom
                             </h3>
                             <p className="text-sm text-white/60 mt-2">
-                                From Rupiah to Yield-Bearing Gold
+                                Pegadaian Digital untuk Era Modern
                             </p>
                         </div>
                     </div>
@@ -117,13 +117,15 @@ export function LandingFooter() {
                     {/* Copyright & Disclaimer */}
                     <div className="text-center space-y-2">
                         <p className="text-sm text-white/60">
-                            Built for Mantle Global Hackathon 2025
-                        </p>
-                        <p className="text-sm text-white/60">
-                            © 2024 AuRoom Protocol. All rights reserved.
+                            © 2025 AuRoom Protocol. Built for Mantle SEA Hackathon.
                         </p>
                         <p className="text-sm text-yellow-500 font-medium">
-                            ⚠️ This is a testnet demo. Do not use real funds.
+                            ⚠️ DISCLAIMER
+                        </p>
+                        <p className="text-xs text-white/60 max-w-2xl mx-auto">
+                            AuRoom adalah platform testnet untuk demonstrasi teknologi.
+                            Semua transaksi menggunakan token testnet tanpa nilai riil.
+                            Bukan merupakan saran investasi atau keuangan.
                         </p>
                     </div>
                 </div>

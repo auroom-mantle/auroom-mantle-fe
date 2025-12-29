@@ -13,6 +13,10 @@ interface LandingStats {
     estimatedApy: string; // Estimated APY
     xautPrice: string; // XAUT price in USD (approximate)
     xautPriceIdrx: string; // XAUT price in IDRX
+    // Borrowing Protocol Stats (V2)
+    totalCollateral: string; // Total XAUT collateral in borrowing protocol
+    totalCollateralIDR: string; // Total collateral value in IDR
+    totalLoans: string; // Estimated total loans (collateral * avg LTV)
     isLoading: boolean;
     error: Error | null;
 }
@@ -83,6 +87,54 @@ export function useLandingStats(autoRefresh = true): LandingStats {
         return () => clearInterval(interval);
     }, [autoRefresh]);
 
+    // Fetch XAUT balance of BorrowingProtocolV2 (total collateral)
+    const { data: borrowingCollateral, isLoading: loadingBorrowingCollateral } = useReadContract({
+        address: CONTRACTS.XAUT,
+        abi: [
+            {
+                inputs: [{ name: 'account', type: 'address' }],
+                name: 'balanceOf',
+                outputs: [{ name: '', type: 'uint256' }],
+                stateMutability: 'view',
+                type: 'function',
+            },
+        ],
+        functionName: 'balanceOf',
+        args: [CONTRACTS.BorrowingProtocolV2],
+        query: {
+            refetchInterval: autoRefresh ? 30000 : false,
+        },
+    });
+
+    // Calculate borrowing stats
+    const totalCollateral = borrowingCollateral
+        ? formatUnits(borrowingCollateral as bigint, 6)
+        : '0';
+
+    const collateralInIDR = borrowingCollateral
+        ? parseFloat(formatUnits(borrowingCollateral as bigint, 6)) * 41850000 // XAUT price in IDR
+        : 0;
+
+    const totalCollateralIDR = collateralInIDR > 0
+        ? collateralInIDR.toLocaleString('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        })
+        : 'Rp 0';
+
+    // Estimate total loans (assuming average 30% LTV)
+    const estimatedLoans = collateralInIDR * 0.3;
+    const totalLoans = estimatedLoans > 0
+        ? estimatedLoans.toLocaleString('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        })
+        : 'Rp 0';
+
     return {
         tvl,
         tvlUsd,
@@ -90,7 +142,10 @@ export function useLandingStats(autoRefresh = true): LandingStats {
         estimatedApy,
         xautPrice,
         xautPriceIdrx,
-        isLoading,
+        totalCollateral,
+        totalCollateralIDR,
+        totalLoans,
+        isLoading: isLoading || loadingBorrowingCollateral,
         error: null,
     };
 }

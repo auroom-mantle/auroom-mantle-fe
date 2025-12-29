@@ -1,54 +1,35 @@
-import { Hero } from '@/components/landing/Hero';
-import { WhatIsAuRoom } from '@/components/landing/WhatIsAuRoom';
-import { UnderstandingAssets } from '@/components/landing/UnderstandingAssets';
-import { AuRoomVsDex } from '@/components/landing/AuRoomVsDex';
-import { WhyRWA } from '@/components/landing/WhyRWA';
-import { HowYieldWorks } from '@/components/landing/HowYieldWorks';
-import { HowItWorks } from '@/components/landing/HowItWorks';
-import { LiveStats } from '@/components/landing/LiveStats';
-import { BuiltWith } from '@/components/landing/BuiltWith';
-import { SecurityCompliance } from '@/components/landing/SecurityCompliance';
-import { FinalCTA } from '@/components/landing/FinalCTA';
-import { LandingFooter } from '@/components/landing/LandingFooter';
+// V2 Landing Page - Pinjam Tunai Focus
+import { HeroSection } from '@/components/landing/v2/HeroSection';
+import { ProblemSolutionSection } from '@/components/landing/v2/ProblemSolutionSection';
+import { HowItWorksSection } from '@/components/landing/v2/HowItWorksSection';
+import { BenefitsSection } from '@/components/landing/v2/BenefitsSection';
+import { TrustSection } from '@/components/landing/v2/TrustSection';
+import { FAQSection } from '@/components/landing/v2/FAQSection';
+import { CTASection } from '@/components/landing/v2/CTASection';
 
 export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* 1. Hero Section */}
-      <Hero />
+      <HeroSection />
 
-      {/* 2. What is AuRoom */}
-      <WhatIsAuRoom />
+      {/* 2. Problem & Solution */}
+      <ProblemSolutionSection />
 
-      {/* 3. Understanding the Assets */}
-      <UnderstandingAssets />
+      {/* 3. How It Works */}
+      <HowItWorksSection />
 
-      {/* 4. AuRoom vs Regular DEX ⭐ KEY DIFFERENTIATOR */}
-      <AuRoomVsDex />
+      {/* 4. Benefits / Why AuRoom */}
+      <BenefitsSection />
 
-      {/* 5. Why RWA Matters */}
-      <WhyRWA />
+      {/* 5. Trust Indicators (Live Stats + Security + Tech Partners) */}
+      <TrustSection />
 
-      {/* 6. How Yield is Generated */}
-      <HowYieldWorks />
+      {/* 6. FAQ */}
+      <FAQSection />
 
-      {/* 7. How It Works */}
-      <HowItWorks />
-
-      {/* 8. Live Protocol Stats */}
-      <LiveStats />
-
-      {/* 9. Built With */}
-      <BuiltWith />
-
-      {/* 10. Security & Compliance */}
-      <SecurityCompliance />
-
-      {/* 11. Final CTA */}
-      <FinalCTA />
-
-      {/* 12. Footer */}
-      <LandingFooter />
+      {/* 7. Final CTA */}
+      <CTASection />
     </div>
   );
 }
