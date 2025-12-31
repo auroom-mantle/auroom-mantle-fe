@@ -4,7 +4,7 @@ import { Github, Twitter, Send } from 'lucide-react';
 export function LandingFooter() {
     const footerLinks = {
         product: [
-            { name: 'Pinjam Tunai', href: '/pinjam-tunai' },
+            { name: 'Pinjam Tunai', href: '/cash-loan' },
             { name: 'Beli Emas', href: '/swap' },
             { name: 'Vault', href: '/vault' },
         ],

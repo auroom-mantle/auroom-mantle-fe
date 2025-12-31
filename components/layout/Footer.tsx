@@ -6,7 +6,7 @@ import { Github, Twitter, Send } from 'lucide-react';
 export function Footer() {
     const footerLinks = {
         product: [
-            { name: 'Cash Loans', href: '/pinjam-tunai' },
+            { name: 'Cash Loans', href: '/cash-loan' },
             { name: 'Buy Gold', href: '/swap' },
             { name: 'Vault', href: '/vault' },
         ],

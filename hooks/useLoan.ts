@@ -14,6 +14,7 @@ import {
     useBorrowFeeV2,
     useUserPositionV2,
     useDepositAndBorrow,
+    useRepayAndWithdraw,
     useClosePosition,
 } from './contracts/useBorrowingProtocolV2';
 import {
@@ -164,10 +165,10 @@ export function useBorrow() {
 }
 
 /**
- * Close position hook (for full repayment)
+ * Repay hook (supports partial and full repayment)
  */
 export function useRepay() {
-    const repay = useClosePosition();
+    const repay = useRepayAndWithdraw();
 
     return {
         execute: repay.execute,
@@ -177,5 +178,22 @@ export function useRepay() {
         error: repay.error,
         hash: repay.hash,
         reset: repay.reset,
+    };
+}
+
+/**
+ * Close position hook (for full repayment - closes entire position)
+ */
+export function useClosePositionHook() {
+    const close = useClosePosition();
+
+    return {
+        execute: close.execute,
+        isPending: close.isPending,
+        isConfirming: close.isConfirming,
+        isSuccess: close.isSuccess,
+        error: close.error,
+        hash: close.hash,
+        reset: close.reset,
     };
 }

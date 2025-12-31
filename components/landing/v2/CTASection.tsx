@@ -63,7 +63,7 @@ export function CTASection() {
                             className="mb-6"
                         >
                             <Link
-                                href="/pinjam-tunai"
+                                href="/cash-loan"
                                 className="inline-flex items-center gap-2 bg-[#F5A623] hover:bg-[#F5A623]/90 text-black font-bold text-lg px-10 py-5 rounded-xl transition-all duration-300 shadow-lg shadow-[#F5A623]/30 hover:shadow-[#F5A623]/50 hover:scale-105"
                             >
                                 🚀 Borrow Now

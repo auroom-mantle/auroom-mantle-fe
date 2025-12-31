@@ -119,7 +119,7 @@ export function HowItWorksSection() {
                     className="text-center mt-12"
                 >
                     <Link
-                        href="/pinjam-tunai"
+                        href="/cash-loan"
                         className="inline-flex items-center gap-2 bg-[#F5A623] hover:bg-[#F5A623]/90 text-black font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg shadow-[#F5A623]/20 hover:shadow-[#F5A623]/40 hover:scale-105"
                     >
                         🚀 Start Borrowing Now

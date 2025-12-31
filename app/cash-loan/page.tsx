@@ -98,7 +98,9 @@ export default function CashLoanPage() {
     // Handle repay
     const handleRepay = (amount: bigint, isFullRepay: boolean) => {
         setFlowState({ step: 'borrowing', message: 'Repaying loan...' });
-        repay.execute();
+        // If full repay, withdraw all collateral. Otherwise, no withdrawal
+        const withdrawAmount = isFullRepay ? activeLoan.collateral : 0n;
+        repay.execute(amount, withdrawAmount);
     };
 
     // Refetch allowance after approval

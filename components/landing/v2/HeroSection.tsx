@@ -64,7 +64,7 @@ export function HeroSection() {
                             className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12"
                         >
                             <Link
-                                href="/pinjam-tunai"
+                                href="/cash-loan"
                                 className="group bg-[#F5A623] hover:bg-[#F5A623]/90 text-black font-semibold px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-[#F5A623]/20 hover:shadow-[#F5A623]/40 hover:scale-105"
                             >
                                 🚀 Borrow Now
