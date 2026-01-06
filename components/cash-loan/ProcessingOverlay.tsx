@@ -1,7 +1,7 @@
 'use client';
 
 import { type LoanFlowState } from '@/lib/utils/loanFlow';
-import { Loader2, CheckCircle2, XCircle } from 'lucide-react';
+import { Loader2, XCircle } from 'lucide-react';
 
 interface ProcessingOverlayProps {
     state: LoanFlowState;
@@ -9,22 +9,6 @@ interface ProcessingOverlayProps {
 
 export function ProcessingOverlay({ state }: ProcessingOverlayProps) {
     if (state.step === 'idle') return null;
-
-    const steps = [
-        { id: 'checking-approval', label: 'Checking access permission' },
-        { id: 'approving', label: 'Approving gold access' },
-        { id: 'borrowing', label: 'Securing gold collateral' },
-        { id: 'transferring', label: 'Transferring to account' },
-    ];
-
-    const getStepStatus = (stepId: string) => {
-        const currentIndex = steps.findIndex(s => s.id === state.step);
-        const stepIndex = steps.findIndex(s => s.id === stepId);
-
-        if (stepIndex < currentIndex) return 'completed';
-        if (stepIndex === currentIndex) return 'active';
-        return 'pending';
-    };
 
     return (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -39,45 +23,21 @@ export function ProcessingOverlay({ state }: ProcessingOverlayProps) {
                         )}
                     </div>
                 ) : (
-                    // Processing State
-                    <div className="space-y-6">
+                    // Processing State - Simplified
+                    <div className="space-y-6 text-center">
                         {/* Spinner */}
-                        <div className="text-center">
-                            <Loader2 className="w-12 h-12 text-yellow-500 animate-spin mx-auto mb-4" />
-                            <h3 className="text-xl font-bold text-white">{state.message}</h3>
-                        </div>
+                        <Loader2 className="w-16 h-16 text-yellow-500 animate-spin mx-auto" />
 
-                        {/* Steps */}
-                        <div className="space-y-3">
-                            {steps.map((step, index) => {
-                                const status = getStepStatus(step.id);
-                                return (
-                                    <div key={step.id} className="flex items-center gap-3">
-                                        {/* Icon */}
-                                        <div className="flex-shrink-0">
-                                            {status === 'completed' ? (
-                                                <CheckCircle2 className="w-5 h-5 text-green-500" />
-                                            ) : status === 'active' ? (
-                                                <Loader2 className="w-5 h-5 text-yellow-500 animate-spin" />
-                                            ) : (
-                                                <div className="w-5 h-5 rounded-full border-2 border-white/30" />
-                                            )}
-                                        </div>
-
-                                        {/* Label */}
-                                        <span className={`text-sm ${status === 'completed' ? 'text-green-400' :
-                                                status === 'active' ? 'text-white font-semibold' :
-                                                    'text-white/40'
-                                            }`}>
-                                            Step {index + 1}: {step.label}
-                                        </span>
-                                    </div>
-                                );
-                            })}
+                        {/* Message */}
+                        <div>
+                            <h3 className="text-2xl font-bold text-white mb-2">{state.message}</h3>
+                            <p className="text-white/60 text-sm">
+                                Please confirm the transaction in your wallet
+                            </p>
                         </div>
 
                         {/* Warning */}
-                        <p className="text-white/50 text-xs text-center">
+                        <p className="text-white/50 text-xs">
                             ⓘ Please don't close this page
                         </p>
                     </div>

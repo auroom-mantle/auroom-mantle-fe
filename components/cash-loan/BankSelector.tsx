@@ -83,9 +83,25 @@ export function BankSelector({
                         value={accountNumber}
                         onChange={handleAccountNumberChange}
                         disabled={disabled}
-                        className="bg-black/40 border-yellow-500/30 text-white h-12"
-                        maxLength={20}
+                        className={cn(
+                            "bg-black/40 border-yellow-500/30 text-white h-12",
+                            accountNumber && accountNumber.length < 10 && "border-red-500/50",
+                            accountNumber && accountNumber.length >= 10 && accountNumber.length <= 12 && "border-green-500/50"
+                        )}
+                        maxLength={12}
                     />
+                    <p className="text-xs text-white/50 mt-1">
+                        {accountNumber.length > 0 && (
+                            accountNumber.length < 10 ? (
+                                <span className="text-red-400">⚠️ Minimum 10 digits ({accountNumber.length}/10)</span>
+                            ) : accountNumber.length > 12 ? (
+                                <span className="text-red-400">⚠️ Maximum 12 digits</span>
+                            ) : (
+                                <span className="text-green-400">✓ Valid ({accountNumber.length} digits)</span>
+                            )
+                        )}
+                        {accountNumber.length === 0 && "Enter 10-12 digit account number"}
+                    </p>
                 </div>
 
                 {/* Account Name */}

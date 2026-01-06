@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { formatRupiah, formatXAUT } from '@/lib/utils/format';
 import { getBankById } from '@/lib/config/banks';
@@ -21,14 +21,18 @@ interface SuccessModalProps {
         referenceNumber?: string;
         txHash?: string;
     };
+    onRedeem?: () => void;
 }
 
-export function SuccessModal({ isOpen, onClose, type, data }: SuccessModalProps) {
+export function SuccessModal({ isOpen, onClose, type, data, onRedeem }: SuccessModalProps) {
     const bank = data.bankId ? getBankById(data.bankId) : null;
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="bg-zinc-900 border-2 border-yellow-500/30 text-white max-w-md">
+                <DialogTitle className="sr-only">
+                    {type === 'borrow' ? 'Loan Successful' : 'Repayment Successful'}
+                </DialogTitle>
                 <div className="space-y-6 py-4">
                     {/* Icon */}
                     <div className="text-center">
@@ -115,6 +119,14 @@ export function SuccessModal({ isOpen, onClose, type, data }: SuccessModalProps)
 
                     {/* Actions */}
                     <div className="space-y-2">
+                        {type === 'borrow' && onRedeem && (
+                            <Button
+                                onClick={onRedeem}
+                                className="w-full h-12 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold"
+                            >
+                                💸 Redeem to Bank Account
+                            </Button>
+                        )}
                         <Button
                             onClick={onClose}
                             className="w-full h-12 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold"

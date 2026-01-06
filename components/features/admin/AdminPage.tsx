@@ -8,9 +8,10 @@ import { VaultTab } from './vault/VaultTab';
 import { IdentityTab } from './identity/IdentityTab';
 import { InfoTab } from './info/InfoTab';
 import { DebugTab } from './debug/DebugTab';
+import { KYCReviewTab } from './kyc/KYCReviewTab';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useUserRole } from '@/hooks/admin/useUserRole';
-import { Droplet, Droplets, Vault, UserCheck, Info, Wrench } from 'lucide-react';
+import { Droplet, Droplets, Vault, UserCheck, Info, Wrench, FileCheck } from 'lucide-react';
 
 /**
  * AdminPage - Main admin helper page component
@@ -23,13 +24,14 @@ export function AdminPage() {
     const canAccessLiquidity = ['verified', 'admin', 'owner'].includes(role);
     const canAccessVault = ['admin', 'owner'].includes(role);
     const canAccessIdentity = ['admin', 'owner'].includes(role);
+    const canAccessKYC = ['admin', 'owner'].includes(role);
 
     return (
         <div className="container mx-auto py-8 space-y-8">
             <AdminDashboard />
 
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6">
+                <TabsList className="grid w-full grid-cols-3 lg:grid-cols-7">
                     <TabsTrigger value="faucet" className="flex items-center gap-2">
                         <Droplet className="h-4 w-4" />
                         <span className="hidden sm:inline">Faucet</span>
@@ -65,6 +67,15 @@ export function AdminPage() {
                     <TabsTrigger value="info" className="flex items-center gap-2">
                         <Info className="h-4 w-4" />
                         <span className="hidden sm:inline">Info</span>
+                    </TabsTrigger>
+
+                    <TabsTrigger
+                        value="kyc"
+                        disabled={!canAccessKYC}
+                        className="flex items-center gap-2"
+                    >
+                        <FileCheck className="h-4 w-4" />
+                        <span className="hidden sm:inline">KYC</span>
                     </TabsTrigger>
 
                     <TabsTrigger value="debug" className="flex items-center gap-2">
@@ -116,6 +127,18 @@ export function AdminPage() {
 
                     <TabsContent value="info">
                         <InfoTab />
+                    </TabsContent>
+
+                    <TabsContent value="kyc">
+                        {canAccessKYC ? (
+                            <KYCReviewTab />
+                        ) : (
+                            <div className="text-center p-8 border rounded-lg">
+                                <p className="text-muted-foreground">
+                                    This tab requires admin access.
+                                </p>
+                            </div>
+                        )}
                     </TabsContent>
 
                     <TabsContent value="debug">

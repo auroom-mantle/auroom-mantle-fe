@@ -1,10 +1,32 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useAccount } from 'wagmi';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { useEffect } from 'react';
 
 export function HeroSection() {
+    const router = useRouter();
+    const { isConnected } = useAccount();
+    const { openConnectModal } = useConnectModal();
+
+    // Auto-redirect to cash-loan when wallet connects
+    useEffect(() => {
+        if (isConnected) {
+            router.push('/cash-loan');
+        }
+    }, [isConnected, router]);
+
+    const handleBorrowNow = () => {
+        if (isConnected) {
+            router.push('/cash-loan');
+        } else {
+            openConnectModal?.();
+        }
+    };
+
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-black via-black/95 to-black/90">
             {/* Background decoration */}
@@ -63,13 +85,13 @@ export function HeroSection() {
                             transition={{ duration: 0.8, delay: 0.5 }}
                             className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12"
                         >
-                            <Link
-                                href="/cash-loan"
+                            <button
+                                onClick={handleBorrowNow}
                                 className="group bg-[#F5A623] hover:bg-[#F5A623]/90 text-black font-semibold px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-[#F5A623]/20 hover:shadow-[#F5A623]/40 hover:scale-105"
                             >
                                 🚀 Borrow Now
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                            </Link>
+                            </button>
 
                             <button
                                 onClick={() => {
