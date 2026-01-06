@@ -4,7 +4,6 @@ import "./globals.css";
 import '@rainbow-me/rainbowkit/styles.css';
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { DemoBanner } from "@/components/redeem/DemoBanner";
 import { ClientProviders } from "@/components/ClientProviders";
 
 const geistSans = Geist({
@@ -36,7 +35,6 @@ export default function RootLayout({
         <ClientProviders>
           <div className="flex min-h-screen flex-col">
             <Header />
-            <DemoBanner />
             <main className="flex-1">{children}</main>
             <Footer />
           </div>

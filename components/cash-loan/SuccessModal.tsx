@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { formatRupiah, formatXAUT } from '@/lib/utils/format';
 import { getBankById } from '@/lib/config/banks';
@@ -30,6 +30,9 @@ export function SuccessModal({ isOpen, onClose, type, data, onRedeem }: SuccessM
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="bg-zinc-900 border-2 border-yellow-500/30 text-white max-w-md">
+                <DialogTitle className="sr-only">
+                    {type === 'borrow' ? 'Loan Successful' : 'Repayment Successful'}
+                </DialogTitle>
                 <div className="space-y-6 py-4">
                     {/* Icon */}
                     <div className="text-center">

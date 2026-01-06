@@ -3,9 +3,9 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useRedeemSelfService } from '@/hooks/useRedeemSelfService';
 import { useRedeemTreasuryAssisted } from '@/hooks/useRedeemTreasuryAssisted';
@@ -24,12 +24,13 @@ interface RedeemModalProps {
         accountName: string;
     };
     txHash?: string;
+    prefilledAmount?: bigint; // Amount from wizard (in IDRX units)
 }
 
 type RedeemMode = 'self-service' | 'treasury-assisted';
 type Step = 'select-mode' | 'enter-amount' | 'confirm' | 'processing' | 'success' | 'error';
 
-const SELF_SERVICE_LIMIT = 250_000_000; // 250M IDR
+const SELF_SERVICE_LIMIT = 250_000_000n * BigInt(1e6); // 250M IDR in IDRX units
 
 export function RedeemModal({
     isOpen,
@@ -37,6 +38,7 @@ export function RedeemModal({
     idrxBalance,
     bankDetails,
     txHash,
+    prefilledAmount,
 }: RedeemModalProps) {
     const { address } = useAccount();
     const { isDemoMode } = useBackendHealth();
@@ -48,9 +50,25 @@ export function RedeemModal({
     const [amountInput, setAmountInput] = useState('');
     const [custRefNumber, setCustRefNumber] = useState('');
 
-    const amount = amountInput ? parseRupiahInput(amountInput) : 0n;
-    const amountNumber = Number(amount);
-    const isSelfServiceEligible = amountNumber <= SELF_SERVICE_LIMIT;
+    // Use prefilled amount if available, otherwise parse from input
+    const amount = prefilledAmount || (amountInput ? parseRupiahInput(amountInput) : 0n);
+    const isSelfServiceEligible = amount <= SELF_SERVICE_LIMIT;
+
+    // Auto-skip to confirm step when prefilledAmount is provided
+    useEffect(() => {
+        if (isOpen && prefilledAmount) {
+            // Auto-determine mode based on amount
+            const autoMode: RedeemMode = prefilledAmount > SELF_SERVICE_LIMIT
+                ? 'treasury-assisted'
+                : 'self-service';
+            setMode(autoMode);
+            setStep('confirm');
+        } else if (isOpen && !prefilledAmount) {
+            // Reset to select mode if no prefilled amount
+            setStep('select-mode');
+            setMode('self-service');
+        }
+    }, [isOpen, prefilledAmount]);
 
     const handleModeSelect = (selectedMode: RedeemMode) => {
         setMode(selectedMode);
@@ -63,7 +81,7 @@ export function RedeemModal({
         }
 
         // Auto-select mode based on amount
-        if (amountNumber > SELF_SERVICE_LIMIT) {
+        if (amount > SELF_SERVICE_LIMIT) {
             setMode('treasury-assisted');
         }
 
@@ -82,7 +100,7 @@ export function RedeemModal({
             if (mode === 'self-service') {
                 const result = await selfService.submitRedeem({
                     txHash: txHash || '0x0000000000000000000000000000000000000000000000000000000000000000',
-                    amount: amountNumber.toString(),
+                    amount: (Number(amount) / 1e6).toString(),
                     bankAccount: bankDetails.accountNumber,
                     bankCode,
                     bankName,
@@ -96,7 +114,7 @@ export function RedeemModal({
                 }
             } else {
                 const result = await treasury.submitTreasuryRedeem({
-                    amount: amountNumber.toString(),
+                    amount: (Number(amount) / 1e6).toString(),
                     bankAccount: bankDetails.accountNumber,
                     bankCode,
                     bankName,
@@ -116,6 +134,7 @@ export function RedeemModal({
 
     const handleClose = () => {
         setStep('select-mode');
+        setMode('self-service');
         setAmountInput('');
         setCustRefNumber('');
         selfService.reset();
@@ -200,13 +219,21 @@ export function RedeemModal({
                         {/* Amount Input */}
                         <div>
                             <label className="text-white/70 text-sm mb-2 block">Redeem Amount</label>
-                            <input
-                                type="text"
-                                value={amountInput}
-                                onChange={(e) => setAmountInput(e.target.value)}
-                                placeholder="Enter amount in IDR"
-                                className="w-full h-14 px-4 rounded-xl bg-zinc-800/50 border-2 border-yellow-500/30 focus:border-yellow-500 text-white text-lg outline-none"
-                            />
+                            <div className="relative">
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 text-lg font-semibold">
+                                    Rp
+                                </div>
+                                <input
+                                    type="text"
+                                    value={amountInput ? Number(amountInput).toLocaleString('id-ID') : ''}
+                                    onChange={(e) => {
+                                        const rawValue = e.target.value.replace(/[^\d]/g, '');
+                                        setAmountInput(rawValue);
+                                    }}
+                                    placeholder="0"
+                                    className="w-full h-14 pl-14 pr-4 rounded-xl bg-zinc-800/50 border-2 border-yellow-500/30 focus:border-yellow-500 text-white text-lg text-right font-semibold outline-none"
+                                />
+                            </div>
                             <div className="flex gap-2 mt-2">
                                 <button
                                     onClick={() => setAmountInput(formatRupiah(idrxBalance / 4n).replace(/[^\d]/g, ''))}
@@ -230,7 +257,7 @@ export function RedeemModal({
                         </div>
 
                         {/* Warning for large amounts */}
-                        {amountNumber > SELF_SERVICE_LIMIT && (
+                        {amount > SELF_SERVICE_LIMIT && (
                             <div className="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30">
                                 <div className="flex items-start gap-3">
                                     <AlertCircle className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
@@ -250,7 +277,7 @@ export function RedeemModal({
                             <Button
                                 onClick={() => setStep('select-mode')}
                                 variant="outline"
-                                className="flex-1 h-12 border-yellow-500/30 text-white hover:bg-zinc-800"
+                                className="flex-1 h-12 bg-zinc-900 border-yellow-500/30 text-white hover:bg-zinc-800"
                             >
                                 Back
                             </Button>
@@ -318,9 +345,16 @@ export function RedeemModal({
 
                         <div className="flex gap-3">
                             <Button
-                                onClick={() => setStep('enter-amount')}
+                                onClick={() => {
+                                    // If amount is prefilled from wizard, close modal instead of going back
+                                    if (prefilledAmount) {
+                                        handleClose();
+                                    } else {
+                                        setStep('enter-amount');
+                                    }
+                                }}
                                 variant="outline"
-                                className="flex-1 h-12 border-yellow-500/30 text-white hover:bg-zinc-800"
+                                className="flex-1 h-12 bg-zinc-900 border-yellow-500/30 text-white hover:bg-zinc-800"
                             >
                                 Back
                             </Button>
@@ -408,7 +442,7 @@ export function RedeemModal({
                             <Button
                                 onClick={() => setStep('confirm')}
                                 variant="outline"
-                                className="flex-1 h-12 border-yellow-500/30 text-white hover:bg-zinc-800"
+                                className="flex-1 h-12 bg-zinc-900 border-yellow-500/30 text-white hover:bg-zinc-800"
                             >
                                 Try Again
                             </Button>
@@ -427,6 +461,7 @@ export function RedeemModal({
     return (
         <Dialog open={isOpen} onOpenChange={handleClose}>
             <DialogContent className="bg-zinc-900 border-2 border-yellow-500/30 text-white max-w-md">
+                <DialogTitle className="sr-only">Redeem IDRX</DialogTitle>
                 <div className="py-4">{renderContent()}</div>
             </DialogContent>
         </Dialog>

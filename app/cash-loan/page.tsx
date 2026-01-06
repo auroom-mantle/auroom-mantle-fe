@@ -2,18 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { GoldBalanceCard } from '@/components/cash-loan/GoldBalanceCard';
-import { LoanAmountInput } from '@/components/cash-loan/LoanAmountInput';
-import { BankSelector } from '@/components/cash-loan/BankSelector';
-import { LoanSummary } from '@/components/cash-loan/LoanSummary';
-import { ActiveLoanCard } from '@/components/cash-loan/ActiveLoanCard';
-import { RepayModal } from '@/components/cash-loan/RepayModal';
 import { ProcessingOverlay } from '@/components/cash-loan/ProcessingOverlay';
 import { SuccessModal } from '@/components/cash-loan/SuccessModal';
 import { RedeemModal } from '@/components/redeem/RedeemModal';
-import { LTVSelector } from '@/components/cash-loan/LTVSelector';
-import { ProgressSteps } from '@/components/cash-loan/ProgressSteps';
+import { CashLoanWizard } from '@/components/cash-loan/CashLoanWizard';
 import {
     useGoldBalance,
     useGoldPrice,
@@ -25,12 +19,19 @@ import {
     useBorrow,
     useRepay,
 } from '@/hooks/useLoan';
-import { parseRupiahInput, formatRupiah } from '@/lib/utils/format';
+import { parseRupiahInput } from '@/lib/utils/format';
 import { type LoanFlowState, generateReferenceNumber } from '@/lib/utils/loanFlow';
-import { Loader2 } from 'lucide-react';
 
 export default function CashLoanPage() {
+    const router = useRouter();
     const { address, isConnected } = useAccount();
+
+    // Redirect to landing page if wallet disconnects
+    useEffect(() => {
+        if (!isConnected) {
+            router.push('/');
+        }
+    }, [isConnected, router]);
 
     // State
     const [loanInput, setLoanInput] = useState('');
@@ -71,25 +72,7 @@ export default function CashLoanPage() {
     const borrow = useBorrow();
     const repay = useRepay();
 
-    // Check if form is valid
-    const isFormValid =
-        loanAmount > 0n &&
-        calculation.isValid &&
-        selectedBank !== '' &&
-        accountNumber !== '' &&
-        accountName !== '';
-
     const needsApproval = xautApproval.allowance < calculation.collateralRequired;
-
-    // Calculate current step for progress indicator
-    const getCurrentStep = () => {
-        if (!loanInput || loanAmount === 0n) return 1; // Need to enter amount
-        if (selectedBank === '' || accountNumber === '' || accountName === '') return 3; // Need bank details
-        if (!calculation.isValid) return 4; // Ready to review
-        return 4; // All filled, ready to submit
-    };
-
-    const currentStep = getCurrentStep();
 
     // Handle approve
     const handleApprove = () => {
@@ -117,7 +100,10 @@ export default function CashLoanPage() {
         }
     }, [xautApproval.isSuccess]);
 
-    // Handle borrow success
+    // Handle borrow success - DISABLED: Wizard handles transition to Step 2
+    // The wizard will automatically move to Step 2 when borrowSuccess is true
+    // Success modal will only show after Step 2 completion (wizard onComplete callback)
+    /*
     useEffect(() => {
         if (borrow.isSuccess) {
             const referenceNumber = generateReferenceNumber();
@@ -149,6 +135,7 @@ export default function CashLoanPage() {
             activeLoan.refetch();
         }
     }, [borrow.isSuccess]);
+    */
 
     // Handle repay success
     useEffect(() => {
@@ -169,7 +156,7 @@ export default function CashLoanPage() {
         return (
             <div className="min-h-screen bg-black py-12 px-4">
                 <div className="max-w-4xl mx-auto text-center">
-                    <h1 className="text-4xl font-bold text-white mb-4">💰 INSTANT CASH LOAN</h1>
+                    <h1 className="text-4xl font-bold text-white mb-4">INSTANT CASH LOAN</h1>
                     <p className="text-white/70 text-lg mb-8">
                         Secure your gold, receive cash to your bank account
                     </p>
@@ -185,134 +172,75 @@ export default function CashLoanPage() {
         <div className="min-h-screen bg-black py-12 px-4">
             <div className="max-w-4xl mx-auto space-y-8">
                 {/* Header */}
-                <div className="text-center space-y-2">
-                    <h1 className="text-4xl font-bold text-white flex items-center justify-center gap-3">
-                        <span className="text-5xl">💰</span>
-                        INSTANT CASH LOAN
+                <div className="text-center mb-8">
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 bg-clip-text text-transparent mb-2">
+                        Cash Loan
                     </h1>
-                    <p className="text-white/70 text-lg">
-                        Secure your digital gold, receive cash to your bank account
-                    </p>
-                    <p className="text-white/50 text-sm">
-                        ✨ Like a pawn shop, but digital and faster
-                    </p>
+                    <p className="text-white/60">Secure your digital gold, receive cash to your bank account</p>
                 </div>
 
-                {/* Progress Steps */}
-                <ProgressSteps currentStep={currentStep} />
-
-                {/* Active Loan Card */}
-                {activeLoan.hasActiveLoan && (
-                    <ActiveLoanCard
-                        collateral={activeLoan.collateral}
-                        debt={activeLoan.debt}
-                        collateralValue={activeLoan.collateralValue}
-                        ltv={activeLoan.ltv}
-                        onRepayClick={() => setShowRepayModal(true)}
-                        isLoading={activeLoan.isLoading}
-                    />
-                )}
-
-                {/* Gold Balance Card */}
-                <GoldBalanceCard
-                    balance={goldBalance}
-                    balanceValue={goldValue}
-                    maxLoan={calculation.maxLoan}
-                    xautPrice={goldPrice}
-                    isLoading={goldLoading || priceLoading}
-                />
-
-                {/* Loan Amount Input */}
-                <LoanAmountInput
-                    value={loanInput}
-                    onChange={setLoanInput}
-                    maxLoan={calculation.maxLoan}
-                    disabled={borrow.isPending || borrow.isConfirming}
-                />
-
-                {/* LTV Selector */}
-                <LTVSelector
+                {/* Cash Loan Wizard */}
+                <CashLoanWizard
+                    goldBalance={goldBalance}
+                    goldValue={goldValue}
+                    goldPrice={goldPrice}
+                    goldLoading={goldLoading || priceLoading}
+                    calculation={calculation}
+                    needsApproval={needsApproval}
+                    onApprove={handleApprove}
+                    approvalPending={xautApproval.isPending}
+                    approvalConfirming={xautApproval.isConfirming}
+                    approvalSuccess={xautApproval.isSuccess}
+                    onBorrow={handleBorrow}
+                    borrowPending={borrow.isPending}
+                    borrowConfirming={borrow.isConfirming}
+                    borrowSuccess={borrow.isSuccess}
+                    loanInput={loanInput}
+                    onLoanInputChange={setLoanInput}
                     selectedLTV={selectedLTV}
                     onLTVChange={setSelectedLTV}
-                    disabled={borrow.isPending || borrow.isConfirming}
-                />
-
-                {/* Bank Selector */}
-                <BankSelector
                     selectedBank={selectedBank}
                     onBankChange={setSelectedBank}
                     accountNumber={accountNumber}
                     onAccountNumberChange={setAccountNumber}
                     accountName={accountName}
                     onAccountNameChange={setAccountName}
-                    disabled={borrow.isPending || borrow.isConfirming}
-                />
+                    onComplete={(data) => {
+                        // Wizard completed, trigger redeem flow
+                        const referenceNumber = generateReferenceNumber();
 
-                {/* Loan Summary */}
-                <LoanSummary
-                    calculation={calculation}
-                    bankId={selectedBank}
-                    accountNumber={accountNumber}
-                    xautPrice={goldPrice}
-                />
+                        setSavedBankDetails({
+                            bank: data.bankId,
+                            accountNumber: data.accountNumber,
+                            accountName: data.accountName,
+                        });
 
-                {/* Error Message */}
-                {calculation.errorMessage && loanAmount > 0n && (
-                    <div className="p-4 rounded-xl bg-red-500/10 border-2 border-red-500/50">
-                        <p className="text-red-400 text-center font-semibold">
-                            ⚠️ {calculation.errorMessage}
-                        </p>
-                    </div>
-                )}
+                        setSuccessData({
+                            loanAmount: data.loanAmount,
+                            collateral: calculation.collateralRequired,
+                            fee: calculation.fee,
+                            amountReceived: data.amountReceived,
+                            bankId: data.bankId,
+                            accountNumber: data.accountNumber,
+                            accountName: data.accountName,
+                            referenceNumber,
+                            txHash: borrow.hash,
+                        });
 
-                {/* CTA Button */}
-                <div className="space-y-3">
-                    {needsApproval ? (
-                        <Button
-                            onClick={handleApprove}
-                            disabled={xautApproval.isPending || xautApproval.isConfirming}
-                            className="w-full h-16 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold text-lg"
-                        >
-                            {xautApproval.isPending || xautApproval.isConfirming ? (
-                                <>
-                                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                                    {xautApproval.isPending ? 'Approving...' : 'Confirming...'}
-                                </>
-                            ) : (
-                                'Approve Gold Access'
-                            )}
-                        </Button>
-                    ) : (
-                        <Button
-                            onClick={handleBorrow}
-                            disabled={!isFormValid || borrow.isPending || borrow.isConfirming}
-                            className="w-full h-16 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold text-xl"
-                        >
-                            {borrow.isPending || borrow.isConfirming ? (
-                                <>
-                                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                                    {borrow.isPending ? 'Processing...' : 'Confirming...'}
-                                </>
-                            ) : (
-                                <>💸 GET CASH {formatRupiah(calculation.amountReceived)}</>
-                            )}
-                        </Button>
-                    )}
+                        // Reset form state
+                        setLoanInput('');
+                        setAccountNumber('');
+                        setAccountName('');
 
-                    <p className="text-center text-sm text-white/60">
-                        ⓘ Your gold will be secured automatically. Repay anytime to withdraw your gold.
-                    </p>
-                </div>
+                        // Reset transaction state
+                        borrow.reset();
 
-                {/* Repay Modal */}
-                <RepayModal
-                    isOpen={showRepayModal}
-                    onClose={() => setShowRepayModal(false)}
-                    debt={activeLoan.debt}
-                    collateral={activeLoan.collateral}
-                    idrxBalance={idrxBalance}
-                    onRepay={handleRepay}
-                    isProcessing={repay.isPending || repay.isConfirming}
+                        // Refetch active loan to show updated position
+                        activeLoan.refetch();
+
+                        // Show success modal
+                        setShowSuccessModal(true);
+                    }}
                 />
 
                 {/* Processing Overlay */}
@@ -342,6 +270,7 @@ export default function CashLoanPage() {
                     idrxBalance={idrxBalance}
                     bankDetails={savedBankDetails || undefined}
                     txHash={successData.txHash}
+                    prefilledAmount={successData.amountReceived}
                 />
             </div>
         </div>
