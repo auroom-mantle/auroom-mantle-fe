@@ -219,36 +219,11 @@ export function RedeemModal({
         onClose();
     };
 
-    // Auto-close modal after successful redeem
-    useEffect(() => {
-        if (step === 'success') {
-            setCountdown(3);
-            console.log('✅ Redeem completed! Closing modal in 3 seconds...');
-
-            // Countdown timer
-            const countdownInterval = setInterval(() => {
-                setCountdown((prev) => {
-                    if (prev <= 1) {
-                        clearInterval(countdownInterval);
-                        return 0;
-                    }
-                    return prev - 1;
-                });
-            }, 1000);
-
-            // Close modal and scroll to top
-            const closeTimer = setTimeout(() => {
-                handleClose();
-                // Scroll to top smoothly
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 3000);
-
-            return () => {
-                clearInterval(countdownInterval);
-                clearTimeout(closeTimer);
-            };
-        }
-    }, [step]);
+    const handleDone = () => {
+        handleClose();
+        // Reload page to reset state
+        window.location.reload();
+    };
 
     const renderContent = () => {
         switch (step) {
@@ -537,14 +512,10 @@ export function RedeemModal({
                             </p>
                         </div>
 
-                        <div className="p-3 rounded-xl bg-yellow-500/10 border border-yellow-500/30">
-                            <p className="text-yellow-400 text-sm text-center">
-                                🔄 Redirecting to Cash Loan page in {countdown} seconds...
-                            </p>
-                        </div>
+
 
                         <Button
-                            onClick={handleClose}
+                            onClick={handleDone}
                             className="w-full h-12 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold"
                         >
                             Done
