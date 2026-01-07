@@ -15,13 +15,13 @@ interface TreasuryRequest {
 }
 
 interface TreasuryResponse {
-    success: boolean;
+    statusCode: number;
+    message: string;
     data?: {
         status: string;
         amount: string;
     };
-    message: string;
-    estimatedProcessingTime: string;
+    estimatedProcessingTime?: string;
     isDemoMode: boolean;
     error?: string;
 }
@@ -49,7 +49,11 @@ export function useRedeemTreasuryAssisted() {
             const result: TreasuryResponse = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.error || 'Failed to submit treasury request');
+                throw new Error(result.error || result.message || 'Failed to submit treasury request');
+            }
+
+            if (result.statusCode && result.statusCode !== 201) {
+                throw new Error(result.error || result.message || 'Failed to submit treasury request');
             }
 
             setData(result);

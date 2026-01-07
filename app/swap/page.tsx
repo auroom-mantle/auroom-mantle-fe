@@ -254,6 +254,26 @@ export default function SwapPage() {
                             </Button>
 
                             {/* Transaction Status */}
+                            {/* Approval Success */}
+                            {approval.isSuccess && approval.hash && !swapRouter.isSuccess && (
+                                <div className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg text-sm">
+                                    <p className="font-medium mb-1 text-green-400">Approval successful!</p>
+                                    <a
+                                        href={getExplorerTxUrl(approval.hash)}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-green-400 hover:text-green-300 hover:underline flex items-center gap-1"
+                                    >
+                                        View transaction: {approval.hash.slice(0, 10)}...{approval.hash.slice(-8)}
+                                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                        </svg>
+                                    </a>
+                                    <p className="text-white/60 mt-2 text-xs">You can now proceed with the swap</p>
+                                </div>
+                            )}
+
+                            {/* Swap Success */}
                             {swapRouter.isSuccess && swapRouter.hash && (
                                 <div className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg text-sm">
                                     <p className="font-medium mb-1 text-green-400">Swap successful!</p>
@@ -271,9 +291,17 @@ export default function SwapPage() {
                                 </div>
                             )}
 
+                            {/* Approval Error */}
+                            {approval.error && (
+                                <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400">
+                                    Approval Error: {approval.error.message}
+                                </div>
+                            )}
+
+                            {/* Swap Error */}
                             {swapRouter.error && (
                                 <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400">
-                                    Error: {swapRouter.error.message}
+                                    Swap Error: {swapRouter.error.message}
                                 </div>
                             )}
                         </div>

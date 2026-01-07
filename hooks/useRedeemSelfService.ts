@@ -16,15 +16,31 @@ interface RedeemRequest {
 }
 
 interface RedeemResponse {
-    success: boolean;
+    statusCode: number;
+    success?: boolean; // For backward compatibility
+    message: string;
     data?: {
         id: number;
-        custRefNumber: string;
-        burnStatus: string;
+        chainId: number;
+        userId: number;
+        requester: string;
+        txHash: string;
+        fromAddress: string;
         amount: string;
         bankName: string;
+        bankCode: string;
+        bankAccountNumber: string;
+        bankAccountName: string;
+        bankAccountNumberHash: string | null;
+        custRefNumber: string;
+        disburseId: number;
+        burnStatus: string;
+        createdAt: string;
+        updatedAt: string;
+        deleted: boolean;
+        reportStatus: string;
+        notes: string | null;
     };
-    message: string;
     isDemoMode: boolean;
     error?: string;
 }
@@ -38,6 +54,9 @@ export function useRedeemSelfService() {
         setLoading(true);
         setError(null);
 
+        console.log('🌐 [HTTP] POST /api/redeem/self-service');
+        console.log('📤 Request body:', request);
+
         try {
             const response = await fetch('/api/redeem/self-service', {
                 method: 'POST',
@@ -47,16 +66,34 @@ export function useRedeemSelfService() {
                 body: JSON.stringify(request),
             });
 
+            console.log('📡 [HTTP] Response status:', response.status, response.statusText);
+
             const result: RedeemResponse = await response.json();
 
+            console.log('📥 [HTTP] Response body:', result);
+
+            // Check if HTTP request was successful (200-299 range)
             if (!response.ok) {
-                throw new Error(result.error || 'Failed to submit redeem request');
+                console.error('❌ [HTTP] Request failed - HTTP Status:', response.status);
+                console.error('Error:', result.error || result.message);
+                throw new Error(result.error || result.message || 'Failed to submit redeem request');
             }
 
+            // Backward compatibility: Check both old format (success) and new format (statusCode)
+            const isSuccess = result.success === true || result.statusCode === 201;
+
+            if (!isSuccess) {
+                console.error('❌ [HTTP] Backend returned error');
+                console.error('Response:', result);
+                throw new Error(result.error || result.message || 'Failed to submit redeem request');
+            }
+
+            console.log('✅ [HTTP] Request successful');
             setData(result);
             return result;
         } catch (err: any) {
             const errorMessage = err.message || 'Failed to submit redeem request';
+            console.error('❌ [HTTP] Exception:', errorMessage);
             setError(errorMessage);
             throw new Error(errorMessage);
         } finally {

@@ -109,6 +109,8 @@ export function CashLoanWizard({
                 amountReceived: calculation.amountReceived,
             });
             setCurrentStep(2);
+            // Scroll to top smoothly when moving to step 2
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }, [borrowSuccess, currentStep, loanAmount, calculation.amountReceived]);
 
@@ -128,6 +130,8 @@ export function CashLoanWizard({
     // Handle back navigation
     const handleBack = () => {
         setCurrentStep(1);
+        // Scroll to top smoothly when going back
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     return (

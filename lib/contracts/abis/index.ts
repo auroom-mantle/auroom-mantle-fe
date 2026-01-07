@@ -2,7 +2,7 @@
 export { ABIs, CONTRACTS as ABI_CONTRACTS } from '@/abi';
 
 // For convenience, export commonly used ABIs
-import MockIDRXABI from '@/abi/MockIDRX.json';
+import MockIDRXABI from '@/abi/MockIDRXV2.json';
 import XAUTABI from '@/abi/XAUT.json';
 import IdentityRegistryABI from '@/abi/IdentityRegistry.json';
 import SwapRouterABI from '@/abi/SwapRouter.json';

@@ -14,6 +14,7 @@ export function useTokenAllowance(
         args: ownerAddress && spenderAddress ? [ownerAddress, spenderAddress] : undefined,
         query: {
             enabled: !!tokenAddress && !!ownerAddress && !!spenderAddress,
+            refetchInterval: 2000, // Auto-refetch every 2 seconds to catch approval updates
         },
     });
 }
