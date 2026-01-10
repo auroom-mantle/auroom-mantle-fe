@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Coins, Shield } from 'lucide-react';
 import { Beams } from '@/components/ui/ethereal-beams-hero';
@@ -41,7 +42,13 @@ export function Hero() {
                         </div>
 
                         {/* Brand Logo */}
-                        <div className="mb-4">
+                        <div className="mb-4 flex items-center gap-3 justify-center">
+                            <Image
+                                src="/logo.svg"
+                                alt="AuRoom Logo"
+                                width={48}
+                                height={48}
+                            />
                             <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-white">
                                 <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 bg-clip-text text-transparent">
                                     AuRoom

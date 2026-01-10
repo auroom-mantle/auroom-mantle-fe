@@ -20,16 +20,6 @@ export function CTASection() {
 
                     {/* Content Card */}
                     <div className="relative bg-black/60 backdrop-blur-sm border border-[#F5A623]/30 rounded-3xl p-8 md:p-12 text-center">
-                        {/* Icon */}
-                        <motion.div
-                            initial={{ scale: 0 }}
-                            whileInView={{ scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
-                            className="text-6xl mb-6"
-                        >
-                            💰
-                        </motion.div>
 
                         {/* Headline */}
                         <motion.h2
@@ -66,7 +56,7 @@ export function CTASection() {
                                 href="/cash-loan"
                                 className="inline-flex items-center gap-2 bg-[#F5A623] hover:bg-[#F5A623]/90 text-black font-bold text-lg px-10 py-5 rounded-xl transition-all duration-300 shadow-lg shadow-[#F5A623]/30 hover:shadow-[#F5A623]/50 hover:scale-105"
                             >
-                                🚀 Borrow Now
+                                Borrow Now
                                 <ArrowRight className="w-6 h-6" />
                             </Link>
                         </motion.div>

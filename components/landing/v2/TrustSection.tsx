@@ -45,7 +45,7 @@ export function TrustSection() {
     const stats = useLandingStats();
 
     return (
-        <section className="py-16 md:py-24 lg:py-32 bg-gradient-to-b from-black/95 to-black">
+        <section className="pt-8 md:pt-12 pb-8 md:pb-12 bg-gradient-to-b from-black via-black to-black">
             <div className="max-w-6xl mx-auto px-4 md:px-6">
                 {/* Live Stats */}
                 <motion.div
@@ -56,7 +56,7 @@ export function TrustSection() {
                     className="text-center mb-16"
                 >
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                        📊 Live Statistics
+                        Live Statistics
                     </h2>
                     <p className="text-gray-400 mb-12">
                         Real-time data from blockchain
@@ -66,21 +66,21 @@ export function TrustSection() {
                         <StatCard
                             label="Total Loans Disbursed"
                             value={stats.totalLoans}
-                            icon="💵"
+                            icon=""
                             delay={0}
                         />
                         <StatCard
                             label="Gold Collateralized"
                             value={`${stats.totalCollateral} XAUT`}
                             subtext={stats.totalCollateralIDR}
-                            icon="🥇"
+                            icon=""
                             delay={0.1}
                         />
                         <StatCard
                             label="Current Gold Price"
                             value={stats.xautPriceIdrx}
                             subtext="per XAUT"
-                            icon="📈"
+                            icon=""
                             delay={0.2}
                         />
                     </div>
@@ -104,7 +104,7 @@ export function TrustSection() {
                     className="mb-16"
                 >
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">
-                        🛡️ Security
+                        Security
                     </h2>
 
                     <div className="grid md:grid-cols-3 gap-6">
@@ -146,7 +146,7 @@ export function TrustSection() {
                     transition={{ duration: 0.6 }}
                 >
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">
-                        🔧 Built With Technology
+                        Built With Technology
                     </h2>
 
                     <div className="grid md:grid-cols-3 gap-8">

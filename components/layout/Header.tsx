@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAccount } from 'wagmi';
 import { WalletButton } from '@/components/shared/WalletButton';
 
@@ -13,7 +14,13 @@ export function Header() {
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-2 group">
-                        <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-yellow-400 via-yellow-500 to-amber-500 group-hover:scale-110 transition-transform" />
+                        <Image
+                            src="/logo.svg"
+                            alt="AuRoom Logo"
+                            width={32}
+                            height={32}
+                            className="group-hover:scale-110 transition-transform"
+                        />
                         <span className="text-xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 bg-clip-text text-transparent">
                             AuRoom
                         </span>

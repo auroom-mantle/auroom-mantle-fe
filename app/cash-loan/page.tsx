@@ -269,7 +269,6 @@ export default function CashLoanPage() {
                     onClose={() => setShowRedeemModal(false)}
                     idrxBalance={idrxBalance}
                     bankDetails={savedBankDetails || undefined}
-                    txHash={successData.txHash}
                     prefilledAmount={successData.amountReceived}
                 />
             </div>

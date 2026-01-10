@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Github, Twitter, Send } from 'lucide-react';
 
 export function Footer() {
@@ -34,14 +35,22 @@ export function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
                     {/* Brand */}
                     <div className="lg:col-span-2 space-y-4">
-                        <div>
-                            <h3 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 bg-clip-text text-transparent">
-                                AuRoom
-                            </h3>
-                            <p className="text-sm text-white/60 mt-2">
-                                Digital Pawnshop for the Modern Era
-                            </p>
+                        <div className="flex items-center gap-3">
+                            <Image
+                                src="/logo.svg"
+                                alt="AuRoom Logo"
+                                width={32}
+                                height={32}
+                            />
+                            <div>
+                                <h3 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 bg-clip-text text-transparent">
+                                    AuRoom
+                                </h3>
+                            </div>
                         </div>
+                        <p className="text-sm text-white/60">
+                            Digital Pawnshop for the Modern Era
+                        </p>
                     </div>
 
                     {/* Product */}

@@ -47,7 +47,7 @@ const comparisonData = [
 
 export function BenefitsSection() {
     return (
-        <section className="py-16 md:py-24 lg:py-32 bg-black">
+        <section className="pt-16 md:pt-24 lg:pt-32 pb-8 md:pb-12 bg-black">
             <div className="max-w-6xl mx-auto px-4 md:px-6">
                 {/* Section Header */}
                 <motion.div
@@ -58,7 +58,7 @@ export function BenefitsSection() {
                     className="text-center mb-16"
                 >
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                        💎 Why Choose AuRoom?
+                        Why Choose AuRoom?
                     </h2>
                 </motion.div>
 

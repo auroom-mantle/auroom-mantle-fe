@@ -22,7 +22,7 @@ const problems = [
 
 export function ProblemSolutionSection() {
     return (
-        <section className="py-16 md:py-24 lg:py-32 bg-black">
+        <section className="pt-16 md:pt-24 lg:pt-32 pb-8 md:pb-12 bg-black">
             <div className="max-w-6xl mx-auto px-4 md:px-6">
                 {/* Problem Section */}
                 <motion.div
@@ -33,7 +33,7 @@ export function ProblemSolutionSection() {
                     className="text-center mb-16"
                 >
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                        😫 Common Problems
+                        Common Problems
                     </h2>
                 </motion.div>
 
@@ -48,7 +48,6 @@ export function ProblemSolutionSection() {
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             className="bg-red-950/20 border border-red-500/30 rounded-xl p-6 hover:border-red-500/50 transition-all duration-300"
                         >
-                            <div className="text-5xl mb-4 text-center">{problem.icon}</div>
                             <h3 className="text-xl font-semibold text-white mb-4 text-center">
                                 {problem.title}
                             </h3>
@@ -82,7 +81,7 @@ export function ProblemSolutionSection() {
                     className="text-center"
                 >
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                        ✨ Solution: <span className="text-[#F5A623]">AuRoom Cash Loans</span>
+                        Solution: <span className="text-[#F5A623]">AuRoom Cash Loans</span>
                     </h2>
 
                     <div className="max-w-3xl mx-auto">

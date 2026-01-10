@@ -27,7 +27,7 @@ const steps = [
 
 export function HowItWorksSection() {
     return (
-        <section id="how-it-works" className="py-16 md:py-24 lg:py-32 bg-gradient-to-b from-black to-black/95">
+        <section id="how-it-works" className="pt-8 md:pt-12 pb-16 md:pb-24 bg-gradient-to-b from-black to-black/95">
             <div className="max-w-6xl mx-auto px-4 md:px-6">
                 {/* Section Header */}
                 <motion.div
@@ -38,7 +38,7 @@ export function HowItWorksSection() {
                     className="text-center mb-16"
                 >
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                        🔄 How It Works
+                        How It Works
                     </h2>
                     <p className="text-xl text-[#F5A623] font-semibold">
                         As Easy as 1 - 2 - 3
@@ -103,7 +103,6 @@ export function HowItWorksSection() {
                     className="text-center mt-12"
                 >
                     <div className="inline-flex items-center gap-2 bg-[#F5A623]/10 border border-[#F5A623]/30 rounded-full px-6 py-3">
-                        <span className="text-2xl">⏱️</span>
                         <span className="text-lg font-semibold text-[#F5A623]">
                             Process &lt; 5 minutes
                         </span>
@@ -122,7 +121,7 @@ export function HowItWorksSection() {
                         href="/cash-loan"
                         className="inline-flex items-center gap-2 bg-[#F5A623] hover:bg-[#F5A623]/90 text-black font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg shadow-[#F5A623]/20 hover:shadow-[#F5A623]/40 hover:scale-105"
                     >
-                        🚀 Start Borrowing Now
+                        Start Borrowing Now
                         <ArrowRight className="w-5 h-5" />
                     </Link>
                 </motion.div>

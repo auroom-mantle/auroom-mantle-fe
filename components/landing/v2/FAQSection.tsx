@@ -1,9 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FAQAccordion, FAQItem } from '@/components/ui/FAQAccordion';
 
-const faqItems: FAQItem[] = [
+const faqItems = [
     {
         question: 'What is AuRoom?',
         answer: 'AuRoom is a digital lending platform that allows you to borrow cash using digital gold (XAUT) as collateral. Like a pawnshop, but 100% online, faster, and with lower fees.',
@@ -40,7 +39,7 @@ const faqItems: FAQItem[] = [
 
 export function FAQSection() {
     return (
-        <section className="py-16 md:py-24 lg:py-32 bg-black">
+        <section className="pt-8 md:pt-12 pb-16 md:pb-24 bg-black">
             <div className="max-w-4xl mx-auto px-4 md:px-6">
                 {/* Section Header */}
                 <motion.div
@@ -51,15 +50,33 @@ export function FAQSection() {
                     className="text-center mb-12"
                 >
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                        ❓ Frequently Asked Questions
+                        Frequently Asked Questions
                     </h2>
                     <p className="text-gray-400">
                         Answers to commonly asked questions
                     </p>
                 </motion.div>
 
-                {/* FAQ Accordion */}
-                <FAQAccordion items={faqItems} />
+                {/* FAQ List */}
+                <div className="space-y-8">
+                    {faqItems.map((item, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            className="border-b border-white/10 pb-6"
+                        >
+                            <h3 className="text-xl font-bold text-white mb-3">
+                                {item.question}
+                            </h3>
+                            <p className="text-gray-400 leading-relaxed">
+                                {item.answer}
+                            </p>
+                        </motion.div>
+                    ))}
+                </div>
             </div>
         </section>
     );

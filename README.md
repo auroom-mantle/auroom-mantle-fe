@@ -12,7 +12,7 @@
 [![Tailwind](https://img.shields.io/badge/Tailwind-4.x-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](./LICENSE)
 
-[🌐 Live Demo](https://auroom-testnet.vercel.app) • [📜 Smart Contracts](https://github.com/YohanesVito/auroom-sc) • [📖 Documentation](#-documentation)
+[🌐 Live Demo](https://auroom-lisk-testnet.vercel.app) • [📜 Smart Contracts](https://github.com/YohanesVito/auroom-lisk-sc) • [🔧 Backend](https://github.com/YohanesVito/auroom-lisk-be) • [📖 Documentation](#-documentation)
 
 </div>
 
@@ -20,30 +20,30 @@
 
 ## 🌐 Live Demo
 
-**🔗 [https://auroom-testnet.vercel.app](https://auroom-testnet.vercel.app)**
+**🔗 [https://auroom-lisk-testnet.vercel.app](https://auroom-lisk-testnet.vercel.app)**
 
-> ⚠️ **Testnet Only**: This demo runs on Mantle Sepolia testnet. Do not use real funds.
+> ⚠️ **Testnet Only**: This demo runs on Lisk Sepolia testnet. Do not use real funds.
 
 ---
 
 ## 📖 Overview
 
-**AuRoom** is a Real World Asset (RWA) protocol that enables users to convert Indonesian Rupiah (IDRX) into tokenized gold (XAUT) and earn yield through an ERC-4626 vault system.
+**AuRoom** is a Real World Asset (RWA) protocol on Lisk that enables users to access Indonesian Rupiah (IDRX) liquidity using tokenized gold (XAUT) as collateral, and seamlessly redeem IDRX back to fiat currency through bank transfers.
 
 ### Why AuRoom?
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
+┌────────────────────────────────────────────────────────────────┐
 │                                                                 │
 │   REGULAR DEX:                                                  │
-│   IDRX ──→ XAUT ──→ 💤 Idle (0% yield)                         │
+│   XAUT ──→ IDRX ──→ 🚀 Sell for cash (off-chain, complex)          │
 │                                                                 │
-│   AUROOM:                                                       │
-│   IDRX ──→ XAUT ──→ GoldVault ──→ gXAUT ──→ 📈 Earning Yield   │
+│   AUROOM:                                                        │
+│   XAUT ──→ Cash Loan ──→ IDRX ──→ 🏦 Direct bank transfer      │
 │                                                                 │
-│   "Not just a swap. A complete gold investment system."         │
+│   "Unlock liquidity from your gold. Instant. On-chain."         │
 │                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+└────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -56,21 +56,29 @@
 - Educational content about RWA and tokenized gold
 - Comparison: AuRoom vs Traditional DEX
 
+### 💰 Cash Loan Page
+- Borrow IDRX using XAUT collateral
+- Flexible LTV options (30%, 40%, 50%)
+- Instant liquidity without selling your gold
+- Integrated bank details for redeem
+
+### 📊 My Loans Page
+- Track active loans and collateral
+- View loan health and liquidation risk
+- Repay loans to unlock collateral
+- Transaction history
+
+### 💎 IDRX Redeem Flow
+- Burn IDRX tokens on-chain
+- Direct bank transfer to Indonesian bank accounts
+- Support for major banks (BCA, BNI, BRI, Mandiri)
+- Real-time status tracking with reference number
+
 ### 💱 Swap Page
-- Swap IDRX ↔ XAUT seamlessly
+- Swap IDRX ↔ XAUT ↔ USDC seamlessly
 - Real-time quotes from on-chain data
 - Slippage protection
 - Transaction status tracking
-
-### 🏦 Vault Page
-- Deposit XAUT to earn yield
-- View gXAUT balance and share price
-- Redeem gXAUT back to XAUT
-- Track your earnings
-
-### 🪪 Verify Page
-- Check wallet verification status
-- KYC requirement information
 
 ### 🛠️ Admin Page
 - **Faucet**: Get test tokens (IDRX, USDC, XAUT)
@@ -215,25 +223,39 @@ Create a `.env.local` file:
 # WalletConnect Project ID (get from https://cloud.walletconnect.com)
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
 
-# Optional: Custom RPC URL
-NEXT_PUBLIC_MANTLE_SEPOLIA_RPC=https://rpc.sepolia.mantle.xyz
+# Lisk Sepolia RPC (Optional: Custom RPC URL)
+NEXT_PUBLIC_LISK_SEPOLIA_RPC=https://rpc.sepolia-api.lisk.com
+
+# IDRX API Configuration
+IDRX_API_BASE_URL=https://api.idrx.org
+IDRX_API_KEY=your_api_key_here
+IDRX_MODE=demo  # Use 'demo' for testing, 'production' for real API
 ```
 
 ---
 
 ## 📜 Contract Addresses
 
-All contracts are deployed on **Mantle Sepolia Testnet** (Chain ID: 5003)
+All contracts are deployed on **Lisk Sepolia Testnet** (Chain ID: 4202)
 
 | Contract | Address |
 |----------|---------|
-| IDRX | `0x6EC7D79792D4D73eb711d36aB5b5f24014f18d05` |
-| USDC | `0x96ABff3a2668B811371d7d763f06B3832CEdf38d` |
-| XAUT | `0x1d6f37f76E2AB1cf9A242a34082eDEc163503A78` |
-| IdentityRegistry | `0x620870d419F6aFca8AFed5B516619aa50900cadc` |
-| UniswapV2Router | `0x54166b2C5e09f16c3c1D705FfB4eb29a069000A9` |
-| SwapRouter | `0xF948Dd812E7fA072367848ec3D198cc61488b1b9` |
-| GoldVault (gXAUT) | `0xd92cE2F13509840B1203D35218227559E64fbED0` |
+| **Tokens** | |
+| IDRX | `0xe0f7ea8fb1a7e9e9f8838d0e24b7a0f750c68d40` |
+| USDC | `0xA8F2b8180caFC670f4a24114FDB9c50361038857` |
+| XAUT (Gold) | `0xDb198BEaccC55934062Be9AAEdce332c40A1f1Ed` |
+| **Infrastructure** | |
+| IdentityRegistry | `0x799fe52FA871EB8e4420fEc9d1b81c6297e712a5` |
+| UniswapV2Factory | `0x96abff3a2668b811371d7d763f06b3832cedf38d` |
+| UniswapV2Router | `0x6036306f417d720228ab939650e8acbe948d2d2b` |
+| **Liquidity Pairs** | |
+| IDRX/USDC Pair | `0xB0ea91604C8B98205cbDd5c3F7d8DB006404515F` |
+| XAUT/USDC Pair | `0xBdfD81D4e79c0cC949BB52941BCd30Ed8b3B4112` |
+| **Core Protocol** | |
+| SwapRouter | `0x8cDE80170b877a51a17323628BA6221F6F023505` |
+| BorrowingProtocolV2 | `0x8c49cF7B7CCE0fBffADFe44F764fe6c5F2df82F9` |
+
+> 💡 **Block Explorer**: [Lisk Sepolia Blockscout](https://sepolia-blockscout.lisk.com)
 
 ---
 
@@ -243,48 +265,62 @@ All contracts are deployed on **Mantle Sepolia Testnet** (Chain ID: 5003)
 
 1. Click "Connect Wallet" button
 2. Select your preferred wallet (MetaMask, Coinbase, etc.)
-3. Switch to Mantle Sepolia network if prompted
+3. Switch to Lisk Sepolia network if prompted
 
 ### 2. Get Test Tokens
 
-1. Go to [Admin Page](https://auroom-testnet.vercel.app/admin)
+1. Go to [Admin Page](https://auroom-lisk-testnet.vercel.app/admin)
 2. Use the Faucet tab to mint test tokens:
    - IDRX (Indonesian Rupiah)
    - USDC
-   - XAUT (requires verification)
+   - XAUT (Gold - requires verification)
 
-### 3. Get Verified
+### 3. Get Verified (Demo KYC)
 
-1. Visit the Admin page
-2. Go to Identity tab
-3. Register your address (or ask admin)
+1. Visit [Demo KYC Page](https://auroom-lisk-testnet.vercel.app/demo-kyc)
+2. Enter your wallet address
+3. Submit for verification
+4. Admin will approve (or self-approve in admin page)
 
-### 4. Swap IDRX to XAUT
+### 4. Get a Cash Loan
 
-1. Go to [Swap Page](https://auroom-testnet.vercel.app/swap)
-2. Enter IDRX amount
-3. Review the quote
-4. Click "Swap" and confirm transaction
+1. Go to [Cash Loan Page](https://auroom-lisk-testnet.vercel.app/cash-loan)
+2. Enter desired loan amount in IDRX
+3. Select LTV (30%, 40%, or 50%)
+4. Review collateral required (in XAUT)
+5. Approve XAUT if needed
+6. Click "Borrow" and confirm transaction
+7. Receive IDRX tokens instantly!
 
-### 5. Deposit to Vault
+### 5. Enter Bank Details for Redeem
 
-1. Go to [Vault Page](https://auroom-testnet.vercel.app/vault)
-2. Enter XAUT amount to deposit
-3. Approve XAUT if needed
-4. Click "Deposit" and confirm
-5. Receive gXAUT tokens
+1. After borrowing, enter your Indonesian bank details:
+   - Select bank (BCA, BNI, BRI, Mandiri)
+   - Enter 10-12 digit account number
+   - Enter account holder name
+2. Click "Submit & Redeem"
 
-### 6. Simulate Yield (Demo)
+### 6. Redeem IDRX to Bank Account
 
-1. Go to Admin page → Vault tab
-2. Click "Inject Yield" to simulate profit
-3. Watch your gXAUT share price increase!
+1. System burns your IDRX tokens on-chain
+2. Redeem request sent to IDRX API
+3. Receive customer reference number
+4. IDR will be transferred to your bank account (1-2 business days)
 
-### 7. Redeem with Profit
+### 7. Track Your Loans
 
-1. Go to Vault page
-2. Enter gXAUT amount to redeem
-3. You'll receive more XAUT than deposited!
+1. Go to [My Loans Page](https://auroom-lisk-testnet.vercel.app/my-loans)
+2. View all active loans
+3. Monitor collateral and health factor
+4. Repay loans to unlock your XAUT collateral
+
+### 8. Swap Tokens (Optional)
+
+1. Go to [Swap Page](https://auroom-lisk-testnet.vercel.app/swap)
+2. Select tokens to swap (IDRX, USDC, XAUT)
+3. Enter amount
+4. Review quote and slippage
+5. Click "Swap" and confirm
 
 ---
 
@@ -337,10 +373,12 @@ npm run build
 
 ## 🔐 Security Notes
 
-- ⚠️ **Testnet Only**: This is a demo on Mantle Sepolia
+- ⚠️ **Testnet Only**: This is a demo on Lisk Sepolia
 - ⚠️ **No Real Funds**: All tokens are mock/test tokens
 - ⚠️ **KYC Required**: Users must be verified to use XAUT
+- ⚠️ **Demo Mode**: IDRX redeem uses mock API by default
 - ✅ **Non-Custodial**: You always control your keys
+- ✅ **On-Chain Verification**: All burns are recorded on blockchain
 - ✅ **Slippage Protection**: Built into all swaps
 
 ---
@@ -348,14 +386,18 @@ npm run build
 ## 🗺️ Roadmap
 
 - [x] Landing page with protocol info
-- [x] Swap functionality (IDRX ↔ XAUT)
-- [x] Vault deposit/withdraw
+- [x] Swap functionality (IDRX ↔ XAUT ↔ USDC)
+- [x] Cash Loan with collateral (BorrowingProtocolV2)
+- [x] IDRX Redeem to bank accounts
+- [x] My Loans tracking page
 - [x] Admin helper tools
+- [x] Demo mode for testing
 - [x] Live protocol statistics
-- [ ] Transaction history
+- [ ] Real IDRX API integration (production mode)
+- [ ] Transaction history improvements
 - [ ] Dark/light mode toggle
 - [ ] Mobile app (React Native)
-- [ ] Mainnet deployment
+- [ ] Mainnet deployment on Lisk
 
 ---
 
@@ -379,7 +421,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **Mantle Network** - L2 Infrastructure
+- **Lisk** - L2 Blockchain Infrastructure
+- **IDRX.org** - Indonesian Rupiah stablecoin provider
 - **RainbowKit** - Beautiful wallet connection
 - **wagmi** - Excellent React hooks for Ethereum
 - **Vercel** - Hosting platform
@@ -391,9 +434,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Apple Bites** - [@YohanesVito](https://github.com/YohanesVito)
 
-- 🌐 Live Demo: [https://auroom-testnet.vercel.app](https://auroom-testnet.vercel.app)
-- 📜 Smart Contracts: [auroom-sc](https://github.com/YohanesVito/auroom-sc)
-- 🐛 Issues: [GitHub Issues](https://github.com/YohanesVito/auroom-fe/issues)
+- 🌐 Live Demo: [https://auroom-lisk-testnet.vercel.app](https://auroom-lisk-testnet.vercel.app)
+- 📜 Smart Contracts: [auroom-lisk-sc](https://github.com/YohanesVito/auroom-lisk-sc)
+- 🔧 Backend API: [auroom-lisk-be](https://github.com/YohanesVito/auroom-lisk-be)
+- 🐛 Issues: [GitHub Issues](https://github.com/YohanesVito/auroom-lisk-fe/issues)
 
 ---
 

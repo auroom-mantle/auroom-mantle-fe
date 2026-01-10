@@ -40,24 +40,24 @@ export function BankSelector({
     };
 
     return (
-        <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30">
-            <h3 className="text-lg font-semibold text-white mb-4">
+        <div className="p-4 rounded-xl bg-zinc-900 border-2 border-yellow-500/30">
+            <h3 className="text-base font-semibold text-white mb-3">
                 🏦 TRANSFER TO
             </h3>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
                 {/* Bank Selection */}
                 <div>
-                    <label className="text-white/70 text-sm mb-2 block">Select Bank</label>
-                    <div className="grid grid-cols-4 gap-3">
+                    <label className="text-white/70 text-xs mb-1.5 block">Select Bank</label>
+                    <div className="grid grid-cols-4 gap-2">
                         {mainBanks.map((bank) => (
                             <button
                                 key={bank.id}
                                 onClick={() => !disabled && onBankChange(bank.id)}
                                 disabled={disabled}
                                 className={cn(
-                                    'p-4 rounded-xl border-2 transition-all',
-                                    'flex flex-col items-center gap-2',
+                                    'p-3 rounded-lg border-2 transition-all',
+                                    'flex flex-col items-center gap-1',
                                     'hover:scale-105 active:scale-95',
                                     'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100',
                                     selectedBank === bank.id
@@ -65,9 +65,9 @@ export function BankSelector({
                                         : 'bg-black/40 border-yellow-500/20 hover:border-yellow-500/40'
                                 )}
                             >
-                                <span className="text-2xl font-bold text-white">{bank.shortName}</span>
+                                <span className="text-xl font-bold text-white">{bank.shortName}</span>
                                 {selectedBank === bank.id && (
-                                    <span className="text-yellow-500 text-xl">●</span>
+                                    <span className="text-yellow-500 text-base">●</span>
                                 )}
                             </button>
                         ))}
@@ -76,7 +76,7 @@ export function BankSelector({
 
                 {/* Account Number */}
                 <div>
-                    <label className="text-white/70 text-sm mb-2 block">Account Number</label>
+                    <label className="text-white/70 text-xs mb-1.5 block">Account Number</label>
                     <Input
                         type="text"
                         placeholder="1234567890"
@@ -84,7 +84,7 @@ export function BankSelector({
                         onChange={handleAccountNumberChange}
                         disabled={disabled}
                         className={cn(
-                            "bg-black/40 border-yellow-500/30 text-white h-12",
+                            "bg-black/40 border-yellow-500/30 text-white h-10 text-sm",
                             accountNumber && accountNumber.length < 10 && "border-red-500/50",
                             accountNumber && accountNumber.length >= 10 && accountNumber.length <= 12 && "border-green-500/50"
                         )}
@@ -106,14 +106,14 @@ export function BankSelector({
 
                 {/* Account Name */}
                 <div>
-                    <label className="text-white/70 text-sm mb-2 block">Account Holder Name</label>
+                    <label className="text-white/70 text-xs mb-1.5 block">Account Holder Name</label>
                     <Input
                         type="text"
                         placeholder="JOHN DOE"
                         value={accountName}
                         onChange={handleAccountNameChange}
                         disabled={disabled}
-                        className="bg-black/40 border-yellow-500/30 text-white h-12 uppercase"
+                        className="bg-black/40 border-yellow-500/30 text-white h-10 text-sm uppercase"
                         maxLength={50}
                     />
                 </div>

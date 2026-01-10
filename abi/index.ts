@@ -5,7 +5,7 @@
  */
 
 // Import ABIs
-import MockIDRXABI from './MockIDRX.json';
+import MockIDRXABI from './MockIDRXV2.json';
 import MockUSDCABI from './MockUSDC.json';
 import XAUTABI from './XAUT.json';
 import IdentityRegistryABI from './IdentityRegistry.json';
