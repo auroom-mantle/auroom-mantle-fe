@@ -70,6 +70,18 @@ export default function MyLoansPage() {
         }
     }, [isConnected, router]);
 
+    // Handle repay success
+    useEffect(() => {
+        if (repay.isSuccess) {
+            // Close modal
+            setShowRepayModal(false);
+            // Refresh loan data
+            activeLoan.refetch();
+            // Reset repay state
+            repay.reset();
+        }
+    }, [repay.isSuccess]);
+
     if (!isConnected) {
         return (
             <div className="min-h-screen bg-black py-12 px-4">
@@ -218,8 +230,11 @@ export default function MyLoansPage() {
                     collateral={activeLoan.collateral}
                     idrxBalance={idrxBalance}
                     onRepay={(repayAmount, isFullRepay) => {
-                        // Handle repay logic
-                        console.log('Repay:', { repayAmount, isFullRepay });
+                        // Execute repay transaction
+                        // For full repay: withdraw all collateral
+                        // For partial repay: withdraw 0 (collateral stays locked)
+                        const withdrawAmount = isFullRepay ? activeLoan.collateral : 0n;
+                        repay.execute(repayAmount, withdrawAmount);
                     }}
                     isProcessing={repay.isPending || repay.isConfirming}
                 />
