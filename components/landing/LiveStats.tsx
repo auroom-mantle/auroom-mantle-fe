@@ -34,46 +34,26 @@ export function LiveStats() {
                         Live <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-500 bg-clip-text text-transparent">Protocol Stats</span>
                     </h2>
                     <p className="text-lg text-white/70">
-                        Real-time data from AuRoom smart contracts
+                        Real-time data from AuRoom smart contracts on Base Sepolia
                     </p>
                 </div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <StatCard
-                        label="Total Value Locked"
-                        value={stats.isLoading ? '...' : `$${stats.tvlUsd}`}
-                        trend={{
-                            value: '5.2%',
-                            period: '24h',
-                            isPositive: true,
-                        }}
+                        label="Total Collateral (IDR)"
+                        value={stats.isLoading ? '...' : stats.totalCollateralIDR}
                         isLoading={stats.isLoading}
                         animate
                     />
                     <StatCard
-                        label="XAUT in Vault"
-                        value={stats.isLoading ? '...' : `${parseFloat(stats.tvl).toFixed(2)}`}
-                        trend={{
-                            value: '12 XAUT',
-                            period: '24h',
-                            isPositive: true,
-                        }}
+                        label="XAUT Collateral"
+                        value={stats.isLoading ? '...' : `${parseFloat(stats.totalCollateral).toFixed(4)}`}
                         isLoading={stats.isLoading}
                     />
                     <StatCard
-                        label="gXAUT Share Price"
-                        value={stats.isLoading ? '...' : parseFloat(stats.sharePrice).toFixed(4)}
-                        trend={{
-                            value: '3.45%',
-                            period: '30d',
-                            isPositive: true,
-                        }}
-                        isLoading={stats.isLoading}
-                    />
-                    <StatCard
-                        label="Estimated APY"
-                        value={stats.estimatedApy}
+                        label="Total Loans"
+                        value={stats.isLoading ? '...' : stats.totalLoans}
                         isLoading={stats.isLoading}
                     />
                 </div>

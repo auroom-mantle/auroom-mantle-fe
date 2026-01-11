@@ -261,7 +261,7 @@ export default function NeuralNetworkHero({
         { text: "Start Swapping", href: "/swap", primary: true },
         { text: "Explore Vault", href: "/vault" }
     ],
-    microDetails = ["Lisk Network", "ERC-4626 Vault", "Audited Contracts"]
+    microDetails = ["Base Network", "ERC-4626 Vault", "Audited Contracts"]
 }: HeroProps) {
     const sectionRef = useRef<HTMLElement | null>(null);
     const headerRef = useRef<HTMLHeadingElement | null>(null);

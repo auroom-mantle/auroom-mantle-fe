@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useTokenAllowance } from '@/hooks/contracts/useTokenAllowance';
-import { LISK_CONTRACTS as CONTRACTS } from '@/lib/contracts/lisk_addresses';
+import { BASE_CONTRACTS as CONTRACTS } from '@/lib/contracts/base_addresses';
 import { TOKENS } from '@/lib/contracts/tokens';
 import { formatUnits } from 'viem';
 import { useAccount } from 'wagmi';
@@ -18,7 +18,7 @@ export function AllowanceTable() {
     const spenders = [
         { name: 'Swap Router', address: CONTRACTS.SwapRouter },
         { name: 'Uniswap V2 Router', address: CONTRACTS.UniswapV2Router },
-        { name: 'Gold Vault', address: CONTRACTS.GoldVault },
+        { name: 'Borrowing Protocol V2', address: CONTRACTS.BorrowingProtocolV2 },
     ];
 
     const tokens = [

@@ -1,7 +1,7 @@
 import { useReadContract, useAccount } from 'wagmi';
 import { MockTokenABI } from '@/lib/contracts/abis/MockToken';
 import { UniswapV2PairABI } from '@/lib/contracts/abis/UniswapV2Pair';
-import { LISK_CONTRACTS as CONTRACTS } from '@/lib/contracts/lisk_addresses';
+import { BASE_CONTRACTS as CONTRACTS } from '@/lib/contracts/base_addresses';
 import { formatUnits } from 'viem';
 
 export interface TokenBalance {
@@ -14,6 +14,7 @@ export interface TokenBalance {
 
 /**
  * Hook to fetch all token balances for the connected wallet
+ * Note: GoldVault/gXAUT removed from this deployment
  */
 export function useAllBalances() {
     const { address } = useAccount();
@@ -39,15 +40,6 @@ export function useAllBalances() {
     // XAUT Balance
     const { data: xautBalance } = useReadContract({
         address: CONTRACTS.XAUT,
-        abi: MockTokenABI,
-        functionName: 'balanceOf',
-        args: address ? [address] : undefined,
-        query: { enabled: !!address },
-    });
-
-    // gXAUT Balance
-    const { data: gxautBalance } = useReadContract({
-        address: CONTRACTS.GoldVault,
         abi: MockTokenABI,
         functionName: 'balanceOf',
         args: address ? [address] : undefined,
@@ -92,13 +84,6 @@ export function useAllBalances() {
             address: CONTRACTS.XAUT,
             balance: xautBalance || BigInt(0),
             formatted: formatUnits(xautBalance || BigInt(0), 6),
-            decimals: 6,
-        },
-        {
-            symbol: 'gXAUT',
-            address: CONTRACTS.GoldVault,
-            balance: gxautBalance || BigInt(0),
-            formatted: formatUnits(gxautBalance || BigInt(0), 6),
             decimals: 6,
         },
         {

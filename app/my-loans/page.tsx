@@ -187,7 +187,7 @@ export default function MyLoansPage() {
                                                 {formatXAUT(loan.collateral)} XAUT
                                             </p>
                                             <a
-                                                href={`https://sepolia-blockscout.lisk.com/tx/${loan.txHash}`}
+                                                href={`https://sepolia.basescan.org/tx/${loan.txHash}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="text-yellow-400 hover:text-yellow-300 text-xs mt-1 inline-block"

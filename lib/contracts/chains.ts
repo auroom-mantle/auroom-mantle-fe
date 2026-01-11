@@ -1,35 +1,9 @@
 import { defineChain } from 'viem';
 
-export const mantleSepolia = defineChain({
-    id: 5003,
-    name: 'Mantle Sepolia',
-    network: 'mantle-sepolia',
-    nativeCurrency: {
-        name: 'MNT',
-        symbol: 'MNT',
-        decimals: 18,
-    },
-    rpcUrls: {
-        default: {
-            http: ['https://rpc.sepolia.mantle.xyz'],
-        },
-        public: {
-            http: ['https://rpc.sepolia.mantle.xyz'],
-        },
-    },
-    blockExplorers: {
-        default: {
-            name: 'Mantle Sepolia Explorer',
-            url: 'https://sepolia.mantlescan.xyz',
-        },
-    },
-    testnet: true,
-});
-
-export const liskSepolia = defineChain({
-    id: 4202,
-    name: 'Lisk Sepolia',
-    network: 'lisk-sepolia',
+export const baseSepolia = defineChain({
+    id: 84532,
+    name: 'Base Sepolia',
+    network: 'base-sepolia',
     nativeCurrency: {
         name: 'ETH',
         symbol: 'ETH',
@@ -37,16 +11,16 @@ export const liskSepolia = defineChain({
     },
     rpcUrls: {
         default: {
-            http: ['https://rpc.sepolia-api.lisk.com'],
+            http: ['https://sepolia.base.org'],
         },
         public: {
-            http: ['https://rpc.sepolia-api.lisk.com'],
+            http: ['https://sepolia.base.org'],
         },
     },
     blockExplorers: {
         default: {
-            name: 'Lisk Sepolia Explorer',
-            url: 'https://sepolia-blockscout.lisk.com',
+            name: 'Base Sepolia Explorer',
+            url: 'https://sepolia.basescan.org',
         },
     },
     testnet: true,

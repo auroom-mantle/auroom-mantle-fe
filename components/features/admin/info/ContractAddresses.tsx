@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { LISK_CONTRACTS as CONTRACTS } from '@/lib/contracts/lisk_addresses';
+import { BASE_CONTRACTS as CONTRACTS } from '@/lib/contracts/base_addresses';
 import { Copy, ExternalLink, FileJson } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
-const EXPLORER_URL = "https://sepolia-blockscout.lisk.com";
+const EXPLORER_URL = "https://sepolia.basescan.org";
 
 interface ContractInfo {
     name: string;
@@ -19,14 +19,13 @@ const CONTRACT_LIST: ContractInfo[] = [
     { name: 'IDRX', address: CONTRACTS.IDRX, category: 'Tokens' },
     { name: 'USDC', address: CONTRACTS.USDC, category: 'Tokens' },
     { name: 'XAUT', address: CONTRACTS.XAUT, category: 'Tokens' },
-    { name: 'gXAUT (GoldVault)', address: CONTRACTS.GoldVault, category: 'Tokens' },
     { name: 'Identity Registry', address: CONTRACTS.IdentityRegistry, category: 'Infrastructure' },
     { name: 'Uniswap V2 Factory', address: CONTRACTS.UniswapV2Factory, category: 'Infrastructure' },
     { name: 'Uniswap V2 Router', address: CONTRACTS.UniswapV2Router, category: 'Infrastructure' },
     { name: 'IDRX/USDC Pair', address: CONTRACTS.IDRX_USDC_Pair, category: 'Liquidity Pairs' },
     { name: 'XAUT/USDC Pair', address: CONTRACTS.XAUT_USDC_Pair, category: 'Liquidity Pairs' },
     { name: 'Swap Router', address: CONTRACTS.SwapRouter, category: 'Protocol' },
-    { name: 'Gold Vault', address: CONTRACTS.GoldVault, category: 'Protocol' },
+    { name: 'Borrowing Protocol V2', address: CONTRACTS.BorrowingProtocolV2, category: 'Protocol' },
 ];
 
 /**
@@ -69,7 +68,7 @@ export function ContractAddresses() {
             <CardHeader>
                 <CardTitle>Contract Addresses</CardTitle>
                 <CardDescription>
-                    All deployed contract addresses on Lisk Sepolia
+                    All deployed contract addresses on Base Sepolia
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">

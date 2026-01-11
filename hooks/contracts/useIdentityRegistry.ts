@@ -1,6 +1,6 @@
 import { useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { IdentityRegistryABI } from '@/lib/contracts/abis';
-import { LISK_CONTRACTS as CONTRACTS } from '@/lib/contracts/lisk_addresses';
+import { BASE_CONTRACTS as CONTRACTS } from '@/lib/contracts/base_addresses';
 import type { Address } from 'viem';
 
 export function useIdentityRegistry() {

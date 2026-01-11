@@ -4,7 +4,7 @@ import { TechBadge } from './shared/TechBadge';
 export function BuiltWith() {
     const mainTech = [
         {
-            name: 'Lisk Network',
+            name: 'Base Network',
             description: 'Layer 2 scaling solution with low fees and high throughput. Ethereum security with better UX.',
             icon: '🔷',
         },

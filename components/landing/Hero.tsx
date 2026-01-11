@@ -100,21 +100,21 @@ export function Hero() {
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto">
                             <div className="text-center">
                                 <div className="text-3xl font-bold text-white mb-2">
-                                    {stats.isLoading ? '...' : `$${stats.tvlUsd}`}
+                                    {stats.isLoading ? '...' : stats.totalCollateralIDR}
                                 </div>
-                                <div className="text-white/60 text-sm">Total Value Locked</div>
+                                <div className="text-white/60 text-sm">Total Collateral Value</div>
                             </div>
                             <div className="text-center">
                                 <div className="text-3xl font-bold text-white mb-2">
-                                    {stats.isLoading ? '...' : stats.estimatedApy}
+                                    {stats.isLoading ? '...' : stats.totalLoans}
                                 </div>
-                                <div className="text-white/60 text-sm">Estimated APY</div>
+                                <div className="text-white/60 text-sm">Total Loans</div>
                             </div>
                             <div className="text-center">
                                 <div className="text-3xl font-bold text-white mb-2">
-                                    {stats.isLoading ? '...' : `${parseFloat(stats.tvl).toFixed(2)} XAUT`}
+                                    {stats.isLoading ? '...' : `${parseFloat(stats.totalCollateral).toFixed(4)} XAUT`}
                                 </div>
-                                <div className="text-white/60 text-sm">Gold Reserves</div>
+                                <div className="text-white/60 text-sm">Gold Collateral</div>
                             </div>
                         </div>
                     </div>

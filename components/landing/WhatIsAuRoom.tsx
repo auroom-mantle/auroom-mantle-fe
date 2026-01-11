@@ -13,7 +13,7 @@ export function WhatIsAuRoom() {
                     </h2>
                     <div className="max-w-3xl mx-auto space-y-4 text-lg text-white/80">
                         <p>
-                            AuRoom is a Real World Asset (RWA) protocol built on Lisk Network
+                            AuRoom is a Real World Asset (RWA) protocol built on Base Network
                             that enables anyone to convert Indonesian Rupiah (IDRX) into
                             tokenized gold (XAUT) and earn yield through our innovative vault system.
                         </p>

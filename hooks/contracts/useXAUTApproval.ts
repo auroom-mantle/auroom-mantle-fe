@@ -1,7 +1,7 @@
 // hooks/contracts/useXAUTApproval.ts
 
 import { useReadContract, useWriteContract, useWaitForTransactionReceipt, useAccount } from 'wagmi';
-import { LISK_CONTRACTS as CONTRACTS } from '@/lib/contracts/lisk_addresses';
+import { BASE_CONTRACTS as CONTRACTS } from '@/lib/contracts/base_addresses';
 import { ERC20ABI } from '@/lib/contracts/abis';
 
 export function useXAUTAllowance() {

@@ -1,4 +1,4 @@
-import { LISK_CONTRACTS as CONTRACTS } from './lisk_addresses';
+import { BASE_CONTRACTS as CONTRACTS } from './base_addresses';
 
 export const TOKENS = {
     IDRX: {
@@ -24,14 +24,6 @@ export const TOKENS = {
         decimals: 6,
         icon: "/tokens/xaut.svg",
         color: "#F7931A",
-    },
-    gXAUT: {
-        address: CONTRACTS.GoldVault,
-        symbol: "gXAUT",
-        name: "Gold Vault Token",
-        decimals: 6,
-        icon: "/tokens/gxaut.svg",
-        color: "#FFD700",
     },
 } as const;
 

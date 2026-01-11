@@ -41,8 +41,8 @@ export function HowItWorks() {
                     <StepCard
                         step={3}
                         icon={Lock}
-                        title="Stake in GoldVault"
-                        description="Deposit your XAUT into the GoldVault to start earning yield. You'll receive gXAUT tokens representing your share."
+                        title="Use XAUT as Collateral"
+                        description="Deposit your XAUT as collateral in the Borrowing Protocol and instantly receive IDRX cash loans."
                         time="~30 seconds"
                         iconColor="text-yellow-400"
                         iconBgColor="bg-yellow-500/10"
@@ -50,8 +50,8 @@ export function HowItWorks() {
                     <StepCard
                         step={4}
                         icon={TrendingUp}
-                        title="Earn & Withdraw"
-                        description="Your gXAUT automatically accumulates yield. Withdraw to XAUT whenever you want - no lock-up periods, no penalties."
+                        title="Repay & Redeem"
+                        description="Repay your loan anytime to unlock your XAUT collateral. Redeem your IDRX back to cash through partner banks."
                         time="Instant"
                         iconColor="text-green-400"
                         iconBgColor="bg-green-500/10"

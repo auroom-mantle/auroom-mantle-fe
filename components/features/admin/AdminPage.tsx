@@ -4,17 +4,17 @@ import { useState } from 'react';
 import { AdminDashboard } from './AdminDashboard';
 import { FaucetTab } from './faucet/FaucetTab';
 import { LiquidityTab } from './liquidity/LiquidityTab';
-import { VaultTab } from './vault/VaultTab';
 import { IdentityTab } from './identity/IdentityTab';
 import { InfoTab } from './info/InfoTab';
 import { DebugTab } from './debug/DebugTab';
 import { KYCReviewTab } from './kyc/KYCReviewTab';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useUserRole } from '@/hooks/admin/useUserRole';
-import { Droplet, Droplets, Vault, UserCheck, Info, Wrench, FileCheck } from 'lucide-react';
+import { Droplet, Droplets, UserCheck, Info, Wrench, FileCheck } from 'lucide-react';
 
 /**
  * AdminPage - Main admin helper page component
+ * Note: VaultTab removed as GoldVault is not used in this deployment
  */
 export function AdminPage() {
     const role = useUserRole();
@@ -22,7 +22,6 @@ export function AdminPage() {
 
     // Determine which tabs are accessible based on user role
     const canAccessLiquidity = ['verified', 'admin', 'owner'].includes(role);
-    const canAccessVault = ['admin', 'owner'].includes(role);
     const canAccessIdentity = ['admin', 'owner'].includes(role);
     const canAccessKYC = ['admin', 'owner'].includes(role);
 
@@ -31,7 +30,7 @@ export function AdminPage() {
             <AdminDashboard />
 
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="grid w-full grid-cols-3 lg:grid-cols-7">
+                <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6">
                     <TabsTrigger value="faucet" className="flex items-center gap-2">
                         <Droplet className="h-4 w-4" />
                         <span className="hidden sm:inline">Faucet</span>
@@ -44,15 +43,6 @@ export function AdminPage() {
                     >
                         <Droplets className="h-4 w-4" />
                         <span className="hidden sm:inline">Liquidity</span>
-                    </TabsTrigger>
-
-                    <TabsTrigger
-                        value="vault"
-                        disabled={!canAccessVault}
-                        className="flex items-center gap-2"
-                    >
-                        <Vault className="h-4 w-4" />
-                        <span className="hidden sm:inline">Vault</span>
                     </TabsTrigger>
 
                     <TabsTrigger
@@ -96,18 +86,6 @@ export function AdminPage() {
                             <div className="text-center p-8 border rounded-lg">
                                 <p className="text-muted-foreground">
                                     This tab requires verified user access.
-                                </p>
-                            </div>
-                        )}
-                    </TabsContent>
-
-                    <TabsContent value="vault">
-                        {canAccessVault ? (
-                            <VaultTab />
-                        ) : (
-                            <div className="text-center p-8 border rounded-lg">
-                                <p className="text-muted-foreground">
-                                    This tab requires admin access.
                                 </p>
                             </div>
                         )}

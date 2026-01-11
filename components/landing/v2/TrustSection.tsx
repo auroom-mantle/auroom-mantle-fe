@@ -25,7 +25,7 @@ const securityFeatures = [
 
 const techPartners = [
     {
-        name: 'Lisk Network',
+        name: 'Base Network',
         description: 'Fast & low-cost Ethereum Layer 2',
         logo: '/lisk-logo.svg', // Placeholder
     },
@@ -161,7 +161,7 @@ export function TrustSection() {
                             >
                                 {/* Logo placeholder - will be replaced with actual logos */}
                                 <div className="w-20 h-20 mx-auto mb-4 bg-white/5 rounded-full flex items-center justify-center text-3xl">
-                                    {partner.name === 'Lisk Network' && '🔷'}
+                                    {partner.name === 'Base Network' && '🔷'}
                                     {partner.name === 'IDRX' && '🇮🇩'}
                                     {partner.name === 'Tether Gold' && '🥇'}
                                 </div>
