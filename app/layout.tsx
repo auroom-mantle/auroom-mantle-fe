@@ -16,6 +16,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const APP_URL = process.env.NEXT_PUBLIC_URL || 'https://auroom-base-testnet.vercel.app';
+
 export const metadata: Metadata = {
   title: "AuRoom - Borrow Cash with Digital Gold Collateral",
   description: "Digital pawnshop that's simple, fast, and transparent. Collateralize digital gold, receive cash to your account in minutes. Low fees, 24/7 process.",
@@ -23,6 +25,27 @@ export const metadata: Metadata = {
   icons: {
     icon: '/logo.svg',
     apple: '/logo.svg',
+  },
+  openGraph: {
+    title: "AuRoom - Digital Gold Pawnshop",
+    description: "Collateralize digital gold, receive cash in minutes. Low fees, 24/7 process.",
+    images: [`${APP_URL}/og-image.png`],
+  },
+  other: {
+    'fc:miniapp': JSON.stringify({
+      version: 'next',
+      imageUrl: `${APP_URL}/og-image.png`,
+      button: {
+        title: 'Launch AuRoom',
+        action: {
+          type: 'launch_miniapp',
+          name: 'AuRoom',
+          url: APP_URL,
+          splashImageUrl: `${APP_URL}/logo.svg`,
+          splashBackgroundColor: '#000000',
+        },
+      },
+    }),
   },
 };
 
@@ -47,3 +70,4 @@ export default function RootLayout({
     </html>
   );
 }
+
