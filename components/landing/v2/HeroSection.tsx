@@ -13,12 +13,8 @@ export function HeroSection() {
     const { isConnected } = useAccount();
     const { openConnectModal } = useConnectModal();
 
-    // Auto-redirect to cash-loan when wallet connects
-    useEffect(() => {
-        if (isConnected) {
-            router.push('/cash-loan');
-        }
-    }, [isConnected, router]);
+    // Removed: Auto-redirect to cash-loan when wallet connects
+    // Users should stay on homepage after connecting
 
     const handleBorrowNow = () => {
         if (isConnected) {

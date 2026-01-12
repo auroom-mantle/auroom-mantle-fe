@@ -21,6 +21,7 @@ import {
 } from '@/hooks/useLoan';
 import { parseRupiahInput } from '@/lib/utils/format';
 import { type LoanFlowState, generateReferenceNumber } from '@/lib/utils/loanFlow';
+import { VerificationBanner } from '@/components/shared/VerificationBanner';
 
 export default function CashLoanPage() {
     const router = useRouter();
@@ -178,6 +179,9 @@ export default function CashLoanPage() {
                     </h1>
                     <p className="text-white/60">Secure your digital gold, receive cash to your bank account</p>
                 </div>
+
+                {/* Verification Banner */}
+                <VerificationBanner />
 
                 {/* Cash Loan Wizard */}
                 <CashLoanWizard

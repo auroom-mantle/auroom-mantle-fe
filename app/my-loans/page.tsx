@@ -8,6 +8,7 @@ import { RepayModal } from '@/components/cash-loan/RepayModal';
 import { useActiveLoan, useIDRXBalance, useRepay } from '@/hooks/useLoan';
 import { formatRupiah, formatXAUT } from '@/lib/utils/format';
 import { CheckCircle2, Clock, XCircle } from 'lucide-react';
+import { VerificationBanner } from '@/components/shared/VerificationBanner';
 
 // Types
 type LoanStatus = 'completed' | 'pending' | 'failed';
@@ -96,7 +97,7 @@ export default function MyLoansPage() {
     }
 
     return (
-        <div className="min-h-screen bg-black py-12 px-4">
+        <div className="min-h-screen bg-black py-12 px-4 pb-24 md:pb-12">
             <div className="max-w-4xl mx-auto space-y-8">
                 {/* Header */}
                 <div className="text-center mb-8">
@@ -105,6 +106,9 @@ export default function MyLoansPage() {
                     </h1>
                     <p className="text-white/60">Manage your active loans and view transaction history</p>
                 </div>
+
+                {/* Verification Banner */}
+                <VerificationBanner />
 
                 {/* Active Loan Section */}
                 <div>

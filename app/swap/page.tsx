@@ -17,6 +17,7 @@ import { parseTokenAmount, formatTokenAmount, getExplorerTxUrl } from '@/lib/uti
 import { calculateMinimumReceived } from '@/lib/utils/calculations';
 import { isValidAmount } from '@/lib/utils/validation';
 import { DEFAULT_SLIPPAGE_BPS } from '@/lib/utils/constants';
+import { VerificationBanner } from '@/components/shared/VerificationBanner';
 
 export default function SwapPage() {
     const { address, isConnected } = useAccount();
@@ -141,6 +142,9 @@ export default function SwapPage() {
                         </h1>
                         <p className="text-white/60">Exchange IDRX for XAUT and vice versa</p>
                     </div>
+
+                    {/* Verification Banner */}
+                    <VerificationBanner />
 
                     {/* Main Swap Card */}
                     <div className="p-6 rounded-2xl bg-zinc-900 border-2 border-yellow-500/30 backdrop-blur-xl">

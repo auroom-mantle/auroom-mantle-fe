@@ -40,24 +40,25 @@ export function ActiveLoanCard({
 
             <div className="space-y-4">
                 {/* Stats Grid */}
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-2 md:gap-4">
                     {/* Gold Collateral */}
-                    <div className="p-4 rounded-xl bg-black/40 border border-yellow-500/20">
+                    <div className="p-3 md:p-4 rounded-xl bg-black/40 border border-yellow-500/20">
                         <p className="text-white/60 text-xs mb-1">Gold Collateral</p>
-                        <p className="text-yellow-500 font-bold text-lg">{formatXAUT(collateral)} XAUT</p>
-                        <p className="text-white/50 text-xs mt-1">~{formatRupiah(collateralValue)}</p>
+                        <p className="text-yellow-500 font-bold text-sm md:text-lg break-all">{formatXAUT(collateral)}</p>
+                        <p className="text-yellow-500 font-bold text-sm md:text-lg">XAUT</p>
+                        <p className="text-white/50 text-xs mt-1 truncate">~{formatRupiah(collateralValue)}</p>
                     </div>
 
                     {/* Debt */}
-                    <div className="p-4 rounded-xl bg-black/40 border border-yellow-500/20">
+                    <div className="p-3 md:p-4 rounded-xl bg-black/40 border border-yellow-500/20">
                         <p className="text-white/60 text-xs mb-1">Debt</p>
-                        <p className="text-white font-bold text-lg">{formatRupiah(debt)}</p>
+                        <p className="text-white font-bold text-sm md:text-lg break-all">{formatRupiah(debt)}</p>
                     </div>
 
                     {/* Status */}
-                    <div className="p-4 rounded-xl bg-black/40 border border-yellow-500/20">
+                    <div className="p-3 md:p-4 rounded-xl bg-black/40 border border-yellow-500/20">
                         <p className="text-white/60 text-xs mb-1">Status</p>
-                        <p className={`${status.color} font-bold text-lg`}>
+                        <p className={`${status.color} font-bold text-sm md:text-lg`}>
                             {status.text === 'AMAN' && '✅ SAFE'}
                             {status.text === 'PERHATIAN' && '⚠️ WARNING'}
                             {status.text === 'BAHAYA' && '🚨 DANGER'}
@@ -76,10 +77,10 @@ export function ActiveLoanCard({
                     <div className="h-3 bg-black/40 rounded-full overflow-hidden">
                         <div
                             className={`h-full transition-all ${ltvPercentage <= 50
-                                    ? 'bg-green-500'
-                                    : ltvPercentage <= 75
-                                        ? 'bg-yellow-500'
-                                        : 'bg-red-500'
+                                ? 'bg-green-500'
+                                : ltvPercentage <= 75
+                                    ? 'bg-yellow-500'
+                                    : 'bg-red-500'
                                 }`}
                             style={{ width: `${Math.min(capacityUsed, 100)}%` }}
                         />
