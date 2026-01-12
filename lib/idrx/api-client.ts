@@ -17,7 +17,8 @@ export class IDRXApiClient {
     constructor(apiKey: string, apiSecret: string, baseUrl?: string) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
-        this.baseUrl = baseUrl || 'https://api-auroom-lisk-testnet.vercel.app';
+        // Use provided baseUrl, then env variable, then fallback
+        this.baseUrl = baseUrl || process.env.IDRX_API_BASE_URL || 'http://localhost:3001';
     }
 
     /**
