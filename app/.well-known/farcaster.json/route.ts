@@ -15,7 +15,7 @@ export async function GET() {
             splashImageUrl: `${URL}/logo.png`,
             splashBackgroundColor: "#000000",
             webhookUrl: `${URL}/api/webhook`,
-            subtitle: "Emergency Rupiah Access for Gold Holders",
+            subtitle: "Gold-Backed Rupiah Loans",
             description: "Digital pawnshop that's simple, fast, and transparent. Collateralize digital gold, receive cash to your account in minutes.",
             screenshotUrls: [
                 `${URL}/screenshot-dashboard.png`
