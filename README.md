@@ -12,7 +12,7 @@
 [![Tailwind](https://img.shields.io/badge/Tailwind-4.x-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](./LICENSE)
 
-[🌐 Live Demo](https://auroom-lisk-testnet.vercel.app) • [📜 Smart Contracts](https://github.com/YohanesVito/auroom-lisk-sc) • [🔧 Backend](https://github.com/YohanesVito/auroom-lisk-be) • [📖 Documentation](#-documentation)
+[🌐 Live Demo](https://auroom-base-testnet.vercel.app) • [📜 Smart Contracts](https://github.com/AuroomProtocol/auroom-base-sc) • [🔧 Backend](https://github.com/AuroomProtocol/auroom-base-be) • [📖 Documentation](#-documentation)
 
 </div>
 
@@ -20,15 +20,15 @@
 
 ## 🌐 Live Demo
 
-**🔗 [https://auroom-lisk-testnet.vercel.app](https://auroom-lisk-testnet.vercel.app)**
+**🔗 [https://auroom-base-testnet.vercel.app](https://auroom-base-testnet.vercel.app)**
 
-> ⚠️ **Testnet Only**: This demo runs on Lisk Sepolia testnet. Do not use real funds.
+> ⚠️ **Testnet Only**: This demo runs on Base Sepolia testnet. Do not use real funds.
 
 ---
 
 ## 📖 Overview
 
-**AuRoom** is a Real World Asset (RWA) protocol on Lisk that enables users to access Indonesian Rupiah (IDRX) liquidity using tokenized gold (XAUT) as collateral, and seamlessly redeem IDRX back to fiat currency through bank transfers.
+**AuRoom** is a Real World Asset (RWA) protocol on Base that enables users to access Indonesian Rupiah (IDRX) liquidity using tokenized gold (XAUT) as collateral, and seamlessly redeem IDRX back to fiat currency through bank transfers.
 
 ### Why AuRoom?
 
@@ -52,7 +52,7 @@
 
 ### 🏠 Landing Page
 - Protocol overview and value proposition
-- Live protocol statistics (TVL, share price, APY)
+- Live protocol statistics (collateral, loans, prices)
 - Educational content about RWA and tokenized gold
 - Comparison: AuRoom vs Traditional DEX
 
@@ -83,36 +83,12 @@
 ### 🛠️ Admin Page
 - **Faucet**: Get test tokens (IDRX, USDC, XAUT)
 - **Liquidity**: Add/remove liquidity to pools
-- **Vault**: Inject yield for demo purposes
 - **Identity**: Manage user verification
 - **Debug**: View balances, allowances, contract info
 
 ---
 
-## 📸 Screenshots
-
-<details>
-<summary>Click to expand screenshots</summary>
-
-### Landing Page
-![Landing Page](./screenshots/landing.png)
-
-### Swap Page
-![Swap Page](./screenshots/swap.png)
-
-### Vault Page
-![Vault Page](./screenshots/vault.png)
-
-### Admin Page
-![Admin Page](./screenshots/admin.png)
-
-</details>
-
-> 💡 Add your screenshots to a `screenshots/` folder
-
----
-
-## 🛠️ Tech Stack
+## ️ Tech Stack
 
 ### Core
 | Technology | Version | Purpose |
@@ -140,49 +116,39 @@
 | Recharts | 2.15.4 | Charts |
 | Sonner | 2.0.7 | Toast notifications |
 
-### Utilities
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| BigNumber.js | 9.3.1 | Precise number handling |
-| date-fns | 4.1.0 | Date formatting |
-| clsx | 2.1.1 | Conditional classes |
-
 ---
 
 ## 📁 Project Structure
 
 ```
-auroom-fe/
+auroom-base-fe/
 ├── app/                      # Next.js App Router
 │   ├── page.tsx              # Landing page
 │   ├── layout.tsx            # Root layout
 │   ├── globals.css           # Global styles
-│   ├── swap/
-│   │   └── page.tsx          # Swap page
-│   ├── vault/
-│   │   └── page.tsx          # Vault page
-│   ├── verify/
-│   │   └── page.tsx          # Verification page
-│   └── admin/
-│       └── page.tsx          # Admin helper page
+│   ├── swap/page.tsx         # Swap page
+│   ├── cash-loan/page.tsx    # Cash Loan page
+│   ├── my-loans/page.tsx     # My Loans page
+│   ├── verify/page.tsx       # Verification page
+│   └── admin/page.tsx        # Admin helper page
 ├── components/
 │   ├── ui/                   # Reusable UI components
 │   ├── layout/               # Layout components
 │   ├── landing/              # Landing page sections
-│   ├── swap/                 # Swap-related components
-│   ├── vault/                # Vault-related components
-│   └── admin/                # Admin page components
+│   ├── cash-loan/            # Cash Loan components
+│   └── features/admin/       # Admin page components
 ├── hooks/                    # Custom React hooks
-│   ├── useTokenBalance.ts
-│   ├── useSwapRouter.ts
-│   ├── useGoldVault.ts
-│   └── ...
+│   ├── useLoan.ts
+│   ├── contracts/            # Contract interaction hooks
+│   └── admin/                # Admin-specific hooks
 ├── lib/
 │   ├── contracts/            # Contract addresses & ABIs
+│   │   ├── base_addresses.ts # Base Sepolia addresses
+│   │   ├── chains.ts         # Chain configuration
+│   │   └── abis/             # Contract ABIs
 │   ├── wagmi.ts              # Wagmi configuration
-│   └── utils.ts              # Utility functions
+│   └── utils/                # Utility functions
 ├── providers/                # React context providers
-├── types/                    # TypeScript types
 └── public/                   # Static assets
 ```
 
@@ -193,38 +159,43 @@ auroom-fe/
 ### Prerequisites
 
 - Node.js 20.x or later
-- npm / yarn / pnpm
+- pnpm (recommended) / npm / yarn
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/YohanesVito/auroom-fe.git
-cd auroom-fe
+git clone https://github.com/AuroomProtocol/auroom-base-fe.git
+cd auroom-base-fe
 
 # Install dependencies
-npm install
-# or
-yarn install
-# or
 pnpm install
 
 # Run development server
-npm run dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Environment Variables
 
-Create a `.env.local` file:
+Create a `.env` file:
 
 ```env
 # WalletConnect Project ID (get from https://cloud.walletconnect.com)
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
 
-# Lisk Sepolia RPC (Optional: Custom RPC URL)
-NEXT_PUBLIC_LISK_SEPOLIA_RPC=https://rpc.sepolia-api.lisk.com
+# Contract Addresses (Base Sepolia)
+MOCK_IDRX=0x998ceb700e57f535873D189a6b1B7E2aA8C594EB
+MOCK_USDC=0xCd88C2886A1958BA36238A070e71B51CF930b44d
+XAUT=0x56EeDF50c3C4B47Ca9762298B22Cb86468f834FC
+IDENTITY_REGISTRY=0xA8F2b8180caFC670f4a24114FDB9c50361038857
+UNISWAP_FACTORY=0xDb198BEaccC55934062Be9AAEdce332c40A1f1Ed
+UNISWAP_ROUTER=0x620870d419F6aFca8AFed5B516619aa50900cadc
+PAIR_IDRX_USDC=0xd1fED56a7B4C93DF968494Bb9a6023546Da45D3B
+PAIR_XAUT_USDC=0x61E24e8A69553D55bae612f2dF4d959654181652
+SWAP_ROUTER=0x41c7215F0538200013F428732900bC581015c50e
+BORROWING_PROTOCOL_V2=0x3A1229F6D51940DBa65710F9F6ab0296FD56718B
 
 # IDRX API Configuration
 IDRX_API_BASE_URL=https://api.idrx.org
@@ -236,26 +207,26 @@ IDRX_MODE=demo  # Use 'demo' for testing, 'production' for real API
 
 ## 📜 Contract Addresses
 
-All contracts are deployed on **Lisk Sepolia Testnet** (Chain ID: 4202)
+All contracts are deployed on **Base Sepolia Testnet** (Chain ID: 84532)
 
 | Contract | Address |
 |----------|---------|
 | **Tokens** | |
-| IDRX | `0xe0f7ea8fb1a7e9e9f8838d0e24b7a0f750c68d40` |
-| USDC | `0xA8F2b8180caFC670f4a24114FDB9c50361038857` |
-| XAUT (Gold) | `0xDb198BEaccC55934062Be9AAEdce332c40A1f1Ed` |
+| IDRX | `0x998ceb700e57f535873D189a6b1B7E2aA8C594EB` |
+| USDC | `0xCd88C2886A1958BA36238A070e71B51CF930b44d` |
+| XAUT (Gold) | `0x56EeDF50c3C4B47Ca9762298B22Cb86468f834FC` |
 | **Infrastructure** | |
-| IdentityRegistry | `0x799fe52FA871EB8e4420fEc9d1b81c6297e712a5` |
-| UniswapV2Factory | `0x96abff3a2668b811371d7d763f06b3832cedf38d` |
-| UniswapV2Router | `0x6036306f417d720228ab939650e8acbe948d2d2b` |
+| IdentityRegistry | `0xA8F2b8180caFC670f4a24114FDB9c50361038857` |
+| UniswapV2Factory | `0xDb198BEaccC55934062Be9AAEdce332c40A1f1Ed` |
+| UniswapV2Router | `0x620870d419F6aFca8AFed5B516619aa50900cadc` |
 | **Liquidity Pairs** | |
-| IDRX/USDC Pair | `0xB0ea91604C8B98205cbDd5c3F7d8DB006404515F` |
-| XAUT/USDC Pair | `0xBdfD81D4e79c0cC949BB52941BCd30Ed8b3B4112` |
+| IDRX/USDC Pair | `0xd1fED56a7B4C93DF968494Bb9a6023546Da45D3B` |
+| XAUT/USDC Pair | `0x61E24e8A69553D55bae612f2dF4d959654181652` |
 | **Core Protocol** | |
-| SwapRouter | `0x8cDE80170b877a51a17323628BA6221F6F023505` |
-| BorrowingProtocolV2 | `0x8c49cF7B7CCE0fBffADFe44F764fe6c5F2df82F9` |
+| SwapRouter | `0x41c7215F0538200013F428732900bC581015c50e` |
+| BorrowingProtocolV2 | `0x3A1229F6D51940DBa65710F9F6ab0296FD56718B` |
 
-> 💡 **Block Explorer**: [Lisk Sepolia Blockscout](https://sepolia-blockscout.lisk.com)
+> 💡 **Block Explorer**: [Base Sepolia Basescan](https://sepolia.basescan.org)
 
 ---
 
@@ -265,11 +236,11 @@ All contracts are deployed on **Lisk Sepolia Testnet** (Chain ID: 4202)
 
 1. Click "Connect Wallet" button
 2. Select your preferred wallet (MetaMask, Coinbase, etc.)
-3. Switch to Lisk Sepolia network if prompted
+3. Switch to Base Sepolia network if prompted
 
 ### 2. Get Test Tokens
 
-1. Go to [Admin Page](https://auroom-lisk-testnet.vercel.app/admin)
+1. Go to [Admin Page](/admin)
 2. Use the Faucet tab to mint test tokens:
    - IDRX (Indonesian Rupiah)
    - USDC
@@ -277,14 +248,14 @@ All contracts are deployed on **Lisk Sepolia Testnet** (Chain ID: 4202)
 
 ### 3. Get Verified (Demo KYC)
 
-1. Visit [Demo KYC Page](https://auroom-lisk-testnet.vercel.app/demo-kyc)
+1. Visit [Demo KYC Page](/demo-kyc)
 2. Enter your wallet address
 3. Submit for verification
 4. Admin will approve (or self-approve in admin page)
 
 ### 4. Get a Cash Loan
 
-1. Go to [Cash Loan Page](https://auroom-lisk-testnet.vercel.app/cash-loan)
+1. Go to [Cash Loan Page](/cash-loan)
 2. Enter desired loan amount in IDRX
 3. Select LTV (30%, 40%, or 50%)
 4. Review collateral required (in XAUT)
@@ -300,23 +271,16 @@ All contracts are deployed on **Lisk Sepolia Testnet** (Chain ID: 4202)
    - Enter account holder name
 2. Click "Submit & Redeem"
 
-### 6. Redeem IDRX to Bank Account
+### 6. Track Your Loans
 
-1. System burns your IDRX tokens on-chain
-2. Redeem request sent to IDRX API
-3. Receive customer reference number
-4. IDR will be transferred to your bank account (1-2 business days)
-
-### 7. Track Your Loans
-
-1. Go to [My Loans Page](https://auroom-lisk-testnet.vercel.app/my-loans)
+1. Go to [My Loans Page](/my-loans)
 2. View all active loans
 3. Monitor collateral and health factor
 4. Repay loans to unlock your XAUT collateral
 
-### 8. Swap Tokens (Optional)
+### 7. Swap Tokens (Optional)
 
-1. Go to [Swap Page](https://auroom-lisk-testnet.vercel.app/swap)
+1. Go to [Swap Page](/swap)
 2. Select tokens to swap (IDRX, USDC, XAUT)
 3. Enter amount
 4. Review quote and slippage
@@ -330,23 +294,17 @@ All contracts are deployed on **Lisk Sepolia Testnet** (Chain ID: 4202)
 
 ```bash
 # Development server
-npm run dev
+pnpm dev
 
 # Production build
-npm run build
+pnpm build
 
 # Start production server
-npm run start
+pnpm start
 
 # Lint code
-npm run lint
+pnpm lint
 ```
-
-### Code Style
-
-- ESLint for linting
-- Prettier for formatting (recommended)
-- TypeScript strict mode enabled
 
 ---
 
@@ -359,21 +317,11 @@ npm run lint
 3. Add environment variables
 4. Deploy!
 
-### Manual Deployment
-
-```bash
-# Build for production
-npm run build
-
-# The output is in .next folder
-# Deploy to your hosting provider
-```
-
 ---
 
 ## 🔐 Security Notes
 
-- ⚠️ **Testnet Only**: This is a demo on Lisk Sepolia
+- ⚠️ **Testnet Only**: This is a demo on Base Sepolia
 - ⚠️ **No Real Funds**: All tokens are mock/test tokens
 - ⚠️ **KYC Required**: Users must be verified to use XAUT
 - ⚠️ **Demo Mode**: IDRX redeem uses mock API by default
@@ -393,11 +341,11 @@ npm run build
 - [x] Admin helper tools
 - [x] Demo mode for testing
 - [x] Live protocol statistics
+- [x] Base Sepolia deployment
 - [ ] Real IDRX API integration (production mode)
 - [ ] Transaction history improvements
-- [ ] Dark/light mode toggle
 - [ ] Mobile app (React Native)
-- [ ] Mainnet deployment on Lisk
+- [ ] Mainnet deployment on Base
 
 ---
 
@@ -421,7 +369,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **Lisk** - L2 Blockchain Infrastructure
+- **Base** - L2 Blockchain Infrastructure by Coinbase
 - **IDRX.org** - Indonesian Rupiah stablecoin provider
 - **RainbowKit** - Beautiful wallet connection
 - **wagmi** - Excellent React hooks for Ethereum
@@ -430,20 +378,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 📬 Contact
-
-**Apple Bites** - [@YohanesVito](https://github.com/YohanesVito)
-
-- 🌐 Live Demo: [https://auroom-lisk-testnet.vercel.app](https://auroom-lisk-testnet.vercel.app)
-- 📜 Smart Contracts: [auroom-lisk-sc](https://github.com/YohanesVito/auroom-lisk-sc)
-- 🔧 Backend API: [auroom-lisk-be](https://github.com/YohanesVito/auroom-lisk-be)
-- 🐛 Issues: [GitHub Issues](https://github.com/YohanesVito/auroom-lisk-fe/issues)
-
----
-
 <div align="center">
 
-**Built with ❤️ for Lisk Builders Challenge: Round Three**
+**Built with ❤️ on Base Sepolia**
 
 [⬆ Back to Top](#-auroom-protocol---frontend)
 
