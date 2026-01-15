@@ -44,7 +44,7 @@ export const LiquidGlassCard = ({
   const handleToggleExpansion = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!expandable) return;
     // Don't toggle if clicking on interactive elements
-    const target = e.target as Element;
+    const target = e.target as HTMLElement;
     if (target.closest('a, button, input, select, textarea')) return;
     setIsExpanded(!isExpanded);
   };
