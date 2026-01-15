@@ -62,11 +62,13 @@ export function Header() {
                                 href="/cash-loan"
                                 className="text-base font-medium text-yellow-400 hover:text-yellow-300 transition-colors flex items-center gap-1"
                             >
-                                {/* <span>💰</span> */}
                                 Cash Loan
-                                <span className="px-1.5 py-0.5 bg-linear-to-r from-green-400 to-green-600 text-black text-[10px] font-bold rounded">
-                                    SIMPLE
-                                </span>
+                            </Link>
+                            <Link
+                                href="/my-loans"
+                                className="text-sm font-medium text-white/80 hover:text-yellow-400 transition-colors"
+                            >
+                                My Loans
                             </Link>
                             <Link
                                 href="/verify"
@@ -139,6 +141,14 @@ export function Header() {
                                     className="block text-center py-6 text-xl font-bold text-white transition-all duration-300"
                                 >
                                     Cash Loan
+                                </Link>
+
+                                <Link
+                                    href="/my-loans"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="block text-center py-6 text-xl font-bold text-white transition-all duration-300"
+                                >
+                                    My Loans
                                 </Link>
 
                                 <Link
