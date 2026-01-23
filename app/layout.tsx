@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { BottomNavigation } from "@/components/layout/BottomNavigation";
 import { OnboardingModal } from "@/components/shared/OnboardingModal";
 import { ClientProviders } from "@/components/ClientProviders";
+import { Analytics } from '@vercel/analytics/next';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -71,6 +72,7 @@ export default function RootLayout({
             <OnboardingModal />
           </div>
         </ClientProviders>
+        <Analytics />
       </body>
     </html>
   );
